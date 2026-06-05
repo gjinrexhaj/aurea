@@ -1,10 +1,10 @@
 export type Tool =
     | "select"
     | "point"
-    | "circle";
+    | "compass";
 
 export const Tools: Tool[] = [
     "select",
     "point",
-    "circle",
+    "compass",
 ];
