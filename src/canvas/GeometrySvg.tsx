@@ -6,7 +6,6 @@ type GeometrySvgProps = {
     document: GeometryDocument;
     compass: CompassState;
     mousePos: CursorPos | null;
-    previewRadius: number;
 }
 
 
@@ -14,8 +13,20 @@ export default function GeometrySvg({
     document,
     compass,
     mousePos,
-    previewRadius,
 }: GeometrySvgProps) {
+
+    let previewRadius = 0;
+
+    if (
+        compass.stage === "anchor" &&
+        compass.anchor &&
+        mousePos
+    ) {
+        const dx = mousePos.x - compass.anchor.x;
+        const dy = mousePos.y - compass.anchor.y;
+
+        previewRadius = Math.sqrt(dx * dx + dy * dy);
+    }
 
     return (
         <svg width="100%" height="100%">

@@ -29,40 +29,44 @@ export default function Canvas({activeTool}: CanvasProps) {
         stage: "idle",
     })
 
-    let previewRadius = 0;
-
-    if (
-        activeTool === "compass" &&
-        compass.stage === "anchor" &&
-        compass.anchor &&
-        mousePos
-    ) {
-        const dx = mousePos.x - compass.anchor.x;
-        const dy = mousePos.y - compass.anchor.y;
-
-        previewRadius = Math.sqrt(dx * dx + dy * dy);
-    }
-
-    // track compass state, reset to idle when switched from
-    useEffect(() => {
-        setCompass({stage: "idle"});
-    }, [activeTool]);
-
     function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
-        console.log("move");
-
-        if (activeTool !== "compass") return;
-        if (compass.stage !== "anchor") return;
-        if (!compass.anchor) return;
-
-        const rect =
-            event.currentTarget.getBoundingClientRect();
+        const rect = event.currentTarget.getBoundingClientRect();
 
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        console.log(x, y);
         setMousePos({ x, y });
+    }
+
+    function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
+        // calculate viewport offset
+        const rect =
+            event.currentTarget.getBoundingClientRect();
+
+        // get x and y value of cursor
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        // perform action based on tool
+        switch(activeTool) {
+            case "point":
+                return handlePointTool(x, y);
+            case "compass":
+                return handleCompassClick(x,y)
+        }
+    }
+
+    function handlePointTool(x: number, y: number) {
+        // create point and add to GeometryDocument
+        const point: Point = {
+            id: crypto.randomUUID(),
+            x,
+            y,
+        };
+        setDocument({
+            ...document,
+            points: [...document.points, point],
+        });
     }
 
     function handleCompassClick(x: number, y: number) {
@@ -116,36 +120,6 @@ export default function Canvas({activeTool}: CanvasProps) {
         }
     }
 
-    function handlePointTool(x: number, y: number) {
-        // create point and add to GeometryDocument
-        const point: Point = {
-            id: crypto.randomUUID(),
-            x,
-            y,
-        };
-        setDocument({
-            ...document,
-            points: [...document.points, point],
-        });
-    }
-
-    function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
-        // calculate viewport offset
-        const rect =
-            event.currentTarget.getBoundingClientRect();
-
-        // get x and y value of cursor
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        // perform action based on tool
-        switch(activeTool) {
-            case "point":
-                return handlePointTool(x, y);
-            case "compass":
-                return handleCompassClick(x,y)
-        }
-    }
 
 
 
@@ -158,8 +132,7 @@ export default function Canvas({activeTool}: CanvasProps) {
             {/* Render geometry as SVG */}
             <GeometrySvg document={document}
                          compass={compass}
-                         mousePos={mousePos}
-                         previewRadius={previewRadius}/>
+                         mousePos={mousePos}/>
         </div>
 
     );
