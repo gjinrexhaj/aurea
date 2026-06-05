@@ -1,0 +1,11 @@
+GeometryDocument
+│
+├── Geometry Objects
+│     ├── Points
+│     ├── Circles
+│     └── Lines
+│
+└── Construction Steps
+      ├── Create Point
+      ├── Create Circle
+      └── Create Line
