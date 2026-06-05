@@ -1,0 +1,16 @@
+.toolbar {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+}
+
+.tool-button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.tool-button.active {
+    background-color: #4a90e2;
+    color: white;
+}
