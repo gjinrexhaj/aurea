@@ -1,4 +1,4 @@
-import { TOOLS } from "../store/tools";
+import { Tools } from "../store/Tools.ts";
 import "./Toolbar.css"
 
 type ToolbarProps = {
@@ -12,7 +12,7 @@ export default function Toolbar({
                                 }: ToolbarProps) {
     return (
         <div className="toolbar">
-            {TOOLS.map(tool => (
+            {Tools.map(tool => (
                 <button
                     key={tool}
                     className={

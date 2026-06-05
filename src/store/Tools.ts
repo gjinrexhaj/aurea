@@ -3,7 +3,7 @@ export type Tool =
     | "point"
     | "circle";
 
-export const TOOLS: Tool[] = [
+export const Tools: Tool[] = [
     "select",
     "point",
     "circle",
