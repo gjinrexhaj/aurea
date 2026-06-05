@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Toolbar from "./ui/Toolbar";
+import Canvas from "./canvas/Canvas.tsx";
 
 export default function App() {
   // declare state
@@ -14,7 +15,10 @@ export default function App() {
             onToolChange={setActiveTool}
         />
 
-        <p>Current Tool: {activeTool}</p>
+        <Canvas
+            activeTool={activeTool}
+        />
+
       </div>
   );
 }
