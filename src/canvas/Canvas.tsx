@@ -87,6 +87,9 @@ export default function Canvas({activeTool}: CanvasProps) {
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
+
+        event.currentTarget.setPointerCapture(event.pointerId);
+
         // calculate viewport offset
         const rect =
             event.currentTarget.getBoundingClientRect();
@@ -108,7 +111,12 @@ export default function Canvas({activeTool}: CanvasProps) {
         }
     }
 
-    function handlePointerUp() {
+    function handlePointerUp(event: React.PointerEvent<HTMLDivElement>) {
+
+        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+        }
+
         setDraggingPointId(null);
     }
 
