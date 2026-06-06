@@ -4,14 +4,16 @@ import type {CursorPos} from "../geometry/utils/CursorPos.ts";
 import {getPointById} from "../geometry/utils/GetPointById.ts";
 import type {LineState} from "../geometry/state/LineState.ts";
 import {distance} from "../geometry/utils/Distance.ts";
+import type {Hover} from "../geometry/state/Hover.ts";
+import type {Selection} from "../geometry/state/Selection.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;
     compass: CompassState;
     lineState: LineState;
     mousePos: CursorPos | null;
-    hoveredPointId: string | null;
-    selectedPointId: string | null;
+    hovered: Hover;
+    selection: Selection;
 }
 
 
@@ -20,8 +22,8 @@ export default function GeometrySvg({
     compass,
     lineState,
     mousePos,
-    hoveredPointId,
-    selectedPointId,
+    hovered,
+    selection,
 }: GeometrySvgProps) {
 
     // compass preview
@@ -41,8 +43,8 @@ export default function GeometrySvg({
             {/* display points */}
             {document.points.map(point => {
 
-                const isHovered = point.id === hoveredPointId;
-                const isSelected = point.id === selectedPointId;
+                const isHovered = hovered?.type === "point" && hovered.id === point.id;
+                const isSelected = selection?.type === "point" && selection.id === point.id;
 
                 return (
                     <circle
@@ -64,6 +66,9 @@ export default function GeometrySvg({
                     return null;
                 }
 
+                const isHovered = hovered?.type === "circle" && hovered.id === circle.id;
+                const isSelected = selection?.type === "circle" && selection.id === circle.id;
+
                 const radius = distance(centerPoint, radiusPoint);
 
                 return (
@@ -73,24 +78,10 @@ export default function GeometrySvg({
                         cy={centerPoint.y}
                         r={radius}
                         fill="none"
-                        stroke="black"
+                        stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
                     />
                 );
             })}
-
-            {/* display compass preview*/}
-            {compass.stage === "anchor" &&
-                compassCenter &&
-                mousePos && (
-                    <circle
-                        cx={compassCenter.x}
-                        cy={compassCenter.y}
-                        r={previewRadius}
-                        fill="none"
-                        stroke="gray"
-                        strokeDasharray="4"
-                    />
-                )}
 
             {/* display lines */}
             {document.lines.map(line => {
@@ -101,6 +92,9 @@ export default function GeometrySvg({
                    return null;
                }
 
+               const isHovered = hovered?.type === "line" && hovered.id === line.id;
+               const isSelected = selection?.type === "line" && selection.id === line.id;
+
                return (
                    <line
                        key={line.id}
@@ -108,7 +102,8 @@ export default function GeometrySvg({
                        y1={pointA.y}
                        x2={pointB.x}
                        y2={pointB.y}
-                       stroke={"black"}
+                       stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                       strokeWidth={isSelected ? 2 : 1}
                    />
                )
             })}
@@ -124,6 +119,20 @@ export default function GeometrySvg({
                     strokeDasharray={"4"}
                 />
             )}
+
+            {/* display compass preview*/}
+            {compass.stage === "anchor" &&
+                compassCenter &&
+                mousePos && (
+                    <circle
+                        cx={compassCenter.x}
+                        cy={compassCenter.y}
+                        r={previewRadius}
+                        fill="none"
+                        stroke="gray"
+                        strokeDasharray="4"
+                    />
+                )}
 
 
         </svg>

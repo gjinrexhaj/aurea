@@ -6,10 +6,12 @@ import GeometrySvg from "./GeometrySvg.tsx";
 import type {Circle} from "../geometry/Circle.ts";
 import type {CursorPos} from "../geometry/utils/CursorPos.ts";
 import type {CompassState} from "../geometry/state/CompassState.ts";
-import {findPointAt} from "../geometry/utils/HitTesting.ts";
+import {findCircleAt, findLineAt, findPointAt, pickAt} from "../geometry/utils/HitTesting.ts";
 import type {LineState} from "../geometry/state/LineState.ts";
 import type {Line} from "../geometry/Line.ts";
 import {getPointById} from "../geometry/utils/GetPointById.ts";
+import type {Selection} from "../geometry/state/Selection.ts";
+import type {Hover} from "../geometry/state/Hover.ts";
 
 
 type CanvasProps = {
@@ -20,8 +22,8 @@ type CanvasProps = {
 export default function Canvas({activeTool}: CanvasProps) {
 
     // declare selected and hovering point ids for selection tool
-    const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
-    const [hoveredPointId, setHoveredPointId] = useState<string | null>(null);
+    const [selection, setSelection] = useState<Selection>(null);
+    const [hovered, setHovered] = useState<Hover>(null);
 
     // declare point dragging state
     const [draggingPointId, setDraggingPointId] = useState<string | null>(null);
@@ -80,10 +82,31 @@ export default function Canvas({activeTool}: CanvasProps) {
 
         setMousePos({ x, y });
 
-        // hover detection
-        const hoverPoint = findPointAt(x,y,document.points);
+        // point hover detection
+        const hoverPoint = findPointAt(x, y, document.points);
+        if (hoverPoint) {
+            setHovered({type: "point", id: hoverPoint.id});
+            return;
+        }
 
-        setHoveredPointId(hoverPoint ? hoverPoint.id : null);
+        // line hover detection
+        const line = findLineAt(x, y, document.lines, document.points);
+        if (line) {
+            setHovered({type: "line", id: line.id});
+            return;
+        }
+
+        // circle hover detection
+        const circle = findCircleAt(x, y, document.circles, document.points);
+        if (circle) {
+            setHovered({type: "circle", id: circle.id});
+            return;
+        }
+
+
+
+        // hover nothing if nothing hit
+        setHovered(null);
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
@@ -121,16 +144,18 @@ export default function Canvas({activeTool}: CanvasProps) {
     }
 
     function handleSelectTool(x: number, y: number) {
-        const point = findPointAt(x,y,document.points)
+        const hit = pickAt(x, y, document);
 
-        if (point) {
-            setSelectedPointId(point.id)
-            setDraggingPointId(point.id)
+        setSelection(hit);
+
+        // dragging is only allowed for points
+        if (hit?.type === "point") {
+            setDraggingPointId(hit.id);
         } else {
-            setSelectedPointId(null)
+            setDraggingPointId(null);
         }
 
-        console.log(point)
+        console.log(hit)
     }
 
     function handlePointTool(x: number, y: number) {
@@ -241,8 +266,8 @@ export default function Canvas({activeTool}: CanvasProps) {
                          compass={compass}
                          lineState={lineState}
                          mousePos={mousePos}
-                         hoveredPointId={hoveredPointId}
-                         selectedPointId={selectedPointId}
+                         hovered={hovered}
+                         selection={selection}
             />
         </div>
 
