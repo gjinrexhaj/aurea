@@ -3,6 +3,7 @@ import type {CompassState} from "../geometry/state/CompassState.ts";
 import type {CursorPos} from "../geometry/utils/CursorPos.ts";
 import {getPointById} from "../geometry/utils/GetPointById.ts";
 import type {LineState} from "../geometry/state/LineState.ts";
+import {distance} from "../geometry/utils/Distance.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;
@@ -29,10 +30,7 @@ export default function GeometrySvg({
     const compassCenter = compass.centerPointId ? getPointById(compass.centerPointId, document.points) : undefined;
 
     if (compass.stage === "anchor" && compassCenter && mousePos)  {
-        const dx = mousePos.x - compassCenter.x;
-        const dy = mousePos.y - compassCenter.y;
-
-        previewRadius = Math.sqrt(dx * dx + dy * dy);
+        previewRadius = distance(compassCenter, mousePos);
     }
 
     // line preview
@@ -58,16 +56,27 @@ export default function GeometrySvg({
             })}
 
             {/* display circles */}
-            {document.circles.map(circle => (
-                <circle
-                    key={circle.id}
-                    cx={circle.center.x}
-                    cy={circle.center.y}
-                    r={circle.radius}
-                    fill="none"
-                    stroke="black"
-                />
-            ))}
+            {document.circles.map(circle => {
+                const centerPoint = getPointById(circle.centerPointId, document.points);
+                const radiusPoint = getPointById(circle.radiusPointId, document.points);
+
+                if (!centerPoint || !radiusPoint) {
+                    return null;
+                }
+
+                const radius = distance(centerPoint, radiusPoint);
+
+                return (
+                    <circle
+                        key={circle.id}
+                        cx={centerPoint.x}
+                        cy={centerPoint.y}
+                        r={radius}
+                        fill="none"
+                        stroke="black"
+                    />
+                );
+            })}
 
             {/* display compass preview*/}
             {compass.stage === "anchor" &&

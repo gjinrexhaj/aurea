@@ -23,6 +23,9 @@ export default function Canvas({activeTool}: CanvasProps) {
     const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
     const [hoveredPointId, setHoveredPointId] = useState<string | null>(null);
 
+    // declare point dragging state
+    const [draggingPointId, setDraggingPointId] = useState<string | null>(null);
+
     // declare geometry document
     const [document, setDocument] = useState<GeometryDocument>({
         points: [],
@@ -56,6 +59,25 @@ export default function Canvas({activeTool}: CanvasProps) {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
+        // handle drag logic
+        if (draggingPointId) {
+            const updatedPoints =
+                document.points.map(point => {
+                    if (point.id === draggingPointId) {
+                        return {...point, x, y};
+                    }
+                    return point;
+                });
+
+            setDocument({
+                ...document,
+                points: updatedPoints,
+            });
+
+            return;
+        }
+
+
         setMousePos({ x, y });
 
         // hover detection
@@ -65,8 +87,6 @@ export default function Canvas({activeTool}: CanvasProps) {
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
-
-        console.log(document)
         // calculate viewport offset
         const rect =
             event.currentTarget.getBoundingClientRect();
@@ -88,11 +108,16 @@ export default function Canvas({activeTool}: CanvasProps) {
         }
     }
 
+    function handlePointerUp() {
+        setDraggingPointId(null);
+    }
+
     function handleSelectTool(x: number, y: number) {
         const point = findPointAt(x,y,document.points)
 
         if (point) {
             setSelectedPointId(point.id)
+            setDraggingPointId(point.id)
         } else {
             setSelectedPointId(null)
         }
@@ -138,15 +163,11 @@ export default function Canvas({activeTool}: CanvasProps) {
                 return;
             }
 
-            const dx = point.x - centerPoint.x;
-            const dy = point.y - centerPoint.y;
-
-            const radius = Math.sqrt(dx * dx + dy * dy);
 
             const circle: Circle = {
                 id: crypto.randomUUID(),
-                center: centerPoint,
-                radius: radius,
+                centerPointId: centerPoint.id,
+                radiusPointId: point.id,
             };
 
             setDocument({
@@ -159,56 +180,6 @@ export default function Canvas({activeTool}: CanvasProps) {
             setMousePos(null);
 
         }
-
-
-        /*console.log(document)
-
-        // first click
-        if (compass.stage === "idle") {
-            const anchor: Point = {
-                id: crypto.randomUUID(),
-                x,
-                y,
-            };
-
-            setCompass({
-                stage: "anchor",
-                anchor,
-            });
-
-            return;
-        }
-
-        // second click
-        if (compass.stage === "anchor" && compass.anchor) {
-
-            const dx = x - compass.anchor.x;
-            const dy = y - compass.anchor.y;
-
-            const r = Math.sqrt(dx * dx + dy * dy);
-
-            const centerPoint: Point = {
-                id: crypto.randomUUID(),
-                x: compass.anchor.x,
-                y: compass.anchor.y
-            };
-
-            const circle: Circle = {
-                id: crypto.randomUUID(),
-                center: centerPoint,
-                radius: r
-
-            };
-
-            setDocument({
-                ...document,
-                circles: [...document.circles, circle],
-            });
-
-            // reset compass
-            setCompass({ stage: "idle" });
-            setMousePos(null);
-        }*/
     }
 
     function handleLineTool(x: number, y: number) {
@@ -255,6 +226,7 @@ export default function Canvas({activeTool}: CanvasProps) {
         <div className="canvas"
              onPointerDown={handlePointerDown}
              onPointerMove={handlePointerMove}
+             onPointerUp={handlePointerUp}
         >
             {/* Render geometry as SVG */}
             <GeometrySvg document={document}
