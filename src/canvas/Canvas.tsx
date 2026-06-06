@@ -4,9 +4,9 @@ import "./Canvas.css"
 import type {GeometryDocument} from "../geometry/GeometryDocument.ts";
 import GeometrySvg from "./GeometrySvg.tsx";
 import type {Circle} from "../geometry/Circle.ts";
-import type {CursorPos} from "../geometry/CursorPos.ts";
-import type {CompassState} from "../geometry/CompassState.ts";
-import {findPointAt} from "../geometry/HitTesting.ts";
+import type {CursorPos} from "../geometry/utils/CursorPos.ts";
+import type {CompassState} from "../geometry/utils/CompassState.ts";
+import {findPointAt} from "../geometry/utils/HitTesting.ts";
 
 
 type CanvasProps = {

@@ -1,6 +1,6 @@
 import type {GeometryDocument} from "../geometry/GeometryDocument.ts";
-import type {CompassState} from "../geometry/CompassState.ts";
-import type {CursorPos} from "../geometry/CursorPos.ts";
+import type {CompassState} from "../geometry/utils/CompassState.ts";
+import type {CursorPos} from "../geometry/utils/CursorPos.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;

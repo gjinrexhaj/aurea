@@ -1,4 +1,4 @@
-import type { Point } from "./Point"
+import type { Point } from "../Point.ts"
 
 const HIT_RADIUS = 10;
 
