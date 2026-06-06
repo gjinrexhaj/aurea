@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import type { Point } from "../geometry/Point.ts";
 import "./Canvas.css"
 import type {GeometryDocument} from "../geometry/GeometryDocument.ts";
@@ -6,6 +6,7 @@ import GeometrySvg from "./GeometrySvg.tsx";
 import type {Circle} from "../geometry/Circle.ts";
 import type {CursorPos} from "../geometry/CursorPos.ts";
 import type {CompassState} from "../geometry/CompassState.ts";
+import {findPointAt} from "../geometry/HitTesting.ts";
 
 
 type CanvasProps = {
@@ -14,6 +15,10 @@ type CanvasProps = {
 
 
 export default function Canvas({activeTool}: CanvasProps) {
+
+    // declare selected and hovering point ids for selection tool
+    const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+    const [hoveredPointId, setHoveredPointId] = useState<string | null>(null);
 
     // declare geometry document
     const [document, setDocument] = useState<GeometryDocument>({
@@ -36,6 +41,11 @@ export default function Canvas({activeTool}: CanvasProps) {
         const y = event.clientY - rect.top;
 
         setMousePos({ x, y });
+
+        // hover detection
+        const hoverPoint = findPointAt(x,y,document.points);
+
+        setHoveredPointId(hoverPoint ? hoverPoint.id : null);
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
@@ -49,11 +59,25 @@ export default function Canvas({activeTool}: CanvasProps) {
 
         // perform action based on tool
         switch(activeTool) {
+            case "select":
+                return handleSelectTool(x, y)
             case "point":
                 return handlePointTool(x, y);
             case "compass":
                 return handleCompassClick(x,y)
         }
+    }
+
+    function handleSelectTool(x: number, y: number) {
+        const point = findPointAt(x,y,document.points)
+
+        if (point) {
+            setSelectedPointId(point.id)
+        } else {
+            setSelectedPointId(null)
+        }
+
+        console.log(point)
     }
 
     function handlePointTool(x: number, y: number) {
@@ -121,8 +145,6 @@ export default function Canvas({activeTool}: CanvasProps) {
     }
 
 
-
-
     return (
 
         <div className="canvas"
@@ -132,7 +154,10 @@ export default function Canvas({activeTool}: CanvasProps) {
             {/* Render geometry as SVG */}
             <GeometrySvg document={document}
                          compass={compass}
-                         mousePos={mousePos}/>
+                         mousePos={mousePos}
+                         hoveredPointId={hoveredPointId}
+                         selectedPointId={selectedPointId}
+            />
         </div>
 
     );

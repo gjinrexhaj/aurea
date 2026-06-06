@@ -6,6 +6,8 @@ type GeometrySvgProps = {
     document: GeometryDocument;
     compass: CompassState;
     mousePos: CursorPos | null;
+    hoveredPointId: string | null;
+    selectedPointId: string | null;
 }
 
 
@@ -13,6 +15,8 @@ export default function GeometrySvg({
     document,
     compass,
     mousePos,
+    hoveredPointId,
+    selectedPointId,
 }: GeometrySvgProps) {
 
     let previewRadius = 0;
@@ -31,14 +35,21 @@ export default function GeometrySvg({
     return (
         <svg width="100%" height="100%">
             {/* display points */}
-            {document.points.map(point => (
-                <circle
-                    key={point.id}
-                    cx={point.x}
-                    cy={point.y}
-                    r="2"
-                />
-            ))}
+            {document.points.map(point => {
+
+                const isHovered = point.id === hoveredPointId;
+                const isSelected = point.id === selectedPointId;
+
+                return (
+                    <circle
+                        key={point.id}
+                        cx={point.x}
+                        cy={point.y}
+                        r={isSelected ? 6 : isHovered ? 5 : 2}
+                        fill={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                    />
+                );
+            })}
 
             {/* display circles */}
             {document.circles.map(circle => (
@@ -67,5 +78,4 @@ export default function GeometrySvg({
                 )}
         </svg>
     )
-
 }
