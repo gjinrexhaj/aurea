@@ -1,12 +1,14 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import type { Point } from "../geometry/Point.ts";
 import "./Canvas.css"
 import type {GeometryDocument} from "../geometry/GeometryDocument.ts";
 import GeometrySvg from "./GeometrySvg.tsx";
 import type {Circle} from "../geometry/Circle.ts";
 import type {CursorPos} from "../geometry/utils/CursorPos.ts";
-import type {CompassState} from "../geometry/utils/CompassState.ts";
+import type {CompassState} from "../geometry/state/CompassState.ts";
 import {findPointAt} from "../geometry/utils/HitTesting.ts";
+import type {LineState} from "../geometry/state/LineState.ts";
+import type {Line} from "../geometry/Line.ts";
 
 
 type CanvasProps = {
@@ -23,7 +25,8 @@ export default function Canvas({activeTool}: CanvasProps) {
     // declare geometry document
     const [document, setDocument] = useState<GeometryDocument>({
         points: [],
-        circles: []
+        circles: [],
+        lines: []
     });
 
     // mouse position tracking state
@@ -34,6 +37,18 @@ export default function Canvas({activeTool}: CanvasProps) {
         stage: "idle",
     })
 
+    // declare line tool state
+    const [lineState, setLineState] = useState<LineState>({});
+
+    // declare tool resetters
+    useEffect(() => {
+        setCompass({ stage: "idle" });
+        setLineState({});
+    }, [activeTool]);
+
+
+
+    // tool functions
     function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
         const rect = event.currentTarget.getBoundingClientRect();
 
@@ -65,6 +80,8 @@ export default function Canvas({activeTool}: CanvasProps) {
                 return handlePointTool(x, y);
             case "compass":
                 return handleCompassClick(x,y)
+            case "line":
+                return handleLineTool(x,y)
         }
     }
 
@@ -144,6 +161,44 @@ export default function Canvas({activeTool}: CanvasProps) {
         }
     }
 
+    function handleLineTool(x: number, y: number) {
+        const point = findPointAt(x,y,document.points);
+
+        if (!point) {
+            return;
+        }
+
+        // first click
+        if (!lineState.firstPointId) {
+            setLineState({
+                firstPointId: point.id,
+            });
+
+            return;
+        }
+
+        // prevent self-line
+        if (lineState.firstPointId === point.id) {
+            return;
+        }
+
+        // second click
+        const line: Line = {
+            id: crypto.randomUUID(),
+            pointAId: lineState.firstPointId,
+            pointBId: point.id
+        };
+
+        setDocument({
+            ...document,
+            lines: [...document.lines, line],
+        });
+
+        setLineState({});
+
+        console.log(line)
+    }
+
 
     return (
 
@@ -154,6 +209,7 @@ export default function Canvas({activeTool}: CanvasProps) {
             {/* Render geometry as SVG */}
             <GeometrySvg document={document}
                          compass={compass}
+                         lineState={lineState}
                          mousePos={mousePos}
                          hoveredPointId={hoveredPointId}
                          selectedPointId={selectedPointId}
