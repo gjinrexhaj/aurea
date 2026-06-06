@@ -25,13 +25,12 @@ export default function GeometrySvg({
 
     // compass preview
     let previewRadius = 0;
-    if (
-        compass.stage === "anchor" &&
-        compass.anchor &&
-        mousePos
-    ) {
-        const dx = mousePos.x - compass.anchor.x;
-        const dy = mousePos.y - compass.anchor.y;
+
+    const compassCenter = compass.centerPointId ? getPointById(compass.centerPointId, document.points) : undefined;
+
+    if (compass.stage === "anchor" && compassCenter && mousePos)  {
+        const dx = mousePos.x - compassCenter.x;
+        const dy = mousePos.y - compassCenter.y;
 
         previewRadius = Math.sqrt(dx * dx + dy * dy);
     }
@@ -72,11 +71,11 @@ export default function GeometrySvg({
 
             {/* display compass preview*/}
             {compass.stage === "anchor" &&
-                compass.anchor &&
+                compassCenter &&
                 mousePos && (
                     <circle
-                        cx={compass.anchor.x}
-                        cy={compass.anchor.y}
+                        cx={compassCenter.x}
+                        cy={compassCenter.y}
                         r={previewRadius}
                         fill="none"
                         stroke="gray"

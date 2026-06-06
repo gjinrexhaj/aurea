@@ -9,6 +9,7 @@ import type {CompassState} from "../geometry/state/CompassState.ts";
 import {findPointAt} from "../geometry/utils/HitTesting.ts";
 import type {LineState} from "../geometry/state/LineState.ts";
 import type {Line} from "../geometry/Line.ts";
+import {getPointById} from "../geometry/utils/GetPointById.ts";
 
 
 type CanvasProps = {
@@ -64,6 +65,8 @@ export default function Canvas({activeTool}: CanvasProps) {
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
+
+        console.log(document)
         // calculate viewport offset
         const rect =
             event.currentTarget.getBoundingClientRect();
@@ -111,7 +114,54 @@ export default function Canvas({activeTool}: CanvasProps) {
     }
 
     function handleCompassClick(x: number, y: number) {
-        console.log(document)
+
+        const point = findPointAt(x,y,document.points);
+        if (!point) {
+            return;
+        }
+
+        // first click
+        if (compass.stage === "idle") {
+            setCompass({ stage: "anchor", centerPointId: point.id });
+            return;
+        }
+
+        // second click
+        if (compass.stage === "anchor" && compass.centerPointId) {
+            const centerPoint = getPointById(compass.centerPointId, document.points);
+
+            if (!centerPoint) {
+                return;
+            }
+
+            if (point.id === compass.centerPointId) {
+                return;
+            }
+
+            const dx = point.x - centerPoint.x;
+            const dy = point.y - centerPoint.y;
+
+            const radius = Math.sqrt(dx * dx + dy * dy);
+
+            const circle: Circle = {
+                id: crypto.randomUUID(),
+                center: centerPoint,
+                radius: radius,
+            };
+
+            setDocument({
+                ...document,
+                circles: [...document.circles, circle],
+            });
+
+            setCompass({ stage: "idle" });
+
+            setMousePos(null);
+
+        }
+
+
+        /*console.log(document)
 
         // first click
         if (compass.stage === "idle") {
@@ -158,7 +208,7 @@ export default function Canvas({activeTool}: CanvasProps) {
             // reset compass
             setCompass({ stage: "idle" });
             setMousePos(null);
-        }
+        }*/
     }
 
     function handleLineTool(x: number, y: number) {
