@@ -18,6 +18,8 @@ export default function App() {
         <Canvas
             activeTool={activeTool}
         />
+          <p>line and compass require two points</p>
+          <p>'del' or 'backspace' to delete selected geometry</p>
 
       </div>
   );

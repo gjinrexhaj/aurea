@@ -52,6 +52,16 @@ export default function Canvas({activeTool}: CanvasProps) {
         setLineState({});
     }, [activeTool]);
 
+    // declare deletion keybind
+    useEffect(() => {
+        function onKeyDown(e: KeyboardEvent) {
+            if (e.key === "Backspace" || e.key === "Delete") {
+                handleDeleteSelection();
+            }
+        }
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [selection]);
 
 
     // tool functions
@@ -123,14 +133,18 @@ export default function Canvas({activeTool}: CanvasProps) {
 
         // perform action based on tool
         switch(activeTool) {
-            case "select":
-                return handleSelectTool(x, y)
-            case "point":
+            case "select": {
+                return handleSelectTool(x, y);
+            }
+            case "point": {
                 return handlePointTool(x, y);
-            case "compass":
-                return handleCompassClick(x,y)
-            case "line":
-                return handleLineTool(x,y)
+            }
+            case "compass": {
+                return handleCompassClick(x,y);
+            }
+            case "line": {
+                return handleLineTool(x,y);
+            }
         }
     }
 
@@ -251,6 +265,47 @@ export default function Canvas({activeTool}: CanvasProps) {
         setLineState({});
 
         console.log(line)
+    }
+
+    function handleDeleteSelection() {
+        if (!selection) {
+            return;
+        }
+
+        // point deletion deletes all dependent geometry
+        // line and circle deletion only deletes the line and circle in question
+        switch (selection.type) {
+            case "point": {
+                const pointId = selection.id;
+
+                setDocument(prev =>({
+                    ...prev,
+                    points: prev.points.filter(p => p.id !== pointId),
+                    lines: prev.lines.filter(l => l.pointAId !== pointId && l.pointBId),
+                    circles: prev.circles.filter(c => c.centerPointId !== pointId && pointId)
+                }));
+
+                break;
+            }
+            case "line": {
+                setDocument(prev => ({
+                    ...prev,
+                    lines: prev.lines.filter(l => l.id !== selection.id)
+                }));
+
+                break;
+            }
+            case "circle": {
+                setDocument(prev => ({
+                    ...prev,
+                    circles: prev.circles.filter(c => c.id !== selection.id)
+                }));
+
+                break;
+            }
+        }
+
+        setSelection(null)
     }
 
 
