@@ -42,7 +42,6 @@ function findIntersectionSnap(x: number, y: number, document: GeometryDocument,
         const d = distance({x,y}, intersection);
 
         if (d <= SNAP_RADIUS) {
-            console.log(intersection);
             return intersection;
         }
     }

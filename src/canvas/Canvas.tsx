@@ -146,8 +146,6 @@ export default function Canvas({activeTool}: CanvasProps) {
         } else {
             setDraggingPointId(null);
         }
-
-        console.log(hit)
     }
 
     function handlePointTool(x: number, y: number) {
@@ -258,8 +256,6 @@ export default function Canvas({activeTool}: CanvasProps) {
         });
 
         setLineState({});
-
-        console.log(line)
     }
 
     function handleDeleteSelection() {
