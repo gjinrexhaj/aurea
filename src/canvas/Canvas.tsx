@@ -12,6 +12,8 @@ import type {Line} from "../geometry/Line.ts";
 import {getPointById} from "../geometry/utils/GetPointById.ts";
 import type {Selection} from "../geometry/state/Selection.ts";
 import type {Hover} from "../geometry/state/Hover.ts";
+import {snapAt} from "../geometry/snap/SnapEngine.ts";
+import type {SnapResult} from "../geometry/snap/SnapResult.ts";
 
 
 type CanvasProps = {
@@ -20,6 +22,9 @@ type CanvasProps = {
 
 
 export default function Canvas({activeTool}: CanvasProps) {
+
+    // declare snap state
+    const [snapResult, setSnapResult] = useState<SnapResult>(null);
 
     // declare selected and hovering point ids for selection tool
     const [selection, setSelection] = useState<Selection>(null);
@@ -71,52 +76,25 @@ export default function Canvas({activeTool}: CanvasProps) {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        // handle drag logic
-        if (draggingPointId) {
-            const updatedPoints =
-                document.points.map(point => {
-                    if (point.id === draggingPointId) {
-                        return {...point, x, y};
-                    }
-                    return point;
-                });
+        // snapping
+        const snap = snapAt(x,y,document);
+        setSnapResult(snap);
 
-            setDocument({
-                ...document,
-                points: updatedPoints,
-            });
+
+        // drag logic
+        if (draggingPointId) {
+            setDocument(prev => ({
+                ...prev,
+                points: prev.points.map(point => point.id === draggingPointId ? { ...point, x, y } : point),
+            }));
 
             return;
         }
-
 
         setMousePos({ x, y });
 
-        // point hover detection
-        const hoverPoint = findPointAt(x, y, document.points);
-        if (hoverPoint) {
-            setHovered({type: "point", id: hoverPoint.id});
-            return;
-        }
-
-        // line hover detection
-        const line = findLineAt(x, y, document.lines, document.points);
-        if (line) {
-            setHovered({type: "line", id: line.id});
-            return;
-        }
-
-        // circle hover detection
-        const circle = findCircleAt(x, y, document.circles, document.points);
-        if (circle) {
-            setHovered({type: "circle", id: circle.id});
-            return;
-        }
-
-
-
-        // hover nothing if nothing hit
-        setHovered(null);
+        const hit = pickAt(x, y, document);
+        setHovered(hit);
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
@@ -173,16 +151,33 @@ export default function Canvas({activeTool}: CanvasProps) {
     }
 
     function handlePointTool(x: number, y: number) {
-        // create point and add to GeometryDocument
+        const snap = snapAt(x, y, document);
+
+        if (snap?.type === "intersection") {
+            x = snap.x;
+            y = snap.y;
+        }
+
         const point: Point = {
-            id: crypto.randomUUID(),
-            x,
-            y,
-        };
+            id: crypto.randomUUID(), x: x, y: y
+        }
+
         setDocument({
             ...document,
-            points: [...document.points, point],
+            points: [...document.points, point]
         });
+
+
+        // // create point and add to GeometryDocument
+        // const point: Point = {
+        //     id: crypto.randomUUID(),
+        //     x,
+        //     y,
+        // };
+        // setDocument({
+        //     ...document,
+        //     points: [...document.points, point],
+        // });
     }
 
     function handleCompassClick(x: number, y: number) {
@@ -323,6 +318,7 @@ export default function Canvas({activeTool}: CanvasProps) {
                          mousePos={mousePos}
                          hovered={hovered}
                          selection={selection}
+                         snapResult={snapResult}
             />
         </div>
 

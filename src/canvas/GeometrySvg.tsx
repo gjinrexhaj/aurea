@@ -6,6 +6,7 @@ import type {LineState} from "../geometry/state/LineState.ts";
 import {distance} from "../geometry/utils/Distance.ts";
 import type {Hover} from "../geometry/state/Hover.ts";
 import type {Selection} from "../geometry/state/Selection.ts";
+import type {SnapResult} from "../geometry/snap/SnapResult.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;
@@ -14,6 +15,7 @@ type GeometrySvgProps = {
     mousePos: CursorPos | null;
     hovered: Hover;
     selection: Selection;
+    snapResult: SnapResult;
 }
 
 
@@ -24,6 +26,7 @@ export default function GeometrySvg({
     mousePos,
     hovered,
     selection,
+    snapResult,
 }: GeometrySvgProps) {
 
     // compass preview
@@ -133,6 +136,26 @@ export default function GeometrySvg({
                         strokeDasharray="4"
                     />
                 )}
+
+            {/* display snap indicator */}
+            {snapResult?.type === "intersection" && (
+                <>
+                    <line
+                        x1={snapResult.x - 6}
+                        y1={snapResult.y}
+                        x2={snapResult.x + 6}
+                        y2={snapResult.y}
+                        stroke="red"
+                    />
+                    <line
+                        x1={snapResult.x}
+                        y1={snapResult.y - 6}
+                        x2={snapResult.x}
+                        y2={snapResult.y + 6}
+                        stroke="red"
+                    />
+                </>
+            )}
 
 
         </svg>
