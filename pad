@@ -2,12 +2,12 @@
 todo:
 snapping system | integrate into canvas
 ---> intersections (done)
-     infinite line snapping / visualization (URGENT)
-        maybe visualize only when selecting point tool, use different stroke for infinite line visualization
-     midpoint snapping
-     perpendicular foots
+     infinite line snapping visualization (done)
+     point relationships (URGENT)
+     perpendicular bisector
      grid snaps
      angle snaps
+     compass arc
 
 infinite zoom/pannable canvas
 construction history

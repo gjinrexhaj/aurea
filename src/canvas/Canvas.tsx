@@ -21,7 +21,7 @@ type CanvasProps = {
 };
 
 
-export default function Canvas({activeTool}: CanvasProps) {
+ export default function Canvas({activeTool}: CanvasProps) {
 
     // declare snap state
     const [snapResult, setSnapResult] = useState<SnapResult>(null);

@@ -7,6 +7,8 @@ import {distance} from "../geometry/utils/Distance.ts";
 import type {Hover} from "../geometry/state/Hover.ts";
 import type {Selection} from "../geometry/state/Selection.ts";
 import type {SnapResult} from "../geometry/snap/SnapResult.ts";
+import {useEffect, useRef} from "react";
+import {getInfiniteLineEndpoints} from "../geometry/utils/GetInfiniteLineEndpoints.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;
@@ -29,6 +31,8 @@ export default function GeometrySvg({
     snapResult,
 }: GeometrySvgProps) {
 
+    //useRenderCount("GeometrySvg");
+
     // compass preview
     let previewRadius = 0;
 
@@ -43,21 +47,33 @@ export default function GeometrySvg({
 
     return (
         <svg width="100%" height="100%">
-            {/* display points */}
-            {document.points.map(point => {
 
-                const isHovered = hovered?.type === "point" && hovered.id === point.id;
-                const isSelected = selection?.type === "point" && selection.id === point.id;
+            {/* render infinite euclidean lines */}
+            {document.lines.map(line => {
+                const pointA = getPointById(line.pointAId, document.points);
+                const pointB = getPointById(line.pointBId, document.points);
+
+                if (!pointA || !pointB) {
+                    return null;
+                }
+
+                const infinite = getInfiniteLineEndpoints(pointA, pointB);
+                if (!infinite) {
+                    return null;
+                }
 
                 return (
-                    <circle
-                        key={point.id}
-                        cx={point.x}
-                        cy={point.y}
-                        r={isSelected ? 6 : isHovered ? 5 : 2}
-                        fill={isSelected ? "blue" : isHovered ? "orange" : "black"}
-                    />
-                );
+                    <g key={line.id}>
+                        {/* infinite euclidean line */}
+                        <line
+                            x1={infinite.x1}
+                            y1={infinite.y1}
+                            x2={infinite.x2}
+                            y2={infinite.y2}
+                            stroke={"lightgray"}
+                        />
+                    </g>
+                )
             })}
 
             {/* display circles */}
@@ -86,29 +102,31 @@ export default function GeometrySvg({
                 );
             })}
 
-            {/* display lines */}
+            {/* render line segments */}
             {document.lines.map(line => {
-               const pointA = getPointById(line.pointAId, document.points);
-               const pointB = getPointById(line.pointBId, document.points);
+                const pointA = getPointById(line.pointAId, document.points);
+                const pointB = getPointById(line.pointBId, document.points);
 
-               if (!pointA || !pointB) {
-                   return null;
-               }
+                if (!pointA || !pointB) {
+                    return null;
+                }
 
-               const isHovered = hovered?.type === "line" && hovered.id === line.id;
-               const isSelected = selection?.type === "line" && selection.id === line.id;
+                const isHovered = hovered?.type === "line" && hovered.id === line.id;
+                const isSelected = selection?.type === "line" && selection.id === line.id;
 
-               return (
-                   <line
-                       key={line.id}
-                       x1={pointA.x}
-                       y1={pointA.y}
-                       x2={pointB.x}
-                       y2={pointB.y}
-                       stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
-                       strokeWidth={isSelected ? 2 : 1}
-                   />
-               )
+                return (
+                    <g key={line.id}>
+                        {/* defining segment */}
+                        <line
+                            x1={pointA.x}
+                            y1={pointA.y}
+                            x2={pointB.x}
+                            y2={pointB.y}
+                            stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                            strokeWidth={isSelected ? 2 : 1}
+                        />
+                    </g>
+                )
             })}
 
             {/* display line preview */}
@@ -157,7 +175,33 @@ export default function GeometrySvg({
                 </>
             )}
 
+            {/* display points */}
+            {document.points.map(point => {
+
+                const isHovered = hovered?.type === "point" && hovered.id === point.id;
+                const isSelected = selection?.type === "point" && selection.id === point.id;
+
+                return (
+                    <circle
+                        key={point.id}
+                        cx={point.x}
+                        cy={point.y}
+                        r={isSelected ? 6 : isHovered ? 5 : 2}
+                        fill={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                    />
+                );
+            })}
+
 
         </svg>
     )
 }
+
+// helper profiling function
+const useRenderCount = (componentName = 'Component') => {
+    const renders = useRef(0);
+    useEffect(() => {
+        renders.current += 1;
+        console.log(`${componentName} rendered ${renders.current} times`);
+    });
+};
