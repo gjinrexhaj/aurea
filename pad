@@ -3,7 +3,8 @@ todo:
 snapping system | integrate into canvas
 ---> intersections (done)
      infinite line snapping visualization (done)
-     point relationships (URGENT)
+     point relationships (URGENT - hard af!)
+
      perpendicular bisector
      grid snaps
      angle snaps
