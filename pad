@@ -9,6 +9,7 @@ snapping system | integrate into canvas
      grid snaps
      angle snaps
 
+infinite zoom/pannable canvas
 construction history
 undo redo
 ui overhaul
