@@ -4,6 +4,8 @@ import {findPointAt} from "../utils/HitTesting.ts";
 import type {SnapResult} from "./SnapResult.ts";
 import {getLineIntersections} from "../intersections/GetLineIntersections.ts";
 import {distance} from "../utils/Distance.ts";
+import {getLineCircleIntersections} from "../intersections/GetLineCircleIntersections.ts";
+import {getCircleCircleIntersections} from "../intersections/GetCircleCircleIntersections.ts";
 
 const SNAP_RADIUS = 6;
 
@@ -30,12 +32,17 @@ export function snapAt(x: number, y: number, document: GeometryDocument): SnapRe
 
 function findIntersectionSnap(x: number, y: number, document: GeometryDocument,
 ): { x: number; y: number } | null {
-    const intersections = getLineIntersections(document);
+    const intersections = [
+        ...getLineIntersections(document),
+        ...getLineCircleIntersections(document),
+        ...getCircleCircleIntersections(document)
+    ];
 
     for (const intersection of intersections) {
         const d = distance({x,y}, intersection);
 
         if (d <= SNAP_RADIUS) {
+            console.log(intersection);
             return intersection;
         }
     }
