@@ -1,0 +1,17 @@
+
+todo:
+snapping system | integrate into canvas
+---> intersections (done)
+     infinite line snapping / visualization (URGENT)
+        maybe visualize only when selecting point tool, use different stroke for infinite line visualization
+     midpoint snapping
+     perpendicular foots
+     grid snaps
+     angle snaps
+
+construction history
+undo redo
+ui overhaul
+free compass ??
+brush color
+circle point grouping?????? no idea how this would work
