@@ -2,7 +2,7 @@ import type {GeometryDocument} from "../GeometryDocument.ts";
 import {findPointAt} from "../utils/HitTesting.ts";
 
 import type {SnapResult} from "./SnapResult.ts";
-import {getLineIntersections} from "../intersections/GetLineIntersections.ts";
+import {getLineLineIntersections} from "../intersections/GetLineLineIntersections.ts";
 import {distance} from "../utils/Distance.ts";
 import {getLineCircleIntersections} from "../intersections/GetLineCircleIntersections.ts";
 import {getCircleCircleIntersections} from "../intersections/GetCircleCircleIntersections.ts";
@@ -33,7 +33,7 @@ export function snapAt(x: number, y: number, document: GeometryDocument): SnapRe
 function findIntersectionSnap(x: number, y: number, document: GeometryDocument,
 ): { x: number; y: number } | null {
     const intersections = [
-        ...getLineIntersections(document),
+        ...getLineLineIntersections(document),
         ...getLineCircleIntersections(document),
         ...getCircleCircleIntersections(document)
     ];
