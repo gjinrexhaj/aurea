@@ -26,8 +26,8 @@ type CanvasProps = {
 export default function Canvas({activeTool, viewSettings}: CanvasProps) {
     // declare camera state, and zoom/pan stuff
     const [camera, setCamera] = useState({
-        x: 0,
-        y: 0,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
         zoom: 1
     });
     const [isPanning, setIsPanning] = useState(false);
