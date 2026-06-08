@@ -109,6 +109,7 @@ export default function Canvas({activeTool}: CanvasProps) {
         setSnapResult(snap);
 
 
+        /*
         // drag logic
         if (draggingPointId) {
             setDocument(prev => ({
@@ -117,7 +118,7 @@ export default function Canvas({activeTool}: CanvasProps) {
             }));
 
             return;
-        }
+        }*/
 
         setMousePos({ x, y });
 
