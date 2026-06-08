@@ -381,8 +381,7 @@ export default function Canvas({activeTool}: CanvasProps) {
              onPointerDown={handlePointerDown}
              onPointerMove={handlePointerMove}
              onPointerUp={handlePointerUp}
-             onWheel={handleScrollWheel}
-        >
+             onWheel={handleScrollWheel}>
             {/* Render geometry as SVG */}
             <GeometrySvg document={document}
                          compass={compass}

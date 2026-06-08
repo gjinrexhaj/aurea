@@ -1,0 +1,16 @@
+.toolbar-outer {
+    display: flex;
+    flex-direction: row;
+}
+
+.app {
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.canvas-outer {
+    width: 100%;
+    height: 100%;
+    flex-grow: 3;
+}

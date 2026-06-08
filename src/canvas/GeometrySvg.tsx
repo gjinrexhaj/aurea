@@ -104,6 +104,7 @@ export default function GeometrySvg({
                             r={radius}
                             fill="none"
                             stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                            strokeWidth={isSelected ? 2 : 1}
                         />
                     );
                 })}
