@@ -10,9 +10,9 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 )
 
-alert("USAGE GUIDE" +
-    "\n" +
-    "\nline and compass require two points" +
-    "\n'del' or 'backspace' to delete selected geometry" +
-    "\nscroll wheel to zoom, middle mouse to pan"
-)
+// alert("USAGE GUIDE" +
+//     "\n" +
+//     "\nline and compass require two points" +
+//     "\n'del' or 'backspace' to delete selected geometry" +
+//     "\nscroll wheel to zoom, middle mouse to pan"
+// )

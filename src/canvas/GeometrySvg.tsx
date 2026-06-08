@@ -9,6 +9,7 @@ import type {Selection} from "../geometry/state/Selection.ts";
 import type {SnapResult} from "../geometry/snap/SnapResult.ts";
 import {useEffect, useRef} from "react";
 import {getInfiniteLineEndpoints} from "../geometry/utils/GetInfiniteLineEndpoints.ts";
+import type {ViewSettings} from "../ui/ViewSettings.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;
@@ -22,7 +23,8 @@ type GeometrySvgProps = {
         x: number;
         y: number;
         zoom: number;
-    }
+    };
+    viewSettings: ViewSettings;
 }
 
 
@@ -35,6 +37,7 @@ export default function GeometrySvg({
     selection,
     snapResult,
     camera,
+    viewSettings,
 }: GeometrySvgProps) {
 
     //useRenderCount("GeometrySvg");
@@ -54,8 +57,42 @@ export default function GeometrySvg({
     return (
         <svg width="100%" height="100%">
             <g transform={`translate(${camera.x}, ${camera.y}) scale(${camera.zoom})`}>
+                {/* render axes */}
+                {viewSettings.showAxes && (
+                    <g>
+                        {/* X axis */}
+                        <line
+                            x1={-100000}
+                            y1={0}
+                            x2={100000}
+                            y2={0}
+                            stroke="#cccccc"
+                            strokeWidth={1}
+                        />
+
+                        {/* Y axis */}
+                        <line
+                            x1={0}
+                            y1={-100000}
+                            x2={0}
+                            y2={100000}
+                            stroke="#cccccc"
+                            strokeWidth={1}
+                        />
+
+                        {/* Origin marker */}
+                        <circle
+                            cx={0}
+                            cy={0}
+                            r={3}
+                            fill="#999999"
+                        />
+                    </g>
+                )}
+
+
                 {/* render infinite euclidean lines */}
-                {document.lines.map(line => {
+                {viewSettings.showInfiniteLines && document.lines.map(line => {
                     const pointA = getPointById(line.pointAId, document.points);
                     const pointB = getPointById(line.pointBId, document.points);
 

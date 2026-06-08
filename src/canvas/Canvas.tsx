@@ -14,14 +14,16 @@ import type {Selection} from "../geometry/state/Selection.ts";
 import type {Hover} from "../geometry/state/Hover.ts";
 import {snapAt} from "../geometry/snap/SnapEngine.ts";
 import type {SnapResult} from "../geometry/snap/SnapResult.ts";
+import type {ViewSettings} from "../ui/ViewSettings.ts";
 
 
 type CanvasProps = {
     activeTool: string;
+    viewSettings: ViewSettings;
 };
 
 
-export default function Canvas({activeTool}: CanvasProps) {
+export default function Canvas({activeTool, viewSettings}: CanvasProps) {
     // declare camera state, and zoom/pan stuff
     const [camera, setCamera] = useState({
         x: 0,
@@ -33,6 +35,13 @@ export default function Canvas({activeTool}: CanvasProps) {
 
     // declare snap state
     const [snapResult, setSnapResult] = useState<SnapResult>(null);
+
+    // declare view settings (guidelines etc)
+    // const [viewSettings, setViewSettings] = useState({
+    //     showAxes: true,
+    //     showGrid: false,
+    //     showInfiniteLines: true,
+    // });
 
     // declare selected and hovering point ids for selection tool
     const [selection, setSelection] = useState<Selection>(null);
@@ -392,6 +401,7 @@ export default function Canvas({activeTool}: CanvasProps) {
                          selection={selection}
                          snapResult={snapResult}
                          camera={camera}
+                         viewSettings={viewSettings}
             />
         </div>
 
