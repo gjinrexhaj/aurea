@@ -3,12 +3,13 @@ todo:
 snapping system | integrate into canvas
 ---> intersections (done)
      infinite line snapping visualization (done)
-     point relationships (URGENT - hard af!)
-
-     perpendicular bisector
-     grid snaps
-     angle snaps
+     point relationships (URGENT - hard af!) - maybe just dont do this actually
      compass arc
+
+
+perpendicular bisector
+grid snaps
+angle snaps
 
 infinite zoom/pannable canvas
 construction history
