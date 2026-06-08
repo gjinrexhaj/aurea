@@ -3,7 +3,11 @@ todo:
 snapping system | integrate into canvas
 ---> intersections (done)
      infinite line snapping visualization (done)
-     point relationships (URGENT - hard af!) - maybe just dont do this actually
+     point relationships (URGENT - hard af!) - maybe just dont do this actually (point drag disabled 4 now)
+     axes + origin visualization (done)
+     toggleable origin snapping
+     toggleable axis snapping
+
      compass arc
 
 
