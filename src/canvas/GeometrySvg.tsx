@@ -18,6 +18,11 @@ type GeometrySvgProps = {
     hovered: Hover;
     selection: Selection;
     snapResult: SnapResult;
+    camera: {
+        x: number;
+        y: number;
+        zoom: number;
+    }
 }
 
 
@@ -29,6 +34,7 @@ export default function GeometrySvg({
     hovered,
     selection,
     snapResult,
+    camera,
 }: GeometrySvgProps) {
 
     //useRenderCount("GeometrySvg");
@@ -47,151 +53,151 @@ export default function GeometrySvg({
 
     return (
         <svg width="100%" height="100%">
+            <g transform={`translate(${camera.x}, ${camera.y}) scale(${camera.zoom})`}>
+                {/* render infinite euclidean lines */}
+                {document.lines.map(line => {
+                    const pointA = getPointById(line.pointAId, document.points);
+                    const pointB = getPointById(line.pointBId, document.points);
 
-            {/* render infinite euclidean lines */}
-            {document.lines.map(line => {
-                const pointA = getPointById(line.pointAId, document.points);
-                const pointB = getPointById(line.pointBId, document.points);
+                    if (!pointA || !pointB) {
+                        return null;
+                    }
 
-                if (!pointA || !pointB) {
-                    return null;
-                }
+                    const infinite = getInfiniteLineEndpoints(pointA, pointB);
+                    if (!infinite) {
+                        return null;
+                    }
 
-                const infinite = getInfiniteLineEndpoints(pointA, pointB);
-                if (!infinite) {
-                    return null;
-                }
+                    return (
+                        <g key={line.id}>
+                            {/* infinite euclidean line */}
+                            <line
+                                x1={infinite.x1}
+                                y1={infinite.y1}
+                                x2={infinite.x2}
+                                y2={infinite.y2}
+                                stroke={"lightgray"}
+                            />
+                        </g>
+                    )
+                })}
 
-                return (
-                    <g key={line.id}>
-                        {/* infinite euclidean line */}
-                        <line
-                            x1={infinite.x1}
-                            y1={infinite.y1}
-                            x2={infinite.x2}
-                            y2={infinite.y2}
-                            stroke={"lightgray"}
-                        />
-                    </g>
-                )
-            })}
+                {/* display circles */}
+                {document.circles.map(circle => {
+                    const centerPoint = getPointById(circle.centerPointId, document.points);
+                    const radiusPoint = getPointById(circle.radiusPointId, document.points);
 
-            {/* display circles */}
-            {document.circles.map(circle => {
-                const centerPoint = getPointById(circle.centerPointId, document.points);
-                const radiusPoint = getPointById(circle.radiusPointId, document.points);
+                    if (!centerPoint || !radiusPoint) {
+                        return null;
+                    }
 
-                if (!centerPoint || !radiusPoint) {
-                    return null;
-                }
+                    const isHovered = hovered?.type === "circle" && hovered.id === circle.id;
+                    const isSelected = selection?.type === "circle" && selection.id === circle.id;
 
-                const isHovered = hovered?.type === "circle" && hovered.id === circle.id;
-                const isSelected = selection?.type === "circle" && selection.id === circle.id;
+                    const radius = distance(centerPoint, radiusPoint);
 
-                const radius = distance(centerPoint, radiusPoint);
-
-                return (
-                    <circle
-                        key={circle.id}
-                        cx={centerPoint.x}
-                        cy={centerPoint.y}
-                        r={radius}
-                        fill="none"
-                        stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
-                    />
-                );
-            })}
-
-            {/* render line segments */}
-            {document.lines.map(line => {
-                const pointA = getPointById(line.pointAId, document.points);
-                const pointB = getPointById(line.pointBId, document.points);
-
-                if (!pointA || !pointB) {
-                    return null;
-                }
-
-                const isHovered = hovered?.type === "line" && hovered.id === line.id;
-                const isSelected = selection?.type === "line" && selection.id === line.id;
-
-                return (
-                    <g key={line.id}>
-                        {/* defining segment */}
-                        <line
-                            x1={pointA.x}
-                            y1={pointA.y}
-                            x2={pointB.x}
-                            y2={pointB.y}
+                    return (
+                        <circle
+                            key={circle.id}
+                            cx={centerPoint.x}
+                            cy={centerPoint.y}
+                            r={radius}
+                            fill="none"
                             stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
-                            strokeWidth={isSelected ? 2 : 1}
                         />
-                    </g>
-                )
-            })}
+                    );
+                })}
 
-            {/* display line preview */}
-            {linePreviewStart && mousePos && (
-                <line
-                    x1={linePreviewStart.x}
-                    y1={linePreviewStart.y}
-                    x2={mousePos.x}
-                    y2={mousePos.y}
-                    stroke={"gray"}
-                    strokeDasharray={"4"}
-                />
-            )}
+                {/* render line segments */}
+                {document.lines.map(line => {
+                    const pointA = getPointById(line.pointAId, document.points);
+                    const pointB = getPointById(line.pointBId, document.points);
 
-            {/* display compass preview*/}
-            {compass.stage === "anchor" &&
-                compassCenter &&
-                mousePos && (
-                    <circle
-                        cx={compassCenter.x}
-                        cy={compassCenter.y}
-                        r={previewRadius}
-                        fill="none"
-                        stroke="gray"
-                        strokeDasharray="4"
+                    if (!pointA || !pointB) {
+                        return null;
+                    }
+
+                    const isHovered = hovered?.type === "line" && hovered.id === line.id;
+                    const isSelected = selection?.type === "line" && selection.id === line.id;
+
+                    return (
+                        <g key={line.id}>
+                            {/* defining segment */}
+                            <line
+                                x1={pointA.x}
+                                y1={pointA.y}
+                                x2={pointB.x}
+                                y2={pointB.y}
+                                stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                                strokeWidth={isSelected ? 2 : 1}
+                            />
+                        </g>
+                    )
+                })}
+
+                {/* display line preview */}
+                {linePreviewStart && mousePos && (
+                    <line
+                        x1={linePreviewStart.x}
+                        y1={linePreviewStart.y}
+                        x2={mousePos.x}
+                        y2={mousePos.y}
+                        stroke={"gray"}
+                        strokeDasharray={"4"}
                     />
                 )}
 
-            {/* display snap indicator */}
-            {snapResult?.type === "intersection" && (
-                <>
-                    <line
-                        x1={snapResult.x - 6}
-                        y1={snapResult.y}
-                        x2={snapResult.x + 6}
-                        y2={snapResult.y}
-                        stroke="red"
-                    />
-                    <line
-                        x1={snapResult.x}
-                        y1={snapResult.y - 6}
-                        x2={snapResult.x}
-                        y2={snapResult.y + 6}
-                        stroke="red"
-                    />
-                </>
-            )}
+                {/* display compass preview*/}
+                {compass.stage === "anchor" &&
+                    compassCenter &&
+                    mousePos && (
+                        <circle
+                            cx={compassCenter.x}
+                            cy={compassCenter.y}
+                            r={previewRadius}
+                            fill="none"
+                            stroke="gray"
+                            strokeDasharray="4"
+                        />
+                    )}
 
-            {/* display points */}
-            {document.points.map(point => {
+                {/* display snap indicator */}
+                {snapResult?.type === "intersection" && (
+                    <>
+                        <line
+                            x1={snapResult.x - 6}
+                            y1={snapResult.y}
+                            x2={snapResult.x + 6}
+                            y2={snapResult.y}
+                            stroke="red"
+                        />
+                        <line
+                            x1={snapResult.x}
+                            y1={snapResult.y - 6}
+                            x2={snapResult.x}
+                            y2={snapResult.y + 6}
+                            stroke="red"
+                        />
+                    </>
+                )}
 
-                const isHovered = hovered?.type === "point" && hovered.id === point.id;
-                const isSelected = selection?.type === "point" && selection.id === point.id;
+                {/* display points */}
+                {document.points.map(point => {
 
-                return (
-                    <circle
-                        key={point.id}
-                        cx={point.x}
-                        cy={point.y}
-                        r={isSelected ? 6 : isHovered ? 5 : 2}
-                        fill={isSelected ? "blue" : isHovered ? "orange" : "black"}
-                    />
-                );
-            })}
+                    const isHovered = hovered?.type === "point" && hovered.id === point.id;
+                    const isSelected = selection?.type === "point" && selection.id === point.id;
 
+                    return (
+                        <circle
+                            key={point.id}
+                            cx={point.x}
+                            cy={point.y}
+                            r={isSelected ? 6 : isHovered ? 5 : 2}
+                            fill={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                        />
+                    );
+                })}
+            </g>
 
         </svg>
     )

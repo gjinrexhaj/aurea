@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import type { Point } from "../geometry/Point.ts";
 import "./Canvas.css"
 import type {GeometryDocument} from "../geometry/GeometryDocument.ts";
@@ -21,7 +21,15 @@ type CanvasProps = {
 };
 
 
- export default function Canvas({activeTool}: CanvasProps) {
+export default function Canvas({activeTool}: CanvasProps) {
+    // declare camera state, and zoom/pan stuff
+    const [camera, setCamera] = useState({
+        x: 0,
+        y: 0,
+        zoom: 1
+    });
+    const [isPanning, setIsPanning] = useState(false);
+    const lastPanPosition = useRef({x: 0, y: 0});
 
     // declare snap state
     const [snapResult, setSnapResult] = useState<SnapResult>(null);
@@ -57,6 +65,7 @@ type CanvasProps = {
         setLineState({});
     }, [activeTool]);
 
+
     // declare deletion keybind
     useEffect(() => {
         function onKeyDown(e: KeyboardEvent) {
@@ -71,10 +80,29 @@ type CanvasProps = {
 
     // tool functions
     function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
+        if (isPanning && lastPanPosition.current) {
+            const dx = event.clientX - lastPanPosition.current.x;
+            const dy = event.clientY - lastPanPosition.current.y;
+
+            setCamera(prev => ({
+                ...prev,
+                x: prev.x + dx,
+                y: prev.y + dy,
+            }));
+
+            lastPanPosition.current = { x: event.clientX, y: event.clientY };
+            return;
+        }
+
+
+
+
         const rect = event.currentTarget.getBoundingClientRect();
 
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+        const screenX = event.clientX - rect.left;
+        const screenY = event.clientY - rect.top;
+
+        const { x, y } = screenToWorld(screenX, screenY, camera)
 
         // snapping
         const snap = snapAt(x,y,document);
@@ -99,6 +127,16 @@ type CanvasProps = {
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
 
+        // handle panning w/ middle mouse button
+        if (event.button === 1) {
+            setIsPanning(true);
+            lastPanPosition.current = {x: event.clientX, y: event.clientY};
+
+            event.currentTarget.setPointerCapture(event.pointerId);
+            return;
+        }
+
+
         event.currentTarget.setPointerCapture(event.pointerId);
 
         // calculate viewport offset
@@ -106,8 +144,10 @@ type CanvasProps = {
             event.currentTarget.getBoundingClientRect();
 
         // get x and y value of cursor
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+        const screenX = event.clientX - rect.left;
+        const screenY = event.clientY - rect.top;
+
+        const { x, y } = screenToWorld(screenX, screenY, camera)
 
         // perform action based on tool
         switch(activeTool) {
@@ -127,6 +167,12 @@ type CanvasProps = {
     }
 
     function handlePointerUp(event: React.PointerEvent<HTMLDivElement>) {
+
+        if (event.button === 1) {
+            setIsPanning(false);
+            lastPanPosition.current = null;
+        }
+
 
         if (event.currentTarget.hasPointerCapture(event.pointerId)) {
             event.currentTarget.releasePointerCapture(event.pointerId);
@@ -164,18 +210,6 @@ type CanvasProps = {
             ...document,
             points: [...document.points, point]
         });
-
-
-        // // create point and add to GeometryDocument
-        // const point: Point = {
-        //     id: crypto.randomUUID(),
-        //     x,
-        //     y,
-        // };
-        // setDocument({
-        //     ...document,
-        //     points: [...document.points, point],
-        // });
     }
 
     function handleCompassClick(x: number, y: number) {
@@ -300,12 +334,54 @@ type CanvasProps = {
     }
 
 
+    // camera helper functions
+    function screenToWorld(x: number, y: number, camera: {x:number, y:number, zoom:number}) {
+        return {
+            x: (x - camera.x) / camera.zoom,
+            y: (y - camera.y) / camera.zoom,
+        };
+    }
+
+    function handleScrollWheel(e: React.WheelEvent<HTMLDivElement>) {
+        e.preventDefault();
+
+        const scaleFactor = 1.1;
+        const direction = e.deltaY > 0 ? 1 / scaleFactor : scaleFactor;
+
+        const rect = e.currentTarget.getBoundingClientRect();
+
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        const worldBefore = screenToWorld(mouseX, mouseY, camera);
+
+        setCamera(prev => {
+            const newZoom = Math.max(0.1, Math.min(10, prev.zoom * direction));
+
+            const worldAfter = worldBefore;
+
+            return {
+                zoom: newZoom,
+                x: mouseX - worldAfter.x * newZoom,
+                y: mouseY - worldAfter.y * newZoom,
+            };
+        });
+    }
+
+    function worldToScreen(x: number, y: number, camera: {x:number, y:number, zoom:number}) {
+        return {
+            x: x * camera.zoom + camera.x,
+            y: y * camera.zoom + camera.y,
+        };
+    }
+
     return (
 
         <div className="canvas"
              onPointerDown={handlePointerDown}
              onPointerMove={handlePointerMove}
              onPointerUp={handlePointerUp}
+             onWheel={handleScrollWheel}
         >
             {/* Render geometry as SVG */}
             <GeometrySvg document={document}
@@ -315,6 +391,7 @@ type CanvasProps = {
                          hovered={hovered}
                          selection={selection}
                          snapResult={snapResult}
+                         camera={camera}
             />
         </div>
 

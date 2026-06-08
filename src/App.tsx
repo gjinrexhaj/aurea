@@ -20,6 +20,7 @@ export default function App() {
         />
           <p>line and compass require two points</p>
           <p>'del' or 'backspace' to delete selected geometry</p>
+          <p>scroll wheel to zoom, middle mouse to pan</p>
 
       </div>
   );
