@@ -25,6 +25,16 @@ export function snapAt(x: number, y: number, document: GeometryDocument): SnapRe
     }
 
 
+    // snap to hardcoded origin
+    if (distance({ x,y }, { x:0, y:0}) <= SNAP_RADIUS) {
+        return {
+            type: "intersection",
+            x:0,
+            y:0
+        }
+    }
+
+
     // no snap
     return null;
 }
