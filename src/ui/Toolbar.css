@@ -2,10 +2,16 @@
     display: flex;
     align-items: center;
 
-    width: 100%;
+    gap: 24px;
 
-    padding: 8px;
-    box-sizing: border-box;
+    padding: 10px 12px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .toolbar-tools {
@@ -14,11 +20,12 @@
 }
 
 .toolbar-view {
-    margin-left: auto;
-
     display: flex;
+    gap: 12px;
+
+    padding-left: 16px;
+
     align-items: center;
-    gap: 16px;
 }
 
 .tool-button {
