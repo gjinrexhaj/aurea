@@ -6,7 +6,7 @@ import GeometrySvg from "./GeometrySvg.tsx";
 import type {Circle} from "../geometry/Circle.ts";
 import type {CursorPos} from "../geometry/utils/CursorPos.ts";
 import type {CompassState} from "../geometry/state/CompassState.ts";
-import {findCircleAt, findLineAt, findPointAt, pickAt} from "../geometry/utils/HitTesting.ts";
+import {findPointAt, pickAt} from "../geometry/utils/HitTesting.ts";
 import type {LineState} from "../geometry/state/LineState.ts";
 import type {Line} from "../geometry/Line.ts";
 import {getPointById} from "../geometry/utils/GetPointById.ts";
@@ -384,6 +384,13 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
         });
     }
 
+    function handleContextMenu(e: React.MouseEvent<HTMLDivElement>) {
+        e.preventDefault();
+
+        setCompass({stage: "idle"});
+        setLineState({});
+    }
+
     function worldToScreen(x: number, y: number, camera: {x:number, y:number, zoom:number}) {
         return {
             x: x * camera.zoom + camera.x,
@@ -397,7 +404,8 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
              onPointerDown={handlePointerDown}
              onPointerMove={handlePointerMove}
              onPointerUp={handlePointerUp}
-             onWheel={handleScrollWheel}>
+             onWheel={handleScrollWheel}
+             onContextMenu={handleContextMenu}>
             {/* Render geometry as SVG */}
             <GeometrySvg document={document}
                          compass={compass}
