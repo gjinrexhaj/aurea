@@ -15,15 +15,19 @@ import type {Hover} from "../geometry/state/Hover.ts";
 import {snapAt} from "../geometry/snap/SnapEngine.ts";
 import type {SnapResult} from "../geometry/snap/SnapResult.ts";
 import type {ViewSettings} from "../ui/ViewSettings.ts";
+import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
 
 
 type CanvasProps = {
     activeTool: string;
     viewSettings: ViewSettings;
+    activeLayer: GeometryLayer
 };
 
 
-export default function Canvas({activeTool, viewSettings}: CanvasProps) {
+export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasProps) {
+    console.log("Active layer:", activeLayer);
+
     // declare camera state, and zoom/pan stuff
     const [camera, setCamera] = useState({
         x: window.innerWidth / 2,
@@ -252,6 +256,7 @@ export default function Canvas({activeTool, viewSettings}: CanvasProps) {
                 id: crypto.randomUUID(),
                 centerPointId: centerPoint.id,
                 radiusPointId: point.id,
+                layer: activeLayer
             };
 
             setDocument({
@@ -291,7 +296,8 @@ export default function Canvas({activeTool, viewSettings}: CanvasProps) {
         const line: Line = {
             id: crypto.randomUUID(),
             pointAId: lineState.firstPointId,
-            pointBId: point.id
+            pointBId: point.id,
+            layer: activeLayer
         };
 
         setDocument({

@@ -14,20 +14,30 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.toolbar-tools {
+/* shared layout behavior for all groups */
+.toolbar-tools,
+.toolbar-view,
+.toolbar-layer {
     display: flex;
+    align-items: center;
+}
+
+/* spacing per group */
+.toolbar-tools {
     gap: 8px;
 }
 
 .toolbar-view {
-    display: flex;
     gap: 12px;
 
     padding-left: 16px;
-
-    align-items: center;
 }
 
+.toolbar-layer {
+    gap: 8px;
+}
+
+/* buttons */
 .tool-button {
     padding: 8px 12px;
 
@@ -37,13 +47,21 @@
     background: white;
 
     cursor: pointer;
+
+    user-select: none;
+}
+
+.tool-button:hover {
+    background: #f5f5f5;
 }
 
 .tool-button.active {
     background-color: #4a90e2;
     color: white;
+    border-color: #4a90e2;
 }
 
+/* view checkboxes */
 .toolbar-view label {
     display: flex;
     align-items: center;
@@ -52,4 +70,8 @@
     cursor: pointer;
 
     user-select: none;
+}
+
+.toolbar-view input {
+    cursor: pointer;
 }

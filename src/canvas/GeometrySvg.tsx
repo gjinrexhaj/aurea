@@ -40,6 +40,7 @@ export default function GeometrySvg({
     viewSettings,
 }: GeometrySvgProps) {
 
+    // console.log(document.circles)
     //useRenderCount("GeometrySvg");
 
     // compass preview
@@ -133,6 +134,11 @@ export default function GeometrySvg({
 
                     const radius = distance(centerPoint, radiusPoint);
 
+                    const defaultCircleStroke =
+                        circle.layer === "construction"
+                            ? "lightgray"
+                            : "black";
+
                     return (
                         <circle
                             key={circle.id}
@@ -140,7 +146,7 @@ export default function GeometrySvg({
                             cy={centerPoint.y}
                             r={radius}
                             fill="none"
-                            stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                            stroke={isSelected ? "blue" : isHovered ? "orange" : defaultCircleStroke}
                             strokeWidth={isSelected ? 2 : 1}
                         />
                     );
@@ -158,6 +164,12 @@ export default function GeometrySvg({
                     const isHovered = hovered?.type === "line" && hovered.id === line.id;
                     const isSelected = selection?.type === "line" && selection.id === line.id;
 
+
+                    const defaultLineStroke =
+                        line.layer === "construction"
+                            ? "lightgray"
+                            : "black";
+
                     return (
                         <g key={line.id}>
                             {/* defining segment */}
@@ -166,7 +178,7 @@ export default function GeometrySvg({
                                 y1={pointA.y}
                                 x2={pointB.x}
                                 y2={pointB.y}
-                                stroke={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                                stroke={isSelected ? "blue" : isHovered ? "orange" : defaultLineStroke}
                                 strokeWidth={isSelected ? 2 : 1}
                             />
                         </g>

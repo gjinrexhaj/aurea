@@ -3,6 +3,7 @@ import Canvas from "./canvas/Canvas.tsx";
 import "./App.css"
 import type {ViewSettings} from "./ui/ViewSettings.ts";
 import {Toolbar} from "./ui/Toolbar.tsx";
+import type {GeometryLayer} from "./geometry/GeometryLayer.ts";
 
 export default function App() {
 
@@ -14,6 +15,7 @@ export default function App() {
             showGrid: false,
             showInfiniteLines: true,
         });
+    const [activeLayer, setActiveLayer] = useState<GeometryLayer>("construction")
 
     // render component
     return (
@@ -24,6 +26,8 @@ export default function App() {
                     onToolChange={setActiveTool}
                     viewSettings={viewSettings}
                     setViewSettings={setViewSettings}
+                    activeLayer={activeLayer}
+                    onLayerChange={setActiveLayer}
                 />
             </div>
 
@@ -31,6 +35,7 @@ export default function App() {
                 <Canvas
                     activeTool={activeTool}
                     viewSettings={viewSettings}
+                    activeLayer={activeLayer}
                 />
             </div>
         </div>

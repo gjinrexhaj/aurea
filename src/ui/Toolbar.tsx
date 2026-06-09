@@ -1,6 +1,7 @@
 import { Tools } from "../store/Tools.ts";
 import "./Toolbar.css"
 import type {ViewSettings} from "./ViewSettings.ts";
+import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
 
 type ToolbarProps = {
     activeTool: string;
@@ -8,11 +9,14 @@ type ToolbarProps = {
 
     viewSettings: ViewSettings;
     setViewSettings: React.Dispatch<React.SetStateAction<ViewSettings>>;
+
+    activeLayer: GeometryLayer;
+    onLayerChange: (layer: GeometryLayer) => void;
 };
 
 
 
-export function Toolbar({activeTool, onToolChange, viewSettings, setViewSettings}: ToolbarProps) {
+export function Toolbar({activeTool, onToolChange, viewSettings, setViewSettings, activeLayer, onLayerChange}: ToolbarProps) {
 
     return (
         <div className="toolbar">
@@ -59,6 +63,31 @@ export function Toolbar({activeTool, onToolChange, viewSettings, setViewSettings
                     />
                     Infinite Lines
                 </label>
+            </div>
+            <div className="toolbar-layer">
+
+                <button
+                    className={
+                        activeLayer === "construction"
+                            ? "tool-button active"
+                            : "tool-button"
+                    }
+                    onClick={() => onLayerChange("construction")}
+                >
+                    graphite
+                </button>
+
+                <button
+                    className={
+                        activeLayer === "final"
+                            ? "tool-button active"
+                            : "tool-button"
+                    }
+                    onClick={() => onLayerChange("final")}
+                >
+                    ink
+                </button>
+
             </div>
         </div>
     );
