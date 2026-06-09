@@ -6,6 +6,8 @@ snapping system | integrate into canvas
      point relationships (URGENT - hard af!) - maybe just dont do this actually (point drag disabled 4 now)
      axes + origin visualization (done)
      toggleable origin snapping
+     save svg image
+
      toggleable axis snapping
      brush color
 
