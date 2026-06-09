@@ -7,6 +7,7 @@ snapping system | integrate into canvas
      axes + origin visualization (done)
      toggleable origin snapping
      toggleable axis snapping
+     brush color
 
      compass arc
 
