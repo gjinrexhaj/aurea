@@ -52,7 +52,7 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
     const [hovered, setHovered] = useState<Hover>(null);
 
     // declare point dragging state
-    const [draggingPointId, setDraggingPointId] = useState<string | null>(null);
+    //const [draggingPointId, setDraggingPointId] = useState<string | null>(null);
 
     // declare geometry document
     const [document, setDocument] = useState<GeometryDocument>({
@@ -184,7 +184,7 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
 
         if (event.button === 1) {
             setIsPanning(false);
-            lastPanPosition.current = null;
+            //lastPanPosition.current = null;
         }
 
 
@@ -192,7 +192,7 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
             event.currentTarget.releasePointerCapture(event.pointerId);
         }
 
-        setDraggingPointId(null);
+        //setDraggingPointId(null);
     }
 
     function handleSelectTool(x: number, y: number) {
@@ -202,9 +202,9 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
 
         // dragging is only allowed for points
         if (hit?.type === "point") {
-            setDraggingPointId(hit.id);
+            //setDraggingPointId(hit.id);
         } else {
-            setDraggingPointId(null);
+            //setDraggingPointId(null);
         }
     }
 
@@ -391,12 +391,14 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
         setLineState({});
     }
 
+    /*
     function worldToScreen(x: number, y: number, camera: {x:number, y:number, zoom:number}) {
         return {
             x: x * camera.zoom + camera.x,
             y: y * camera.zoom + camera.y,
         };
     }
+     */
 
     return (
 

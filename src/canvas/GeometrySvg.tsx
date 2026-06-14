@@ -7,7 +7,7 @@ import {distance} from "../geometry/utils/Distance.ts";
 import type {Hover} from "../geometry/state/Hover.ts";
 import type {Selection} from "../geometry/state/Selection.ts";
 import type {SnapResult} from "../geometry/snap/SnapResult.ts";
-import {useEffect, useRef} from "react";
+// import {useEffect, useRef} from "react";
 import {getInfiniteLineEndpoints} from "../geometry/utils/GetInfiniteLineEndpoints.ts";
 import type {ViewSettings} from "../ui/ViewSettings.ts";
 
@@ -252,12 +252,12 @@ export default function GeometrySvg({
         </svg>
     )
 }
-
-// helper profiling function
-const useRenderCount = (componentName = 'Component') => {
-    const renders = useRef(0);
-    useEffect(() => {
-        renders.current += 1;
-        console.log(`${componentName} rendered ${renders.current} times`);
-    });
-};
+//
+// // helper profiling function
+// const useRenderCount = (componentName = 'Component') => {
+//     const renders = useRef(0);
+//     useEffect(() => {
+//         renders.current += 1;
+//         console.log(`${componentName} rendered ${renders.current} times`);
+//     });
+// };
