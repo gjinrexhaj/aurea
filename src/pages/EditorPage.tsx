@@ -13,7 +13,7 @@ export default function EditorPage() {
         useState<ViewSettings>({
             showAxes: true,
             showGrid: false,
-            showInfiniteLines: true,
+            showInfiniteLines: false,
         });
     const [activeLayer, setActiveLayer] = useState<GeometryLayer>("construction")
 
