@@ -1,41 +1,14 @@
-.history-panel {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 240px;
-    max-height: calc(100vh - 24px);
+.history-panel-body {
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-}
-
-.history-panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.history-undo-button {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: white;
-    cursor: pointer;
-}
-
-.history-undo-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
 }
 
 .history-list {
+    flex: 1;
+    min-height: 0;
     margin: 0;
     padding-left: 18px;
     overflow: auto;
@@ -46,13 +19,17 @@
 }
 
 .history-item {
-    width: 100%;
+    display: block;
+    width: max-content;
+    min-width: 100%;
     padding: 6px 8px;
     border: 1px solid transparent;
     border-radius: 4px;
     background: transparent;
     text-align: left;
+    white-space: nowrap;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .history-item:hover {
@@ -62,4 +39,18 @@
 .history-item.active {
     border-color: #4a90e2;
     background: #eaf2ff;
+}
+
+.history-undo-button-footer {
+    align-self: flex-start;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+}
+
+.history-undo-button-footer:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
