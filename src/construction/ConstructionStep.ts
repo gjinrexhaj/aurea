@@ -9,9 +9,17 @@ export type CreateCircleStep = {
     id: string;
     type: "circle";
     centerPointId: string;
-    radius: number;
+    radiusPointId: string;
+};
+
+export type CreateLineStep = {
+    id: string;
+    type: "line";
+    pointAId: string;
+    pointBId: string;
 };
 
 export type ConstructionStep =
     | CreatePointStep
-    | CreateCircleStep;
+    | CreateCircleStep
+    | CreateLineStep;
