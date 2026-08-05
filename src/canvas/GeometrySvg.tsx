@@ -11,6 +11,8 @@ import type {SnapResult} from "../geometry/snap/SnapResult.ts";
 import {getInfiniteLineEndpoints} from "../geometry/utils/GetInfiniteLineEndpoints.ts";
 import type {ViewSettings} from "../ui/ViewSettings.ts";
 import type {HistoryHighlight} from "../construction/historyUtils.ts";
+import type {GeometryColors} from "../ui/GeometryColors.ts";
+import {colorForLayeredValue, rgbaToCss} from "../ui/GeometryColors.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;
@@ -26,6 +28,7 @@ type GeometrySvgProps = {
         zoom: number;
     };
     viewSettings: ViewSettings;
+    colors: GeometryColors;
     historyHighlight: HistoryHighlight | null;
 }
 
@@ -40,6 +43,7 @@ export default function GeometrySvg({
     snapResult,
     camera,
     viewSettings,
+    colors,
     historyHighlight,
 }: GeometrySvgProps) {
 
@@ -70,7 +74,7 @@ export default function GeometrySvg({
                             y1={0}
                             x2={100000}
                             y2={0}
-                            stroke="#cccccc"
+                            stroke={rgbaToCss(colors.axes)}
                             strokeWidth={1}
                         />
 
@@ -80,7 +84,7 @@ export default function GeometrySvg({
                             y1={-100000}
                             x2={0}
                             y2={100000}
-                            stroke="#cccccc"
+                            stroke={rgbaToCss(colors.axes)}
                             strokeWidth={1}
                         />
 
@@ -89,7 +93,7 @@ export default function GeometrySvg({
                             cx={0}
                             cy={0}
                             r={3}
-                            fill="#999999"
+                            fill={rgbaToCss(colors.axes)}
                         />
                     </g>
                 )}
@@ -118,7 +122,7 @@ export default function GeometrySvg({
                                 y1={infinite.y1}
                                 x2={infinite.x2}
                                 y2={infinite.y2}
-                                stroke={isHistoryHighlighted ? "red" : "lightgray"}
+                                stroke={isHistoryHighlighted ? "red" : rgbaToCss(colors.infiniteLines)}
                                 strokeWidth={isHistoryHighlighted ? 2 : 1}
                             />
                         </g>
@@ -140,10 +144,9 @@ export default function GeometrySvg({
 
                     const radius = distance(centerPoint, radiusPoint);
 
-                    const defaultCircleStroke =
-                        circle.layer === "construction"
-                            ? "lightgray"
-                            : "black";
+                    const defaultCircleStroke = rgbaToCss(
+                        colorForLayeredValue(colors.circle, circle.layer)
+                    );
 
                     return (
                         <circle
@@ -180,10 +183,9 @@ export default function GeometrySvg({
                     const isHistoryHighlighted = historyHighlight?.lineIds.includes(line.id);
 
 
-                    const defaultLineStroke =
-                        line.layer === "construction"
-                            ? "lightgray"
-                            : "black";
+                    const defaultLineStroke = rgbaToCss(
+                        colorForLayeredValue(colors.line, line.layer)
+                    );
 
                     return (
                         <g key={line.id}>
@@ -274,7 +276,7 @@ export default function GeometrySvg({
                                         ? "blue"
                                         : isHovered
                                             ? "orange"
-                                            : "black"
+                                            : rgbaToCss(colorForLayeredValue(colors.point, point.layer))
                             }
                         />
                     );

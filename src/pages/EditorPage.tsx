@@ -3,6 +3,8 @@ import type {ViewSettings} from "../ui/ViewSettings.ts";
 import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
 import {Toolbar} from "../ui/Toolbar.tsx";
 import Canvas from "../canvas/Canvas.tsx";
+import {ColorsPanel} from "../ui/ColorsPanel.tsx";
+import {defaultGeometryColors} from "../ui/GeometryColors.ts";
 import "./EditorPage.css"
 
 export default function EditorPage() {
@@ -16,6 +18,7 @@ export default function EditorPage() {
             showInfiniteLines: false,
         });
     const [activeLayer, setActiveLayer] = useState<GeometryLayer>("construction")
+    const [colors, setColors] = useState(defaultGeometryColors);
 
     // render component
     return (
@@ -36,8 +39,14 @@ export default function EditorPage() {
                     activeTool={activeTool}
                     viewSettings={viewSettings}
                     activeLayer={activeLayer}
+                    colors={colors}
                 />
             </div>
+
+            <ColorsPanel
+                colors={colors}
+                setColors={setColors}
+            />
         </div>
     );
 }

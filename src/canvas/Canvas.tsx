@@ -19,14 +19,16 @@ import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
 import {HistoryPanel} from "../ui/HistoryPanel.tsx";
 import type {HistoryStep} from "../construction/HistoryStep.ts";
 import {getHistoryHighlight, undoHistoryStep} from "../construction/historyUtils.ts";
+import type {GeometryColors} from "../ui/GeometryColors.ts";
 
 type CanvasProps = {
     activeTool: string;
     viewSettings: ViewSettings;
     activeLayer: GeometryLayer;
+    colors: GeometryColors;
 };
 
-export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasProps) {
+export default function Canvas({activeTool, viewSettings, activeLayer, colors}: CanvasProps) {
     const [camera, setCamera] = useState({
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
@@ -260,6 +262,7 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
             id: crypto.randomUUID(),
             x,
             y,
+            layer: activeLayer,
         };
 
         setDocument(prev => ({
@@ -276,6 +279,7 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
                     type: "point",
                     x: point.x,
                     y: point.y,
+                    layer: point.layer,
                 },
             },
         ]);
@@ -426,6 +430,7 @@ export default function Canvas({activeTool, viewSettings, activeLayer}: CanvasPr
                 snapResult={snapResult}
                 camera={camera}
                 viewSettings={viewSettings}
+                colors={colors}
                 historyHighlight={historyHighlight}
             />
             <HistoryPanel
