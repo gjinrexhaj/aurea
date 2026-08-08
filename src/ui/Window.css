@@ -1,0 +1,85 @@
+.window-shell {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.window-shell.collapsed {
+    gap: 0;
+}
+
+.window-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px 6px;
+    margin: -4px -4px 0;
+    border-radius: 6px;
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+    background: rgba(74, 144, 226, 0.08);
+}
+
+.window-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.window-toggle-button {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+}
+
+.window-content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.window-resize-handle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: rgba(74, 144, 226, 0.18);
+    border: 1px solid rgba(74, 144, 226, 0.35);
+    border-radius: 3px;
+    touch-action: none;
+}
+
+.window-resize-handle-top-left {
+    top: -7px;
+    left: -7px;
+    cursor: nwse-resize;
+}
+
+.window-resize-handle-top-right {
+    top: -7px;
+    right: -7px;
+    cursor: nesw-resize;
+}
+
+.window-resize-handle-bottom-left {
+    bottom: -7px;
+    left: -7px;
+    cursor: nesw-resize;
+}
+
+.window-resize-handle-bottom-right {
+    right: -7px;
+    bottom: -7px;
+    cursor: nwse-resize;
+}

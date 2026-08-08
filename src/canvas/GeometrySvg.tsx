@@ -10,6 +10,7 @@ import type {SnapResult} from "../geometry/snap/SnapResult.ts";
 // import {useEffect, useRef} from "react";
 import {getInfiniteLineEndpoints} from "../geometry/utils/GetInfiniteLineEndpoints.ts";
 import type {ViewSettings} from "../ui/ViewSettings.ts";
+import type {HistoryHighlight} from "../construction/historyUtils.ts";
 
 type GeometrySvgProps = {
     document: GeometryDocument;
@@ -25,6 +26,7 @@ type GeometrySvgProps = {
         zoom: number;
     };
     viewSettings: ViewSettings;
+    historyHighlight: HistoryHighlight | null;
 }
 
 
@@ -38,6 +40,7 @@ export default function GeometrySvg({
     snapResult,
     camera,
     viewSettings,
+    historyHighlight,
 }: GeometrySvgProps) {
 
     // console.log(document.circles)
@@ -106,6 +109,7 @@ export default function GeometrySvg({
                         return null;
                     }
 
+                    const isHistoryHighlighted = historyHighlight?.lineIds.includes(line.id);
                     return (
                         <g key={line.id}>
                             {/* infinite euclidean line */}
@@ -114,7 +118,8 @@ export default function GeometrySvg({
                                 y1={infinite.y1}
                                 x2={infinite.x2}
                                 y2={infinite.y2}
-                                stroke={"lightgray"}
+                                stroke={isHistoryHighlighted ? "red" : "lightgray"}
+                                strokeWidth={isHistoryHighlighted ? 2 : 1}
                             />
                         </g>
                     )
@@ -131,6 +136,7 @@ export default function GeometrySvg({
 
                     const isHovered = hovered?.type === "circle" && hovered.id === circle.id;
                     const isSelected = selection?.type === "circle" && selection.id === circle.id;
+                    const isHistoryHighlighted = historyHighlight?.circleIds.includes(circle.id);
 
                     const radius = distance(centerPoint, radiusPoint);
 
@@ -146,8 +152,16 @@ export default function GeometrySvg({
                             cy={centerPoint.y}
                             r={radius}
                             fill="none"
-                            stroke={isSelected ? "blue" : isHovered ? "orange" : defaultCircleStroke}
-                            strokeWidth={isSelected ? 2 : 1}
+                            stroke={
+                                isHistoryHighlighted
+                                    ? "red"
+                                    : isSelected
+                                        ? "blue"
+                                        : isHovered
+                                            ? "orange"
+                                            : defaultCircleStroke
+                            }
+                            strokeWidth={isHistoryHighlighted || isSelected ? 2 : 1}
                         />
                     );
                 })}
@@ -163,6 +177,7 @@ export default function GeometrySvg({
 
                     const isHovered = hovered?.type === "line" && hovered.id === line.id;
                     const isSelected = selection?.type === "line" && selection.id === line.id;
+                    const isHistoryHighlighted = historyHighlight?.lineIds.includes(line.id);
 
 
                     const defaultLineStroke =
@@ -178,8 +193,16 @@ export default function GeometrySvg({
                                 y1={pointA.y}
                                 x2={pointB.x}
                                 y2={pointB.y}
-                                stroke={isSelected ? "blue" : isHovered ? "orange" : defaultLineStroke}
-                                strokeWidth={isSelected ? 2 : 1}
+                                stroke={
+                                    isHistoryHighlighted
+                                        ? "red"
+                                        : isSelected
+                                            ? "blue"
+                                            : isHovered
+                                                ? "orange"
+                                                : defaultLineStroke
+                                }
+                                strokeWidth={isHistoryHighlighted || isSelected ? 2 : 1}
                             />
                         </g>
                     )
@@ -236,14 +259,23 @@ export default function GeometrySvg({
 
                     const isHovered = hovered?.type === "point" && hovered.id === point.id;
                     const isSelected = selection?.type === "point" && selection.id === point.id;
+                    const isHistoryHighlighted = historyHighlight?.pointIds.includes(point.id);
 
                     return (
                         <circle
                             key={point.id}
                             cx={point.x}
                             cy={point.y}
-                            r={isSelected ? 6 : isHovered ? 5 : 2}
-                            fill={isSelected ? "blue" : isHovered ? "orange" : "black"}
+                            r={isHistoryHighlighted ? 6 : isSelected ? 6 : isHovered ? 5 : 2}
+                            fill={
+                                isHistoryHighlighted
+                                    ? "red"
+                                    : isSelected
+                                        ? "blue"
+                                        : isHovered
+                                            ? "orange"
+                                            : "black"
+                            }
                         />
                     );
                 })}
