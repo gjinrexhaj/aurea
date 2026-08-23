@@ -1,6 +1,5 @@
 import type {HistoryStep} from "../construction/HistoryStep.ts";
 import {describeHistoryStep} from "../construction/historyUtils.ts";
-import {Window} from "./Window.tsx";
 import "./HistoryPanel.css";
 
 type HistoryPanelProps = {
@@ -10,21 +9,6 @@ type HistoryPanelProps = {
     onUndo: () => void;
 };
 
-const MIN_WIDTH = 240;
-const EDGE_PADDING = 12;
-
-function getInitialBounds() {
-    const width = MIN_WIDTH;
-    const height = 280;
-
-    return {
-        left: Math.max(EDGE_PADDING, window.innerWidth - width - EDGE_PADDING),
-        top: EDGE_PADDING,
-        width,
-        height,
-    };
-}
-
 export function HistoryPanel({
     history,
     selectedHistoryId,
@@ -32,28 +16,32 @@ export function HistoryPanel({
     onUndo,
 }: HistoryPanelProps) {
     return (
-        <Window title="History" initialBounds={getInitialBounds()}>
+        <div className="history-panel-wrapper">
             <div className="history-panel-body">
                 <ol className="history-list">
-                    {history.map(step => (
-                        <li key={step.id}>
-                            <button
-                                type="button"
-                                className={
-                                    selectedHistoryId === step.id
-                                        ? "history-item active"
-                                        : "history-item"
-                                }
-                                onClick={() =>
-                                    onSelectHistoryId(
-                                        selectedHistoryId === step.id ? null : step.id
-                                    )
-                                }
-                            >
-                                {describeHistoryStep(step)}
-                            </button>
-                        </li>
-                    ))}
+                    {history.length === 0 ? (
+                        <li className="history-empty">No construction steps yet</li>
+                    ) : (
+                        history.map(step => (
+                            <li key={step.id}>
+                                <button
+                                    type="button"
+                                    className={
+                                        selectedHistoryId === step.id
+                                            ? "history-item active"
+                                            : "history-item"
+                                    }
+                                    onClick={() =>
+                                        onSelectHistoryId(
+                                            selectedHistoryId === step.id ? null : step.id
+                                        )
+                                    }
+                                >
+                                    {describeHistoryStep(step)}
+                                </button>
+                            </li>
+                        ))
+                    )}
                 </ol>
 
                 <button
@@ -65,6 +53,6 @@ export function HistoryPanel({
                     Undo
                 </button>
             </div>
-        </Window>
+        </div>
     );
 }

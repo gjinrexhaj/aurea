@@ -16,7 +16,6 @@ import {snapAt} from "../geometry/snap/SnapEngine.ts";
 import type {SnapResult} from "../geometry/snap/SnapResult.ts";
 import type {ViewSettings} from "../ui/ViewSettings.ts";
 import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
-import {HistoryPanel} from "../ui/HistoryPanel.tsx";
 import type {HistoryStep} from "../construction/HistoryStep.ts";
 import {getHistoryHighlight, undoHistoryStep} from "../construction/historyUtils.ts";
 import type {GeometryColors} from "../ui/GeometryColors.ts";
@@ -26,9 +25,24 @@ type CanvasProps = {
     viewSettings: ViewSettings;
     activeLayer: GeometryLayer;
     colors: GeometryColors;
+    history?: HistoryStep[];
+    onHistoryChange?: (history: HistoryStep[]) => void;
+    selectedHistoryId?: string | null;
+    onSelectHistoryId?: (id: string | null) => void;
+    onRegisterUndo?: (undoFn: () => void) => void;
 };
 
-export default function Canvas({activeTool, viewSettings, activeLayer, colors}: CanvasProps) {
+export default function Canvas({
+    activeTool,
+    viewSettings,
+    activeLayer,
+    colors,
+    history: externalHistory,
+    onHistoryChange,
+    selectedHistoryId: externalSelectedHistoryId,
+    onSelectHistoryId,
+    onRegisterUndo,
+}: CanvasProps) {
     const [camera, setCamera] = useState({
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
@@ -50,8 +64,45 @@ export default function Canvas({activeTool, viewSettings, activeLayer, colors}: 
         stage: "idle",
     });
     const [lineState, setLineState] = useState<LineState>({});
-    const [history, setHistory] = useState<HistoryStep[]>([]);
-    const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
+    const [internalHistory, setInternalHistory] = useState<HistoryStep[]>([]);
+    const [internalSelectedHistoryId, setInternalSelectedHistoryId] = useState<string | null>(null);
+
+    const history = externalHistory !== undefined ? externalHistory : internalHistory;
+    const selectedHistoryId =
+        externalSelectedHistoryId !== undefined
+            ? externalSelectedHistoryId
+            : internalSelectedHistoryId;
+
+    const setHistory = useCallback(
+        (action: React.SetStateAction<HistoryStep[]>) => {
+            if (onHistoryChange) {
+                if (typeof action === "function") {
+                    setInternalHistory(prev => {
+                        const next = action(prev);
+                        onHistoryChange(next);
+                        return next;
+                    });
+                } else {
+                    setInternalHistory(action);
+                    onHistoryChange(action);
+                }
+            } else {
+                setInternalHistory(action);
+            }
+        },
+        [onHistoryChange]
+    );
+
+    const setSelectedHistoryId = useCallback(
+        (id: string | null) => {
+            if (onSelectHistoryId) {
+                onSelectHistoryId(id);
+            } else {
+                setInternalSelectedHistoryId(id);
+            }
+        },
+        [onSelectHistoryId]
+    );
 
     const selectedHistoryStep =
         history.find(step => step.id === selectedHistoryId) ?? null;
@@ -150,7 +201,7 @@ export default function Canvas({activeTool, viewSettings, activeLayer, colors}: 
         }
 
         setSelection(null);
-    }, [document.circles, document.lines, document.points, selection]);
+    }, [document.circles, document.lines, document.points, selection, setHistory]);
 
     const handleUndo = useCallback(() => {
         const lastStep = history[history.length - 1];
@@ -165,7 +216,11 @@ export default function Canvas({activeTool, viewSettings, activeLayer, colors}: 
         if (selectedHistoryId === lastStep.id) {
             setSelectedHistoryId(null);
         }
-    }, [history, selectedHistoryId]);
+    }, [history, selectedHistoryId, setHistory, setSelectedHistoryId]);
+
+    useEffect(() => {
+        onRegisterUndo?.(handleUndo);
+    }, [handleUndo, onRegisterUndo]);
 
     useEffect(() => {
         function onKeyDown(e: KeyboardEvent) {
@@ -432,12 +487,6 @@ export default function Canvas({activeTool, viewSettings, activeLayer, colors}: 
                 viewSettings={viewSettings}
                 colors={colors}
                 historyHighlight={historyHighlight}
-            />
-            <HistoryPanel
-                history={history}
-                selectedHistoryId={selectedHistoryId}
-                onSelectHistoryId={setSelectedHistoryId}
-                onUndo={handleUndo}
             />
         </div>
     );

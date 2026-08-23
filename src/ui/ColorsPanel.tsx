@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {RgbaColorPicker} from "react-colorful";
-import {Window} from "./Window.tsx";
 import {
     defaultGeometryColors,
     type GeometryColors,
@@ -12,13 +11,6 @@ import "./ColorsPanel.css";
 type ColorsPanelProps = {
     colors: GeometryColors;
     setColors: React.Dispatch<React.SetStateAction<GeometryColors>>;
-};
-
-const PANEL_BOUNDS = {
-    left: 12,
-    top: 220,
-    width: 460,
-    height: 560,
 };
 
 type ColorTarget =
@@ -178,7 +170,7 @@ export function ColorsPanel({colors, setColors}: ColorsPanelProps) {
     }
 
     return (
-        <Window title="Colors" initialBounds={PANEL_BOUNDS}>
+        <div className="colors-panel-wrapper">
             <div className="colors-panel">
                 <LayeredSwatches
                     label="Points"
@@ -263,6 +255,6 @@ export function ColorsPanel({colors, setColors}: ColorsPanelProps) {
                     </div>
                 </div>
             )}
-        </Window>
+        </div>
     );
 }

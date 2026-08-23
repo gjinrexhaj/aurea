@@ -1,22 +1,65 @@
 .toolbar-outer {
     position: absolute;
-
     top: 12px;
     left: 12px;
-
     z-index: 1000;
 }
 
 .app {
     position: relative;
-
     width: 100vw;
     height: 100vh;
-
     overflow: hidden;
+}
+
+.layout-outer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .canvas-outer {
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* FlexLayout clean styling adjustments */
+.flexlayout__layout {
+    position: absolute;
+    inset: 0;
+}
+
+.flexlayout__tab {
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.flexlayout__tabset_header {
+    background: #f7f9fa;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.flexlayout__tab_button {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #4a5568;
+    padding: 6px 14px;
+}
+
+.flexlayout__tab_button--selected {
+    color: #2b6cb0;
+    font-weight: 600;
+}
+
+.flexlayout__splitter {
+    background: #e2e8f0;
+    transition: background 0.15s ease;
+}
+
+.flexlayout__splitter:hover {
+    background: #cbd5e0;
 }
