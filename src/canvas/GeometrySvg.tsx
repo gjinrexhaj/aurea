@@ -238,7 +238,7 @@ export default function GeometrySvg({
 
                 {/* display snap indicator */}
                 {snapResult?.type === "intersection" && (
-                    <>
+                    <g className="snap-indicator intersection">
                         <line
                             x1={snapResult.x - 6}
                             y1={snapResult.y}
@@ -253,7 +253,19 @@ export default function GeometrySvg({
                             y2={snapResult.y + 6}
                             stroke="red"
                         />
-                    </>
+                    </g>
+                )}
+
+                {snapResult?.type === "point" && (
+                    <circle
+                        cx={snapResult.x}
+                        cy={snapResult.y}
+                        r={6}
+                        fill="none"
+                        stroke="red"
+                        strokeWidth={1.5}
+                        className="snap-indicator point"
+                    />
                 )}
 
                 {/* display points */}

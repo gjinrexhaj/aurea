@@ -11,15 +11,22 @@ const LINE_HIT_RADIUS = 6;
 const CIRCLE_HIT_RADIUS = 6;
 
 // point hit testing
-export function findPointAt(x: number, y: number, points: Point[]): Point | undefined {
-    return points.find(point => {
-       const dx = x - point.x;
-       const dy = y - point.y;
+export function findPointAt(x: number, y: number, points: Point[], radius: number = POINT_HIT_RADIUS): Point | undefined {
+    let closestPoint: Point | undefined;
+    let closestDist = Infinity;
 
-       const distance = Math.sqrt(dx * dx + dy * dy);
+    for (const point of points) {
+        const dx = x - point.x;
+        const dy = y - point.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
 
-       return distance <= POINT_HIT_RADIUS;
-    });
+        if (dist <= radius && dist < closestDist) {
+            closestDist = dist;
+            closestPoint = point;
+        }
+    }
+
+    return closestPoint;
 }
 
 // line hit testing

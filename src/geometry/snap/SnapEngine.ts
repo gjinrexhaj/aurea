@@ -21,7 +21,7 @@ export function snapAt(
 
     // snap to point
     if (settings.snapPoints) {
-        const point = findPointAt(x, y, document.points);
+        const point = findPointAt(x, y, document.points, settings.snapRadius);
         if (point) {
             return { type: "point", pointId: point.id, x: point.x, y: point.y };
         }
@@ -58,13 +58,17 @@ function findIntersectionSnap(
         ...(settings.snapCircleCircle ? getCircleCircleIntersections(document) : []),
     ];
 
+    let closestIntersection: { x: number; y: number } | null = null;
+    let closestDist = Infinity;
+
     for (const intersection of intersections) {
         const d = distance({x, y}, intersection);
 
-        if (d <= settings.snapRadius) {
-            return intersection;
+        if (d <= settings.snapRadius && d < closestDist) {
+            closestDist = d;
+            closestIntersection = intersection;
         }
     }
 
-    return null;
+    return closestIntersection;
 }

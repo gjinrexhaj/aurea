@@ -263,9 +263,10 @@ export default function Canvas({
         const screenY = event.clientY - rect.top;
         const {x, y} = screenToWorld(screenX, screenY, camera);
 
-        setSnapResult(snapAt(x, y, document, snapSettings));
-        setMousePos({x, y});
-        setHovered(pickAt(x, y, document));
+        const snap = snapAt(x, y, document, snapSettings);
+        setSnapResult(snap);
+        setMousePos(snap ? {x: snap.x, y: snap.y} : {x, y});
+        setHovered(activeTool === "select" ? pickAt(x, y, document) : null);
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
@@ -311,6 +312,9 @@ export default function Canvas({
 
     function handlePointTool(x: number, y: number) {
         const snap = snapAt(x, y, document, snapSettings);
+        if (snap?.type === "point") {
+            return;
+        }
         if (snap?.type === "intersection") {
             x = snap.x;
             y = snap.y;
@@ -344,7 +348,15 @@ export default function Canvas({
     }
 
     function handleCompassClick(x: number, y: number) {
-        const point = findPointAt(x, y, document.points);
+        const snap = snapAt(x, y, document, snapSettings);
+        let point: Point | undefined;
+        if (snap?.type === "point") {
+            point = getPointById(snap.pointId, document.points);
+        } else {
+            const clickRadius = snapSettings.enabled ? snapSettings.snapRadius : 10;
+            point = findPointAt(x, y, document.points, clickRadius);
+        }
+
         if (!point) {
             return;
         }
@@ -391,7 +403,15 @@ export default function Canvas({
     }
 
     function handleLineTool(x: number, y: number) {
-        const point = findPointAt(x, y, document.points);
+        const snap = snapAt(x, y, document, snapSettings);
+        let point: Point | undefined;
+        if (snap?.type === "point") {
+            point = getPointById(snap.pointId, document.points);
+        } else {
+            const clickRadius = snapSettings.enabled ? snapSettings.snapRadius : 10;
+            point = findPointAt(x, y, document.points, clickRadius);
+        }
+
         if (!point) {
             return;
         }
@@ -483,7 +503,7 @@ export default function Canvas({
                 compass={compass}
                 lineState={lineState}
                 mousePos={mousePos}
-                hovered={hovered}
+                hovered={activeTool === "select" ? hovered : null}
                 selection={selection}
                 snapResult={snapResult}
                 camera={camera}
