@@ -14,6 +14,7 @@ import type {Selection} from "../geometry/state/Selection.ts";
 import type {Hover} from "../geometry/state/Hover.ts";
 import {snapAt} from "../geometry/snap/SnapEngine.ts";
 import type {SnapResult} from "../geometry/snap/SnapResult.ts";
+import {defaultSnapSettings, type SnapSettings} from "../geometry/snap/SnapSettings.ts";
 import type {ViewSettings} from "../ui/ViewSettings.ts";
 import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
 import type {HistoryStep} from "../construction/HistoryStep.ts";
@@ -25,6 +26,7 @@ type CanvasProps = {
     viewSettings: ViewSettings;
     activeLayer: GeometryLayer;
     colors: GeometryColors;
+    snapSettings?: SnapSettings;
     history?: HistoryStep[];
     onHistoryChange?: (history: HistoryStep[]) => void;
     selectedHistoryId?: string | null;
@@ -37,6 +39,7 @@ export default function Canvas({
     viewSettings,
     activeLayer,
     colors,
+    snapSettings = defaultSnapSettings,
     history: externalHistory,
     onHistoryChange,
     selectedHistoryId: externalSelectedHistoryId,
@@ -260,7 +263,7 @@ export default function Canvas({
         const screenY = event.clientY - rect.top;
         const {x, y} = screenToWorld(screenX, screenY, camera);
 
-        setSnapResult(snapAt(x, y, document));
+        setSnapResult(snapAt(x, y, document, snapSettings));
         setMousePos({x, y});
         setHovered(pickAt(x, y, document));
     }
@@ -307,7 +310,7 @@ export default function Canvas({
     }
 
     function handlePointTool(x: number, y: number) {
-        const snap = snapAt(x, y, document);
+        const snap = snapAt(x, y, document, snapSettings);
         if (snap?.type === "intersection") {
             x = snap.x;
             y = snap.y;

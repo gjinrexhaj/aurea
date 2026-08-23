@@ -258,7 +258,6 @@ export default function GeometrySvg({
 
                 {/* display points */}
                 {document.points.map(point => {
-
                     const isHovered = hovered?.type === "point" && hovered.id === point.id;
                     const isSelected = selection?.type === "point" && selection.id === point.id;
                     const isHistoryHighlighted = historyHighlight?.pointIds.includes(point.id);

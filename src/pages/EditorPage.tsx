@@ -7,8 +7,10 @@ import {Toolbar} from "../ui/Toolbar.tsx";
 import Canvas from "../canvas/Canvas.tsx";
 import {ColorsPanel} from "../ui/ColorsPanel.tsx";
 import {HistoryPanel} from "../ui/HistoryPanel.tsx";
+import {SnapPanel} from "../ui/SnapPanel.tsx";
 import type {HistoryStep} from "../construction/HistoryStep.ts";
 import {defaultGeometryColors} from "../ui/GeometryColors.ts";
+import {defaultSnapSettings, type SnapSettings} from "../geometry/snap/SnapSettings.ts";
 import "./EditorPage.css";
 
 const defaultLayoutJson: IJsonModel = {
@@ -45,6 +47,13 @@ const defaultLayoutJson: IJsonModel = {
                 weight: 25,
                 id: "panels-tabset",
                 children: [
+                    {
+                        type: "tab",
+                        id: "snap-tab",
+                        name: "Snap",
+                        component: "snap",
+                        enableClose: false,
+                    },
                     {
                         type: "tab",
                         id: "colors-tab",
@@ -106,6 +115,7 @@ export default function EditorPage() {
     });
     const [activeLayer, setActiveLayer] = useState<GeometryLayer>("construction");
     const [colors, setColors] = useState(defaultGeometryColors);
+    const [snapSettings, setSnapSettings] = useState<SnapSettings>(defaultSnapSettings);
     const [history, setHistory] = useState<HistoryStep[]>([]);
     const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
 
@@ -130,6 +140,7 @@ export default function EditorPage() {
                                 viewSettings={viewSettings}
                                 activeLayer={activeLayer}
                                 colors={colors}
+                                snapSettings={snapSettings}
                                 history={history}
                                 onHistoryChange={setHistory}
                                 selectedHistoryId={selectedHistoryId}
@@ -147,6 +158,13 @@ export default function EditorPage() {
                             setViewSettings={setViewSettings}
                             activeLayer={activeLayer}
                             onLayerChange={setActiveLayer}
+                        />
+                    );
+                case "snap":
+                    return (
+                        <SnapPanel
+                            snapSettings={snapSettings}
+                            setSnapSettings={setSnapSettings}
                         />
                     );
                 case "colors":
@@ -174,6 +192,7 @@ export default function EditorPage() {
             viewSettings,
             activeLayer,
             colors,
+            snapSettings,
             history,
             selectedHistoryId,
             handleRegisterUndo,
