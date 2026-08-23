@@ -1,0 +1,227 @@
+.snap-panel-wrapper {
+    height: 100%;
+    overflow: auto;
+    padding: 12px;
+    box-sizing: border-box;
+    background: #ffffff;
+}
+
+.snap-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.snap-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    background: #fafafa;
+    transition: opacity 0.15s ease;
+}
+
+.snap-section.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.snap-master-section {
+    background: #ffffff;
+    border-color: #cbd5e0;
+}
+
+.snap-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.snap-radius-badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4a5568;
+    background: #edf2f7;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.snap-radius-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.snap-radius-slider {
+    flex: 1;
+    cursor: pointer;
+    accent-color: #3182ce;
+}
+
+.snap-radius-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.snap-stepper-btn {
+    padding: 4px 8px;
+    border: none;
+    background: #f7fafc;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.snap-stepper-btn:hover:not(:disabled) {
+    background: #edf2f7;
+}
+
+.snap-stepper-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.snap-radius-number {
+    width: 44px;
+    border: none;
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 4px 2px;
+    color: #2d3748;
+}
+
+.snap-radius-number:focus {
+    outline: none;
+    background: #ebf8ff;
+}
+
+.snap-presets-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.snap-presets-label {
+    font-size: 0.8rem;
+    color: #718096;
+}
+
+.snap-presets-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.snap-preset-btn {
+    padding: 2px 7px;
+    font-size: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.snap-preset-btn:hover:not(:disabled) {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+}
+
+.snap-preset-btn.active {
+    background: #3182ce;
+    color: #ffffff;
+    border-color: #3182ce;
+}
+
+.snap-toggles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.snap-toggle-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #ffffff;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.snap-toggle-label:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+}
+
+.snap-toggle-label input[type="checkbox"] {
+    margin-top: 3px;
+    cursor: pointer;
+    accent-color: #3182ce;
+}
+
+.snap-toggle-label.master-label {
+    padding: 10px 12px;
+    border-color: #cbd5e0;
+    align-items: center;
+}
+
+.snap-toggle-label.master-label input[type="checkbox"] {
+    margin-top: 0;
+    transform: scale(1.15);
+}
+
+.snap-toggle-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.snap-toggle-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.snap-toggle-desc {
+    font-size: 0.75rem;
+    color: #718096;
+}
+
+.snap-actions {
+    display: flex;
+    justify-content: stretch;
+    margin-top: 4px;
+}
+
+.snap-reset-button {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #4a5568;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.snap-reset-button:hover {
+    background: #f7fafc;
+    border-color: #a0aec0;
+}
