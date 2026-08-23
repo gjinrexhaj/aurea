@@ -18,8 +18,8 @@ const defaultLayoutJson: IJsonModel = {
         tabEnablePopoutIcon: true,
         tabSetEnableMaximize: true,
         tabEnableClose: false,
-        tabSetMinWidth: 240,
-        tabSetMinHeight: 200,
+        tabSetMinWidth: 200,
+        tabSetMinHeight: 40,
     },
     borders: [],
     layout: {
@@ -29,7 +29,7 @@ const defaultLayoutJson: IJsonModel = {
             {
                 type: "tabset",
                 weight: 75,
-                enableTabStrip: false,
+                id: "canvas-tabset",
                 children: [
                     {
                         type: "tab",
@@ -37,7 +37,6 @@ const defaultLayoutJson: IJsonModel = {
                         name: "Canvas",
                         component: "canvas",
                         enableClose: false,
-                        enableDrag: false,
                     },
                 ],
             },
@@ -63,6 +62,36 @@ const defaultLayoutJson: IJsonModel = {
                 ],
             },
         ],
+    },
+    subLayouts: {
+        "toolbar-float": {
+            type: "float",
+            name: "Toolbar",
+            rect: {
+                x: 0,
+                y: 10000,
+                width: 790,
+                height: 125,
+            },
+            layout: {
+                type: "row",
+                children: [
+                    {
+                        type: "tabset",
+                        id: "toolbar-tabset",
+                        children: [
+                            {
+                                type: "tab",
+                                id: "toolbar-tab",
+                                name: "Toolbar",
+                                component: "toolbar",
+                                enableClose: false,
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
     },
 };
 
@@ -109,6 +138,17 @@ export default function EditorPage() {
                             />
                         </div>
                     );
+                case "toolbar":
+                    return (
+                        <Toolbar
+                            activeTool={activeTool}
+                            onToolChange={setActiveTool}
+                            viewSettings={viewSettings}
+                            setViewSettings={setViewSettings}
+                            activeLayer={activeLayer}
+                            onLayerChange={setActiveLayer}
+                        />
+                    );
                 case "colors":
                     return (
                         <ColorsPanel
@@ -144,17 +184,6 @@ export default function EditorPage() {
     // render component
     return (
         <div className="app">
-            <div className="toolbar-outer">
-                <Toolbar
-                    activeTool={activeTool}
-                    onToolChange={setActiveTool}
-                    viewSettings={viewSettings}
-                    setViewSettings={setViewSettings}
-                    activeLayer={activeLayer}
-                    onLayerChange={setActiveLayer}
-                />
-            </div>
-
             <div className="layout-outer">
                 <Layout model={model} factory={factory} />
             </div>
