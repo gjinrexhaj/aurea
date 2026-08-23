@@ -21,14 +21,14 @@
     font-size: 0.9rem;
     font-style: italic;
     list-style: none;
-    margin-left: -18px;
+    margin-left: -28px;
 }
 
 .history-list {
     flex: 1;
     min-height: 0;
     margin: 0;
-    padding-left: 18px;
+    padding-left: 28px;
     overflow: auto;
 }
 
