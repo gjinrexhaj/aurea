@@ -279,7 +279,7 @@ export default function GeometrySvg({
                             key={point.id}
                             cx={point.x}
                             cy={point.y}
-                            r={isHistoryHighlighted ? 3 : isSelected ? 3 : isHovered ? 3 : 2}
+                            r={isHistoryHighlighted ? 3 : isSelected ? 3 : isHovered ? 2 : 2}
                             fill={
                                 isHistoryHighlighted
                                     ? "red"
