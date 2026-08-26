@@ -264,7 +264,11 @@ export default function Canvas({
         const {x, y} = screenToWorld(screenX, screenY, camera);
 
         const snap = snapAt(x, y, document, snapSettings);
-        setSnapResult(snap);
+
+        // disable snapping on selection tool
+        if (activeTool !== 'select') {
+          setSnapResult(snap);
+        }
         setMousePos(snap ? {x: snap.x, y: snap.y} : {x, y});
         setHovered(activeTool === "select" ? pickAt(x, y, document) : null);
     }
