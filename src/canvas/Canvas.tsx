@@ -421,9 +421,7 @@ export default function Canvas({
             ]);
 
             logger.geometry(
-              `Create circle. Center point: (${getPointById(circle.centerPointId, document.points)?.x}, ${getPointById(circle.centerPointId, document.points)?.y}), 
-              radius point (${getPointById(circle.radiusPointId, document.points)?.x}, ${getPointById(circle.radiusPointId, document.points)?.y}) 
-              on layer: ${circle.layer}`,
+              `Create circle. Center point: (${getPointById(circle.centerPointId, document.points)?.x}, ${getPointById(circle.centerPointId, document.points)?.y}), radius point (${getPointById(circle.radiusPointId, document.points)?.x}, ${getPointById(circle.radiusPointId, document.points)?.y}) on layer: ${circle.layer}`,
             );
 
 
@@ -484,9 +482,7 @@ export default function Canvas({
         setLineState({});
 
         logger.geometry(
-          `Create line. Start: (${getPointById(line.pointAId, document.points)?.x}, ${getPointById(line.pointAId, document.points)?.y}),  
-          End: (${getPointById(line.pointBId, document.points)?.x}, ${getPointById(line.pointBId, document.points)?.y}) 
-          on layer: ${line.layer}`,
+          `Create line. Start: (${getPointById(line.pointAId, document.points)?.x}, ${getPointById(line.pointAId, document.points)?.y}), End: (${getPointById(line.pointBId, document.points)?.x}, ${getPointById(line.pointBId, document.points)?.y}) on layer: ${line.layer}`,
         );
 
     }
