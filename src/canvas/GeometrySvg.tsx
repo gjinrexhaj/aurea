@@ -124,6 +124,7 @@ export default function GeometrySvg({
                                 y2={infinite.y2}
                                 stroke={isHistoryHighlighted ? "red" : rgbaToCss(colors.infiniteLines)}
                                 strokeWidth={isHistoryHighlighted ? 2 : 1}
+                                strokeDasharray={"4"}
                             />
                         </g>
                     )
