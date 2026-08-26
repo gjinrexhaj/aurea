@@ -12,6 +12,7 @@ import type {HistoryStep} from "../construction/HistoryStep.ts";
 import {defaultGeometryColors} from "../ui/GeometryColors.ts";
 import {defaultSnapSettings, type SnapSettings} from "../geometry/snap/SnapSettings.ts";
 import "./EditorPage.css";
+import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 
 const defaultLayoutJson: IJsonModel = {
     global: {
@@ -68,6 +69,13 @@ const defaultLayoutJson: IJsonModel = {
                         component: "history",
                         enableClose: false,
                     },
+                    {
+                        type: "tab",
+                        id: "console-tab",
+                        name: "Console",
+                        component: "console",
+                        enableClose: false,
+                    }
                 ],
             },
         ],
@@ -183,6 +191,10 @@ export default function EditorPage() {
                             onUndo={handleUndo}
                         />
                     );
+                case "console":
+                    return (
+                      <ConsolePanel/>
+                    )
                 default:
                     return null;
             }
