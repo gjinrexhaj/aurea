@@ -1,5 +1,6 @@
 import type { GeometryDocument } from "../geometry/GeometryDocument.ts";
 import type { HistoryStep } from "./HistoryStep.ts";
+import { logger } from '../util/Logger.ts';
 
 export type HistoryHighlight = {
     pointIds: string[];
@@ -59,8 +60,11 @@ export function getHistoryHighlight(step: HistoryStep | null): HistoryHighlight 
 }
 
 export function undoHistoryStep(document: GeometryDocument, step: HistoryStep): GeometryDocument {
-    if (step.type === "create") {
-        switch (step.step.type) {
+
+  logger.history('Undo', step.type, "step");
+
+  if (step.type === "create") {
+      switch (step.step.type) {
             case "point":
                 return {
                     ...document,

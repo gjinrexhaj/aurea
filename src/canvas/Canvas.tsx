@@ -20,6 +20,7 @@ import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
 import type {HistoryStep} from "../construction/HistoryStep.ts";
 import {getHistoryHighlight, undoHistoryStep} from "../construction/historyUtils.ts";
 import type {GeometryColors} from "../ui/GeometryColors.ts";
+import { logger } from '../util/Logger.ts';
 
 type CanvasProps = {
     activeTool: string;
@@ -157,6 +158,13 @@ export default function Canvas({
                     },
                 },
             ]);
+            logger.geometry(
+              "Delete point:",
+              deletedPoints,
+              "Deleted dependencies:",
+              deletedLines,
+              deletedCircles,
+            );
         }
 
         if (selection.type === "line") {
@@ -179,6 +187,11 @@ export default function Canvas({
                     },
                 },
             ]);
+
+            logger.geometry(
+              `Delete line`,
+              deletedLines
+            );
         }
 
         if (selection.type === "circle") {
@@ -201,6 +214,8 @@ export default function Canvas({
                     },
                 },
             ]);
+
+          logger.geometry("Delete circle", deletedCircles);
         }
 
         setSelection(null);
@@ -349,6 +364,10 @@ export default function Canvas({
                 },
             },
         ]);
+
+        logger.geometry(
+          `Create point: (${point.x}, ${point.y}) on layer: ${point.layer}`,
+        );
     }
 
     function handleCompassClick(x: number, y: number) {
@@ -400,6 +419,13 @@ export default function Canvas({
                     },
                 },
             ]);
+
+            logger.geometry(
+              `Create circle. Center point: (${getPointById(circle.centerPointId, document.points)?.x}, ${getPointById(circle.centerPointId, document.points)?.y}), 
+              radius point (${getPointById(circle.radiusPointId, document.points)?.x}, ${getPointById(circle.radiusPointId, document.points)?.y}) 
+              on layer: ${circle.layer}`,
+            );
+
 
             setCompass({stage: "idle"});
             setMousePos(null);
@@ -456,6 +482,13 @@ export default function Canvas({
             },
         ]);
         setLineState({});
+
+        logger.geometry(
+          `Create line. Start: (${getPointById(line.pointAId, document.points)?.x}, ${getPointById(line.pointAId, document.points)?.y}),  
+          End: (${getPointById(line.pointBId, document.points)?.x}, ${getPointById(line.pointBId, document.points)?.y}) 
+          on layer: ${line.layer}`,
+        );
+
     }
 
     function screenToWorld(x: number, y: number, currentCamera: {x: number; y: number; zoom: number}) {

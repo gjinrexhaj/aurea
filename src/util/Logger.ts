@@ -22,7 +22,7 @@ logger.error('Failed to calculate intersection', error);
 
 export type LogLevel = 'log' | 'info' | 'warn' | 'error';
 
-export type LogSource = 'app' | 'geometry' | 'construction' | 'canvas' | 'ui';
+export type LogSource = 'app' | 'geometry' | 'history' | 'canvas' | 'ui';
 
 export interface LogEntry {
   id: string;
@@ -110,8 +110,8 @@ export const logger = {
     emit('log', 'geometry', message, args);
   },
 
-  construction(message: string, ...args: unknown[]) {
-    emit('log', 'construction', message, args);
+  history(message: string, ...args: unknown[]) {
+    emit('log', 'history', message, args);
   },
 
   canvas(message: string, ...args: unknown[]) {
