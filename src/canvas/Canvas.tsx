@@ -332,6 +332,9 @@ export default function Canvas({
     function handlePointTool(x: number, y: number) {
         const snap = snapAt(x, y, document, snapSettings);
         if (snap?.type === "point") {
+            logger.geometry(
+                `Point already exists at: (${Math.round(snap.x as number)}, ${Math.round(snap.y as number) * -1}) on layer: ${getPointById(snap.pointId, document.points)?.layer}`,
+            );
             return;
         }
         if (snap?.type === "intersection") {
@@ -366,7 +369,7 @@ export default function Canvas({
         ]);
 
         logger.geometry(
-          `Create point: (${point.x}, ${point.y}) on layer: ${point.layer}`,
+          `Create point: (${Math.round(point.x as number)}, ${Math.round(point.y as number) * -1}) on layer: ${point.layer}`,
         );
     }
 
@@ -421,7 +424,7 @@ export default function Canvas({
             ]);
 
             logger.geometry(
-              `Create circle. Center point: (${getPointById(circle.centerPointId, document.points)?.x}, ${getPointById(circle.centerPointId, document.points)?.y}), radius point (${getPointById(circle.radiusPointId, document.points)?.x}, ${getPointById(circle.radiusPointId, document.points)?.y}) on layer: ${circle.layer}`,
+              `Create circle. Center point: (${Math.round(getPointById(circle.centerPointId, document.points)?.x as number)}, ${Math.round(getPointById(circle.centerPointId, document.points)?.y as number * -1)}), radius point (${Math.round(getPointById(circle.radiusPointId, document.points)?.x as number)}, ${Math.round(getPointById(circle.radiusPointId, document.points)?.y as number * -1)}) on layer: ${circle.layer}`,
             );
 
 
@@ -482,7 +485,7 @@ export default function Canvas({
         setLineState({});
 
         logger.geometry(
-          `Create line. Start: (${getPointById(line.pointAId, document.points)?.x}, ${getPointById(line.pointAId, document.points)?.y}), End: (${getPointById(line.pointBId, document.points)?.x}, ${getPointById(line.pointBId, document.points)?.y}) on layer: ${line.layer}`,
+          `Create line. Start: (${Math.round(getPointById(line.pointAId, document.points)?.x as number)}, ${Math.round(getPointById(line.pointAId, document.points)?.y as number * -1)}), End: (${Math.round(getPointById(line.pointBId, document.points)?.x as number)}, ${Math.round(getPointById(line.pointBId, document.points)?.y as number * -1)}) on layer: ${line.layer}`,
         );
 
     }
