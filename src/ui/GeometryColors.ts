@@ -33,7 +33,7 @@ export const defaultGeometryColors: GeometryColors = {
         graphite: {r: 211, g: 211, b: 211, a: 1},
         ink: {r: 0, g: 0, b: 0, a: 1},
     },
-    axes: {r: 204, g: 204, b: 204, a: 1},
+    axes: {r: 102, g: 152, b: 204, a: 0.75},
     infiniteLines: {r: 211, g: 211, b: 211, a: 1},
 };
 
