@@ -11,6 +11,11 @@ import "./ConsolePanel.css"
 export function ConsolePanel() {
   const [logs, setLogs] = useState<LogEntry[]>(getLogs());
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [wrapText, setWrapText] = useState<boolean>(false);
+
+  const handleTextWrapButton = () => {
+    setWrapText(prevState => !prevState);
+  }
 
   useEffect(() => {
     return subscribeToLogs((entry) => {
@@ -33,7 +38,7 @@ export function ConsolePanel() {
           logs.map((entry) => (
             <div
               key={entry.id}
-              className={`console-line console-${entry.level}`}
+              className={`console-line console-${entry.level} ${wrapText ? 'is-wrapped': ''}`}
             >
               <span className="console-time">
                 {entry.timestamp.toLocaleTimeString()}
@@ -61,6 +66,11 @@ export function ConsolePanel() {
 
         <div ref={bottomRef} />
       </div>
+
+      <div className="console-controls">
+        <input type={"checkbox"} onInput={handleTextWrapButton}/><label>Wrap Text</label>
+      </div>
+
     </div>
   );
 }

@@ -6,6 +6,8 @@
     color: #d4d4d4;
     font-family: monospace;
     font-size: 12px;
+    display: flex;
+    flex-direction: column;
 }
 
 .console-content {
@@ -24,6 +26,25 @@
     min-height: 18px;
     line-height: 18px;
     white-space: pre;
+    text-wrap: nowrap;
+}
+
+.console-line.is-wrapped {
+    display: block;
+    white-space: pre-wrap;
+    text-wrap: wrap;
+    word-break: break-all;
+}
+
+.console-line.is-wrapped span {
+    display: inline;
+    margin-right: 10px;
+}
+
+.console-line.is-wrapped {
+    flex-wrap: wrap;
+    /*white-space: pre-wrap;*/
+    text-wrap: wrap;
 }
 
 .console-time {
@@ -49,6 +70,14 @@
 .console-args {
     color: #b5b5b5;
 }
+
+
+/* toolbar styling */
+.console-controls {
+    background: #353535;
+    font-family: Arial;
+}
+
 
 /* Log levels */
 
