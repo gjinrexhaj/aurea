@@ -194,24 +194,11 @@ export function ColorsPanel({colors, setColors}: ColorsPanelProps) {
                     }
                 />
                 <div className="colors-section">
-                    <ColorSwatch
-                        label="Axes"
-                        color={colors.axes}
-                        onClick={() => openPicker("Axes", {group: "axes"}, colors.axes)}
-                    />
+                    <strong>Guidelines</strong>
+                    <div className="color-layer-grid">
+                    <ColorSwatch label="Axes" color={colors.axes} onClick={() => openPicker("Axes", {group: "axes"}, colors.axes)} />
+                    <ColorSwatch label="Infinite Lines" color={colors.infiniteLines} onClick={() => openPicker("Infinite Lines", {group: "infiniteLines"}, colors.infiniteLines)} />
                 </div>
-                <div className="colors-section">
-                    <ColorSwatch
-                        label="Infinite Lines"
-                        color={colors.infiniteLines}
-                        onClick={() =>
-                            openPicker(
-                                "Infinite Lines",
-                                {group: "infiniteLines"},
-                                colors.infiniteLines
-                            )
-                        }
-                    />
                 </div>
             </div>
 
