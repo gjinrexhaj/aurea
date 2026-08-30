@@ -1,18 +1,14 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import "./global.css"
+import { BrowserRouter } from "react-router-dom"
 
 
 
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
-    <App />
+    <BrowserRouter>
+        <App></App>
+    </BrowserRouter>
   // </StrictMode>,
 )
-
-// alert("USAGE GUIDE" +
-//     "\n" +
-//     "\nline and compass require two points" +
-//     "\n'del' or 'backspace' to delete selected geometry" +
-//     "\nscroll wheel to zoom, middle mouse to pan"
-// )

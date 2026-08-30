@@ -1,14 +1,17 @@
 import "./LandingPage.css"
+import { useNavigate } from "react-router-dom";
 
-type LandingPageProps = {
-    onEnter: () => void;
-};
+export default function LandingPage() {
+    const navigate = useNavigate();
 
-export default function LandingPage({onEnter,}: LandingPageProps) {
+    const handleClick = () => {
+        navigate("/aurea/app");
+    }
+
     return (
         <div className="landing">
             <p>uh guys</p>
-            <button onClick={onEnter}>Enter Workspace</button>
+            <button onClick={handleClick}>Enter Workspace</button>
         </div>
     );
 }
