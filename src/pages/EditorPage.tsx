@@ -15,102 +15,115 @@ import "./EditorPage.css";
 import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 
 const defaultLayoutJson: IJsonModel = {
-    global: {
-        tabEnablePopout: true,
-        tabEnablePopoutFloatIcon: true,
-        tabEnablePopoutIcon: true,
-        tabSetEnableMaximize: true,
-        tabEnableClose: false,
-        tabSetMinWidth: 200,
-        tabSetMinHeight: 40,
-    },
-    borders: [],
-    layout: {
-        type: "row",
-        weight: 100,
+  global: {
+    tabEnablePopout:          true,
+    tabEnablePopoutFloatIcon: true,
+    tabEnablePopoutIcon:      true,
+    tabSetEnableMaximize:     true,
+    tabEnableClose:           false,
+    tabSetMinWidth:           200,
+    tabSetMinHeight:          40,
+  },
+  borders: [],
+  layout: {
+    type:  "row",
+    weight: 100,
+    children: [
+      {
+        type:  "tabset",
+        weight: 75,
+        id:    "canvas-tabset",
         children: [
-            {
-                type: "tabset",
-                weight: 75,
-                id: "canvas-tabset",
-                children: [
-                    {
-                        type: "tab",
-                        id: "canvas-tab",
-                        name: "Canvas",
-                        component: "canvas",
-                        enableClose: false,
-                    },
-                ],
-            },
-            {
-                type: "tabset",
-                weight: 25,
-                id: "panels-tabset",
-                children: [
-                    {
-                        type: "tab",
-                        id: "snap-tab",
-                        name: "Snap",
-                        component: "snap",
-                        enableClose: false,
-                    },
-                    {
-                        type: "tab",
-                        id: "colors-tab",
-                        name: "Colors",
-                        component: "colors",
-                        enableClose: false,
-                    },
-                    {
-                        type: "tab",
-                        id: "history-tab",
-                        name: "History",
-                        component: "history",
-                        enableClose: false,
-                    },
-                    {
-                        type: "tab",
-                        id: "console-tab",
-                        name: "Console",
-                        component: "console",
-                        enableClose: false,
-                    }
-                ],
-            },
-        ],
-    },
-    subLayouts: {
-        "toolbar-float": {
-            type: "float",
-            name: "Toolbar",
-            rect: {
-                x: 0,
-                y: 10000,
-                width: 790,
-                height: 125,
-            },
-            layout: {
-                type: "row",
-                children: [
-                    {
-                        type: "tabset",
-                        id: "toolbar-tabset",
-                        children: [
-                            {
-                                type: "tab",
-                                id: "toolbar-tab",
-                                name: "Toolbar",
-                                component: "toolbar",
-                                enableClose: false,
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    },
+          {
+            type:        "tab",
+            id:          "canvas-tab",
+            name:        "Canvas",
+            component:   "canvas",
+            enableClose: false,
+          }
+        ]
+      },
+      {
+        type:  "row",
+        weight: 25,
+        children: [
+          {
+            type:  "tabset",
+            id:    "panels-tabset-upper",
+            children: [
+              {
+                type:        "tab",
+                id:          "snap-tab",
+                name:        "Snap",
+                component:   "snap",
+                enableClose: false,
+              },
+              {
+                type:        "tab",
+                id:          "colors-tab",
+                name:        "Colors",
+                component:   "colors",
+                enableClose: false,
+              },
+              {
+                type:        "tab",
+                id:          "history-tab",
+                name:        "History",
+                component:   "history",
+                enableClose: false,
+              }
+            ]
+          },
+          {
+            type:  "tabset",
+            id:    "panels-tabset-lower",
+            children: [
+              {
+                type:        "tab",
+                id:          "console-tab",
+                name:        "Console",
+                component:   "console",
+                enableClose: false,
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  subLayouts: {
+    "toolbar-float": {
+      type:  "float",
+      name:  "Toolbar",
+      rect: {
+        x: 0,
+        y: 10000,
+        width: 790,
+        height: 125,
+      },
+      layout: {
+        type: "row",
+        children: [
+          {
+            type:  "tabset",
+            id:    "toolbar-tabset",
+            children: [
+              {
+                type:        "tab",
+                id:          "toolbar-tab",
+                name:        "Toolbar",
+                component:   "toolbar",
+                enableClose: false,
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
 };
+
+
 
 export default function EditorPage() {
     // declare state
