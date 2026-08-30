@@ -10,7 +10,7 @@ export default function LandingPage() {
 
     return (
         <div className="landing">
-            <p>uh guys</p>
+            <p>test to see if router works</p>
             <button onClick={handleClick}>Enter Workspace</button>
         </div>
     );
