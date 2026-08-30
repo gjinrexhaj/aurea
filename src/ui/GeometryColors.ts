@@ -21,20 +21,20 @@ export type GeometryColors = {
 };
 
 export const defaultGeometryColors: GeometryColors = {
-    point: {
-        graphite: {r: 150, g: 150, b: 150, a: 1},
-        ink: {r: 0, g: 0, b: 0, a: 1},
-    },
-    circle: {
-        graphite: {r: 211, g: 211, b: 211, a: 1},
-        ink: {r: 0, g: 0, b: 0, a: 1},
-    },
-    line: {
-        graphite: {r: 211, g: 211, b: 211, a: 1},
-        ink: {r: 0, g: 0, b: 0, a: 1},
-    },
-    axes: {r: 0, g: 90, b: 130, a: 0.5},
-    infiniteLines: {r: 211, g: 211, b: 211, a: 1},
+  point: {
+    graphite: { r: 150, g: 150, b: 150, a: 1 },
+    ink: { r: 0, g: 0, b: 0, a: 1 },
+  },
+  circle: {
+    graphite: { r: 211, g: 211, b: 211, a: 1 },
+    ink: { r: 0, g: 0, b: 0, a: 1 },
+  },
+  line: {
+    graphite: { r: 211, g: 211, b: 211, a: 1 },
+    ink: { r: 0, g: 0, b: 0, a: 1 },
+  },
+  axes: { r: 204, g: 204, b: 204, a: 1 },
+  infiniteLines: { r: 211, g: 211, b: 211, a: 1 },
 };
 
 export function rgbaToCss(color: RgbaColor): string {
