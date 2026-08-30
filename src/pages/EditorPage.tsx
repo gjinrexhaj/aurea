@@ -43,74 +43,90 @@ const defaultLayoutJson: IJsonModel = {
                     },
                 ],
             },
+        {
+            type: "row",
+            weight: 25,
+            children: [
+                {
+                    type: "tabset",
+                    id: "panels-tabset-upper",
+                    weight: 60,
+                    children: [
+                        {
+                            type: "tab",
+                            id: "snap-tab",
+                            name: "Snap",
+                            component: "snap",
+                            enableClose: false,
+                        },
+                        {
+                            type: "tab",
+                            id: "colors-tab",
+                            name: "Colors",
+                            component: "colors",
+                            enableClose: false,
+                        },
+                        {
+                            type: "tab",
+                            id: "history-tab",
+                            name: "History",
+                            component: "history",
+                            enableClose: false,
+                        }
+                    ]
+                },
+                {
+                    type: "tabset",
+                    id: "panels-tabset-lower",
+                    weight: 40,
+                    children: [
+                        {
+                            type: "tab",
+                            id: "console-tab",
+                            name: "Console",
+                            component: "console",
+                            enableClose: false,
+                        }
+                    ]
+                }
+            ]
+        },
+
+        ],
+    },
+    subLayouts: {
+"toolbar-float": {
+    type: "float",
+    name: "Toolbar",
+    rect: {
+        x: 0,
+        y: 10000,
+        width: 790,
+        height: 125,
+    },
+    layout: {
+        type: "row",
+        children: [
             {
                 type: "tabset",
-                weight: 25,
-                id: "panels-tabset",
+                id: "toolbar-tabset",
                 children: [
                     {
                         type: "tab",
-                        id: "snap-tab",
-                        name: "Snap",
-                        component: "snap",
+                        id: "toolbar-tab",
+                        name: "Toolbar",
+                        component: "toolbar",
                         enableClose: false,
                     },
-                    {
-                        type: "tab",
-                        id: "colors-tab",
-                        name: "Colors",
-                        component: "colors",
-                        enableClose: false,
-                    },
-                    {
-                        type: "tab",
-                        id: "history-tab",
-                        name: "History",
-                        component: "history",
-                        enableClose: false,
-                    },
-                    {
-                        type: "tab",
-                        id: "console-tab",
-                        name: "Console",
-                        component: "console",
-                        enableClose: false,
-                    }
                 ],
             },
         ],
     },
-    subLayouts: {
-        "toolbar-float": {
-            type: "float",
-            name: "Toolbar",
-            rect: {
-                x: 0,
-                y: 10000,
-                width: 790,
-                height: 125,
-            },
-            layout: {
-                type: "row",
-                children: [
-                    {
-                        type: "tabset",
-                        id: "toolbar-tabset",
-                        children: [
-                            {
-                                type: "tab",
-                                id: "toolbar-tab",
-                                name: "Toolbar",
-                                component: "toolbar",
-                                enableClose: false,
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    },
+},
+
+},
 };
+
 
 export default function EditorPage() {
     // declare state
