@@ -2,19 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import { subscribeToLogs, type LogEntry, getLogs } from '../util/Logger';
 import "./ConsolePanel.css"
 
-// TODO: make it look prettier
-// TODO: add autoscroll toggle button
-// TODO: add text wrap toggle button
 // TODO: add clear console button
-// TODO: place on bottom of right panel on startup
 
 export function ConsolePanel() {
   const [logs, setLogs] = useState<LogEntry[]>(getLogs());
   const bottomRef = useRef<HTMLDivElement>(null);
   const [wrapText, setWrapText] = useState<boolean>(false);
+  const [autoscroll, setAutoscroll] = useState<boolean>(true);
 
   const handleTextWrapButton = () => {
     setWrapText(prevState => !prevState);
+  }
+
+  const handleAutoscrollButton = () => {
+    setAutoscroll(prevState => !prevState);
   }
 
   useEffect(() => {
@@ -24,9 +25,12 @@ export function ConsolePanel() {
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: 'smooth',
-    });
+
+    if (autoscroll) {
+      bottomRef.current?.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
   }, [logs]);
 
   return (
@@ -68,7 +72,12 @@ export function ConsolePanel() {
       </div>
 
       <div className="console-controls">
-        <input type={"checkbox"} onInput={handleTextWrapButton}/><label>Wrap Text</label>
+        <div className="control-item">
+          <input type={"checkbox"} onInput={handleTextWrapButton}/><label>Wrap Text</label>
+        </div>
+        <div className="control-item">
+          <input className="control-item" type={"checkbox"} onInput={handleAutoscrollButton}/><label>Autoscroll</label>
+        </div>
       </div>
 
     </div>

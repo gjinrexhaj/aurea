@@ -76,6 +76,12 @@
 .console-controls {
     background: #353535;
     font-family: Arial;
+    display: flex;
+    flex-direction: row;
+}
+
+.control-item {
+    padding-left: 1rem;
 }
 
 
