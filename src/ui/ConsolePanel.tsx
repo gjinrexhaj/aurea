@@ -18,6 +18,13 @@ export function ConsolePanel() {
     setAutoscroll(prevState => !prevState);
   }
 
+  const handleClearButton = () => {
+    const confirmed = confirm("penis");
+    if (confirmed) {
+      setLogs([]);
+    }
+  }
+
   useEffect(() => {
     return subscribeToLogs((entry) => {
       setLogs((current) => [...current, entry]);
@@ -73,10 +80,14 @@ export function ConsolePanel() {
 
       <div className="console-controls">
         <div className="control-item">
-          <input type={"checkbox"} onInput={handleTextWrapButton}/><label>Wrap Text</label>
+          <input type={"checkbox"} checked={wrapText} onInput={handleTextWrapButton}/><label>Wrap Text</label>
         </div>
         <div className="control-item">
-          <input className="control-item" type={"checkbox"} onInput={handleAutoscrollButton}/><label>Autoscroll</label>
+          <input type={"checkbox"} checked={autoscroll} onInput={handleAutoscrollButton}/><label>Autoscroll</label>
+        </div>
+
+        <div className="control-item">
+          <button onClick={handleClearButton}>Clear Console</button>
         </div>
       </div>
 
