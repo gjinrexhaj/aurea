@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "d3": "^7.9.0",
     "flexlayout-react": "^0.10.5",
     "react": "^19.2.6",
