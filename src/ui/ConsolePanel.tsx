@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { subscribeToLogs, type LogEntry, getLogs } from '../util/Logger';
 import "./ConsolePanel.css"
 
-// TODO: add clear console button
 
 export function ConsolePanel() {
   const [logs, setLogs] = useState<LogEntry[]>(getLogs());
