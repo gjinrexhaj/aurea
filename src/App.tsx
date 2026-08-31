@@ -10,8 +10,8 @@ export default function App() {
 
     return (
         <Routes>
-            <Route path="/aurea" element={ <LandingPage/> }></Route>
-            <Route path="/aurea/app" element={ <EditorPage/> }></Route>
+            <Route path="/" element={ <LandingPage/> }></Route>
+            <Route path="/app" element={ <EditorPage/> }></Route>
         </Routes>
     );
 }

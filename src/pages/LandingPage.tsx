@@ -5,7 +5,7 @@ export default function LandingPage() {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate("/aurea/app");
+        navigate("/app");
     }
 
     return (
