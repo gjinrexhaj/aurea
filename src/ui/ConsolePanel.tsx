@@ -18,7 +18,7 @@ export function ConsolePanel() {
   }
 
   const handleClearButton = () => {
-    const confirmed = confirm("penis");
+    const confirmed = confirm("Are you sure you want to clear the console?");
     if (confirmed) {
       setLogs([]);
     }
