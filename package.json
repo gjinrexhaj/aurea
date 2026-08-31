@@ -17,6 +17,7 @@
     "d3": "^7.9.0",
     "flexlayout-react": "^0.10.5",
     "react": "^19.2.6",
+    "react-bootstrap": "^2.10.10",
     "react-colorful": "^5.8.0",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.18.3",
