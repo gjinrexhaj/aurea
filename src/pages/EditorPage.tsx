@@ -1,4 +1,4 @@
-import {useCallback, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {Layout, Model, type TabNode, type IJsonModel} from "flexlayout-react";
 import "flexlayout-react/style/light.css";
 import type {ViewSettings} from "../ui/ViewSettings.ts";
@@ -139,6 +139,30 @@ export default function EditorPage() {
     const [snapSettings, setSnapSettings] = useState<SnapSettings>(defaultSnapSettings);
     const [history, setHistory] = useState<HistoryStep[]>([]);
     const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const html = document.documentElement;
+        const body = document.body;
+        const root = document.getElementById("root");
+
+        const previousHtmlOverflow = html.style.overflow;
+        const previousBodyOverflow = body.style.overflow;
+        const previousRootOverflow = root?.style.overflow ?? "";
+
+        html.style.overflow = "hidden";
+        body.style.overflow = "hidden";
+        if (root) {
+            root.style.overflow = "hidden";
+        }
+
+        return () => {
+            html.style.overflow = previousHtmlOverflow;
+            body.style.overflow = previousBodyOverflow;
+            if (root) {
+                root.style.overflow = previousRootOverflow;
+            }
+        };
+    }, []);
 
     const undoRef = useRef<(() => void) | null>(null);
     const handleRegisterUndo = useCallback((undoFn: () => void) => {
