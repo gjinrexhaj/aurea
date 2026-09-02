@@ -72,8 +72,8 @@ export default function LandingPage() {
               <h1>Construct, don&apos;t sketch.</h1>
               <p className="landing-page-lede">
                 Aurea is a digital drafting table for classical geometric
-                construction. Set your compass, draw your line, and every step
-                is recorded — exact arcs, true angles, no freehand guesswork.
+                construction. It ships with a minimal toolset that adheres to
+                traditional compass-and-straightedge construction.
               </p>
               <div className="landing-page-hero-ctas">
                 <Link
@@ -156,7 +156,7 @@ export default function LandingPage() {
                 </svg>
               </div>
               <p className="landing-page-figure-caption">
-                Euclid, Book I, Prop. 1 — an equilateral triangle from two
+                Euclid, Book I, Prop. 1: An equilateral triangle from two
                 circles and a line.
               </p>
             </div>
@@ -167,11 +167,11 @@ export default function LandingPage() {
           <div className="landing-page-wrap">
             <div className="landing-page-section-head">
               <span className="landing-page-eyebrow">The Toolset</span>
-              <h2>Two tools. No shortcuts.</h2>
+              <h2>Three fundamental tools.</h2>
               <p>
-                Everything in a construction comes from an arc or a line — the
-                same two instruments Euclid had. Aurea just makes them exact,
-                and remembers what you did with them.
+                Everything in a construction comes from circles, lines, and
+                the intersections between them, with the only true degree of freedom
+                being the placement of points, for which the snapping engine enables precise placement.
               </p>
             </div>
 
@@ -247,8 +247,8 @@ export default function LandingPage() {
                 </svg>
                 <h3>Snapping</h3>
                 <p>
-                  Intersections, centers, and endpoints pull your cursor in
-                  automatically, so a construction lands exactly where the
+                  Intersections pull your cursor in automatically,
+                  ensuring that a construction lands exactly where the
                   geometry says it should.
                 </p>
               </div>
@@ -264,8 +264,8 @@ export default function LandingPage() {
               </span>
               <h2>Four classical constructions.</h2>
               <p>
-                Hover any of them to reveal the blue construction geometry that
-                composes the final geometric shape.
+                Hover any of them to reveal the construction geometry that
+                composes the final shape.
               </p>
             </div>
 
