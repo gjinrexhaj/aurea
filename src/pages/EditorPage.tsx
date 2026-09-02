@@ -16,85 +16,90 @@ import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 
 const defaultLayoutJson: IJsonModel = {
   global: {
-    tabEnablePopout:          true,
+    tabEnablePopout: true,
     tabEnablePopoutFloatIcon: true,
-    tabEnablePopoutIcon:      true,
-    tabSetEnableMaximize:     true,
-    tabEnableClose:           false,
-    tabSetMinWidth:           200,
-    tabSetMinHeight:          40,
+    tabEnablePopoutIcon: true,
+    tabSetEnableMaximize: true,
+    tabEnableClose: false,
+    tabSetMinWidth: 200,
+    tabSetMinHeight: 40,
   },
   borders: [],
   layout: {
-    type:  "row",
+    type: 'row',
     weight: 100,
     children: [
       {
-        type:  "tabset",
+        type: 'tabset',
         weight: 75,
-        id:    "canvas-tabset",
+        id: 'canvas-tabset',
         children: [
           {
-            type:        "tab",
-            id:          "canvas-tab",
-            name:        "Canvas",
-            component:   "canvas",
+            type: 'tab',
+            id: 'canvas-tab',
+            name: 'Canvas',
+            component: 'canvas',
             enableClose: false,
-          }
-        ]
+            enablePopout: false,
+          },
+        ],
       },
       {
-        type:  "row",
+        type: 'row',
         weight: 25,
         children: [
           {
-            type:  "tabset",
-            id:    "panels-tabset-upper",
+            type: 'tabset',
+            id: 'panels-tabset-upper',
             children: [
               {
-                type:        "tab",
-                id:          "snap-tab",
-                name:        "Snap",
-                component:   "snap",
+                type: 'tab',
+                id: 'snap-tab',
+                name: 'Snap',
+                component: 'snap',
                 enableClose: false,
+                enablePopout: false,
               },
               {
-                type:        "tab",
-                id:          "colors-tab",
-                name:        "Colors",
-                component:   "colors",
+                type: 'tab',
+                id: 'colors-tab',
+                name: 'Colors',
+                component: 'colors',
                 enableClose: false,
+                enablePopout: false,
               },
               {
-                type:        "tab",
-                id:          "history-tab",
-                name:        "History",
-                component:   "history",
+                type: 'tab',
+                id: 'history-tab',
+                name: 'History',
+                component: 'history',
                 enableClose: false,
-              }
-            ]
+                enablePopout: false,
+              },
+            ],
           },
           {
-            type:  "tabset",
-            id:    "panels-tabset-lower",
+            type: 'tabset',
+            id: 'panels-tabset-lower',
             children: [
               {
-                type:        "tab",
-                id:          "console-tab",
-                name:        "Console",
-                component:   "console",
+                type: 'tab',
+                id: 'console-tab',
+                name: 'Console',
+                component: 'console',
                 enableClose: false,
-              }
-            ]
-          }
-        ]
-      }
-    ]
+                enablePopout: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   subLayouts: {
-    "toolbar-float": {
-      type:  "float",
-      name:  "Toolbar",
+    'toolbar-float': {
+      type: 'float',
+      name: 'Toolbar',
       rect: {
         x: 0,
         y: 10000,
@@ -102,25 +107,26 @@ const defaultLayoutJson: IJsonModel = {
         height: 125,
       },
       layout: {
-        type: "row",
+        type: 'row',
         children: [
           {
-            type:  "tabset",
-            id:    "toolbar-tabset",
+            type: 'tabset',
+            id: 'toolbar-tabset',
             children: [
               {
-                type:        "tab",
-                id:          "toolbar-tab",
-                name:        "Toolbar",
-                component:   "toolbar",
+                type: 'tab',
+                id: 'toolbar-tab',
+                name: 'Toolbar',
+                component: 'toolbar',
                 enableClose: false,
-              }
-            ]
-          }
-        ]
-      }
-    }
-  }
+                enablePopout: false,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
 };
 
 
