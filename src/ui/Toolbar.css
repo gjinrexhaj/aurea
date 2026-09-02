@@ -78,7 +78,7 @@
     align-items: center;
     gap: 3px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
+    font-size: 0.75rem;
     letter-spacing: 0.03em;
     color: var(--editor-ink-dim);
     cursor: pointer;
