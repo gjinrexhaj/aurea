@@ -2,7 +2,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 0;
     box-sizing: border-box;
     background: var(--editor-bg);
     color: var(--editor-ink);
@@ -18,6 +18,12 @@
     gap: 8px;
 }
 
+.history-list-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
 .history-empty {
     color: var(--editor-ink-faint);
     font-size: 0.9rem;
@@ -27,11 +33,8 @@
 }
 
 .history-list {
-    flex: 1;
-    min-height: 0;
     margin: 0;
-    padding-left: 1.4rem;
-    overflow: auto;
+    padding: 10px 10px 10px 2.8rem;
     list-style: decimal outside;
 }
 
@@ -71,6 +74,7 @@
 
 .history-undo-button-footer {
     align-self: flex-start;
+    margin: 0 10px 10px;
     padding: 4px 8px;
     border: 1px solid var(--editor-border);
     border-radius: var(--editor-radius-s);

@@ -28,34 +28,36 @@ export function HistoryPanel({
   return (
     <div className="history-panel-wrapper">
       <div className="history-panel-body">
-        <ol className="history-list">
-          {history.length === 0 ? (
-            <li className="history-empty">No construction steps yet</li>
-          ) : (
-            history.map((step, index) => (
-              <li
-                key={step.id}
-                ref={index === history.length - 1 ? bottomRef : undefined}
-              >
-                <button
-                  type="button"
-                  className={
-                    selectedHistoryId === step.id
-                      ? 'history-item active'
-                      : 'history-item'
-                  }
-                  onClick={() =>
-                    onSelectHistoryId(
-                      selectedHistoryId === step.id ? null : step.id,
-                    )
-                  }
+        <div className="history-list-scroll">
+          <ol className="history-list">
+            {history.length === 0 ? (
+              <li className="history-empty">No construction steps yet</li>
+            ) : (
+              history.map((step, index) => (
+                <li
+                  key={step.id}
+                  ref={index === history.length - 1 ? bottomRef : undefined}
                 >
-                  {describeHistoryStep(step)}
-                </button>
-              </li>
-            ))
-          )}
-        </ol>
+                  <button
+                    type="button"
+                    className={
+                      selectedHistoryId === step.id
+                        ? 'history-item active'
+                        : 'history-item'
+                    }
+                    onClick={() =>
+                      onSelectHistoryId(
+                        selectedHistoryId === step.id ? null : step.id,
+                      )
+                    }
+                  >
+                    {describeHistoryStep(step)}
+                  </button>
+                </li>
+              ))
+            )}
+          </ol>
+        </div>
 
         <button
           type="button"
