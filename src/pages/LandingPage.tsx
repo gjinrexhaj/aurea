@@ -202,9 +202,8 @@ export default function LandingPage() {
                 </svg>
                 <h3>Compass</h3>
                 <p>
-                  Fixed to a radius until you change it. Drag it to a new center
-                  and it swings the exact same arc, every time — no more, no
-                  less.
+                  Constructs a circle from any two points, a foundational unit
+                  of measurement from which all other geometric forms derive from.
                 </p>
               </div>
               <div className="landing-page-panel landing-page-instrument-card">
@@ -230,8 +229,7 @@ export default function LandingPage() {
                 <h3>Straightedge</h3>
                 <p>
                   Anchors to any two points and extends into a true infinite
-                  line in both directions. No freehand wobble, no visual
-                  approximation.
+                  line in both directions.
                 </p>
               </div>
               <div className="landing-page-panel landing-page-instrument-card">
@@ -266,8 +264,8 @@ export default function LandingPage() {
               </span>
               <h2>Four classical constructions.</h2>
               <p>
-                Hover any of them to reveal the blue construction geometry
-                beneath the black final shape.
+                Hover any of them to reveal the blue construction geometry that
+                composes the final geometric shape.
               </p>
             </div>
 
@@ -554,7 +552,7 @@ export default function LandingPage() {
 
       <footer>
         <div className="landing-page-wrap landing-page-footer-row">
-          <span>© 2026 Aurea. Build with React.</span>
+          <span>© 2026 Aurea. Built with React.</span>
         </div>
       </footer>
     </div>

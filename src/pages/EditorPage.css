@@ -1,8 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 .app {
+    --editor-bg: #ffffff;
+    --editor-bg-raised: #ffffff;
+    --editor-bg-sunken: #ffffff;
+    --editor-border: rgba(58, 58, 58, 0.18);
+    --editor-border-soft: rgba(58, 58, 58, 0.10);
+    --editor-ink: #000000;
+    --editor-ink-dim: #3a3a3a;
+    --editor-ink-faint: #707070;
+    --editor-accent: #017dd3;
+    --editor-accent-soft: #c7e8ff;
+
+    --editor-font-display: 'Space Grotesk', sans-serif;
+    --editor-font-body: 'IBM Plex Sans', sans-serif;
+    --editor-font-mono: 'IBM Plex Mono', monospace;
+    --editor-font-button: 'IBM Plex Sans', sans-serif;
+
+    --editor-radius-s: 3px;
+    --editor-radius-m: 5px;
+
     position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    background: var(--editor-bg);
+    color: var(--editor-ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.app,
+.app * {
+    box-sizing: border-box;
+}
+
+.app button,
+.app input,
+.app select,
+.app textarea {
+    font: inherit;
 }
 
 .layout-outer {
@@ -10,6 +48,7 @@
     inset: 0;
     width: 100%;
     height: 100%;
+    background: var(--editor-bg);
 }
 
 .canvas-outer {
@@ -17,42 +56,62 @@
     height: 100%;
     position: relative;
     overflow: hidden;
+    background: var(--editor-bg);
 }
 
 /* FlexLayout clean styling adjustments */
 .flexlayout__layout {
     position: absolute;
     inset: 0;
+    background: var(--editor-bg);
+    color: var(--editor-ink);
 }
 
 .flexlayout__tab {
     overflow: hidden;
-    background: #ffffff;
+    background: var(--editor-bg-raised);
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-m);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .flexlayout__tabset_header {
-    background: #f7f9fa;
-    border-bottom: 1px solid #e1e4e8;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid var(--editor-border-soft);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .flexlayout__tab_button {
-    font-family: inherit;
-    font-size: 0.85rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
     font-weight: 500;
-    color: #4a5568;
-    padding: 6px 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--editor-ink-dim);
+    padding: 8px 14px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.flexlayout__tab_button:hover {
+    color: var(--editor-ink);
+    background: rgba(1, 125, 211, 0.04);
 }
 
 .flexlayout__tab_button--selected {
-    color: #2b6cb0;
+    color: var(--editor-accent);
     font-weight: 600;
+    border-bottom-color: var(--editor-accent);
 }
 
 .flexlayout__splitter {
-    background: #e2e8f0;
+    background: var(--editor-border-soft);
     transition: background 0.15s ease;
 }
 
 .flexlayout__splitter:hover {
-    background: #cbd5e0;
+    background: var(--editor-accent-soft);
 }

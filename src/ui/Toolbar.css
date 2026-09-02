@@ -2,19 +2,20 @@
     height: 100%;
     width: 100%;
     overflow: auto;
-    padding: 6px 10px;
+    padding: 6px 8px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    background: #ffffff;
+    background: var(--editor-bg);
 }
 
 .toolbar {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 8px;
     flex-wrap: nowrap;
     background: transparent;
+    color: var(--editor-ink);
 }
 
 /* shared layout behavior for all groups */
@@ -27,54 +28,64 @@
 
 /* spacing per group */
 .toolbar-tools {
-    gap: 8px;
+    gap: 4px;
+    flex-wrap: wrap;
 }
 
 .toolbar-view {
-    gap: 12px;
-
-    padding-left: 16px;
+    gap: 8px;
+    padding-left: 10px;
+    border-left: 1px solid var(--editor-border-soft);
+    flex-wrap: wrap;
 }
 
 .toolbar-layer {
-    gap: 8px;
+    gap: 4px;
 }
 
 /* buttons */
 .tool-button {
-    padding: 8px 12px;
-
-    border: 1px solid #ccc;
-    border-radius: 4px;
-
-    background: white;
-
+    padding: 3px 6px;
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-s);
+    background: var(--editor-bg-raised);
+    color: var(--editor-ink);
+    font-family: var(--editor-font-button, 'IBM Plex Mono', monospace);
+    font-size: 10px;
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
     cursor: pointer;
-
     user-select: none;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .tool-button:hover {
-    background: #f5f5f5;
+    border-color: var(--editor-ink-faint);
 }
 
 .tool-button.active {
-    background-color: #4a90e2;
+    background-color: var(--editor-accent);
     color: white;
-    border-color: #4a90e2;
+    border-color: var(--editor-accent);
+    box-shadow: 0 1px 3px rgba(1, 125, 211, 0.18);
 }
 
 /* view checkboxes */
 .toolbar-view label {
     display: flex;
     align-items: center;
-    gap: 4px;
-
+    gap: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    color: var(--editor-ink-dim);
     cursor: pointer;
-
     user-select: none;
 }
 
 .toolbar-view input {
     cursor: pointer;
+    accent-color: var(--editor-accent);
 }

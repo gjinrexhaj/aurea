@@ -1,15 +1,17 @@
 .colors-panel-wrapper {
     height: 100%;
     overflow: auto;
-    padding: 12px;
+    padding: 10px;
     box-sizing: border-box;
-    background: #ffffff;
+    background: var(--editor-bg);
+    color: var(--editor-ink);
+    font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .colors-panel {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .colors-section {
@@ -17,9 +19,17 @@
     flex-direction: column;
     gap: 10px;
     padding: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    background: #fafafa;
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-m);
+    background: var(--editor-bg-raised);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.colors-section strong {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--editor-ink);
 }
 
 .color-layer-grid {
@@ -33,32 +43,36 @@
     flex-direction: column;
     gap: 8px;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    background: #fafafa;
+    padding: 8px;
+    border: 1px solid var(--editor-border-soft);
+    border-radius: var(--editor-radius-s);
+    background: var(--editor-bg);
     cursor: pointer;
     text-align: left;
+    transition: border-color 0.15s ease, background 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .color-swatch:hover {
-    background: #f7fafc;
+    border-color: var(--editor-accent);
+    background: rgba(1, 125, 211, 0.03);
 }
 
 .color-swatch-label {
-    font-size: 0.9rem;
-    color: #333;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--editor-ink);
 }
 
 .color-swatch-value {
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 0.72rem;
+    color: var(--editor-ink-faint);
 }
 
 .color-swatch-preview {
     height: 22px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
+    border: 1px solid var(--editor-border-soft);
+    border-radius: var(--editor-radius-s);
 }
 
 .color-field {
@@ -76,7 +90,7 @@
 
 .color-field-value {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--editor-ink-faint);
 }
 
 .color-modal-backdrop {
@@ -86,7 +100,7 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.18);
     z-index: 2000;
 }
 
@@ -95,11 +109,18 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    background: #fafafa;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-m);
+    background: var(--editor-bg-raised);
+    color: var(--editor-ink);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.color-modal strong {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .color-modal-header {
@@ -116,23 +137,40 @@
 }
 
 .color-modal-close {
-    padding: 6px 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    background: #fafafa;
+    padding: 4px 8px;
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-s);
+    background: var(--editor-bg);
+    color: var(--editor-ink);
     cursor: pointer;
 }
 
 .color-modal-reset {
-    padding: 6px 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    background: #fafafa;
+    padding: 4px 8px;
+    border: 1px solid var(--editor-border-soft);
+    border-radius: var(--editor-radius-s);
+    background: rgba(1, 125, 211, 0.04);
+    color: var(--editor-accent);
     cursor: pointer;
+}
+
+.color-modal-close:hover,
+.color-modal-reset:hover {
+    border-color: var(--editor-accent);
 }
 
 .color-modal-preview {
     height: 28px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
+    border: 1px solid var(--editor-border-soft);
+    border-radius: var(--editor-radius-s);
+}
+
+.color-modal .react-colorful {
+    width: 100%;
+}
+
+.color-modal .react-colorful__saturation,
+.color-modal .react-colorful__hue,
+.color-modal .react-colorful__alpha {
+    border-radius: var(--editor-radius-s);
 }

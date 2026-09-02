@@ -2,9 +2,11 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 12px;
+    padding: 10px;
     box-sizing: border-box;
-    background: #ffffff;
+    background: var(--editor-bg);
+    color: var(--editor-ink);
+    font-family: 'IBM Plex Sans', sans-serif;
     overflow: hidden;
 }
 
@@ -13,59 +15,79 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .history-empty {
-    color: #888;
+    color: var(--editor-ink-faint);
     font-size: 0.9rem;
     font-style: italic;
     list-style: none;
-    margin-left: -28px;
+    margin-left: 0;
 }
 
 .history-list {
     flex: 1;
     min-height: 0;
     margin: 0;
-    padding-left: 2rem;
+    padding-left: 1.4rem;
     overflow: auto;
+    list-style: decimal outside;
 }
 
 .history-list li + li {
-    margin-top: 6px;
+    margin-top: 4px;
 }
 
 .history-item {
     display: block;
-    width: max-content;
-    min-width: 100%;
-    padding: 6px 8px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    background: transparent;
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid var(--editor-border-soft);
+    border-radius: var(--editor-radius-s);
+    background: var(--editor-bg-raised);
+    color: var(--editor-ink-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.02em;
     text-align: left;
     white-space: nowrap;
     cursor: pointer;
     box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .history-item:hover {
-    background: #f5f5f5;
+    border-color: var(--editor-ink-faint);
+    background: rgba(1, 125, 211, 0.03);
+    color: var(--editor-ink);
 }
 
 .history-item.active {
-    border-color: #4a90e2;
-    background: #eaf2ff;
+    border-color: var(--editor-accent);
+    background: var(--editor-accent-soft);
+    color: var(--editor-ink);
 }
 
 .history-undo-button-footer {
     align-self: flex-start;
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: white;
+    padding: 4px 8px;
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-s);
+    background: var(--editor-bg-raised);
+    color: var(--editor-ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
     cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.history-undo-button-footer:hover:not(:disabled) {
+    border-color: var(--editor-accent);
+    background: rgba(1, 125, 211, 0.04);
+    color: var(--editor-accent);
 }
 
 .history-undo-button-footer:disabled {

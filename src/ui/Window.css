@@ -4,10 +4,10 @@
     flex-direction: column;
     gap: 10px;
     padding: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-m);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
     z-index: 1000;
     overflow: hidden;
 }
@@ -21,26 +21,41 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 4px 6px;
+    padding: 3px 5px;
     margin: -4px -4px 0;
-    border-radius: 6px;
+    border-radius: var(--editor-radius-s);
     cursor: move;
     user-select: none;
     touch-action: none;
-    background: rgba(74, 144, 226, 0.08);
+    background: rgba(1, 125, 211, 0.06);
+    border: 1px solid rgba(1, 125, 211, 0.12);
 }
 
 .window-title {
     flex: 1;
     min-width: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--editor-ink);
 }
 
 .window-toggle-button {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: white;
+    padding: 4px 8px;
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-s);
+    background: var(--editor-bg);
+    color: var(--editor-ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     cursor: pointer;
+}
+
+.window-toggle-button:hover {
+    border-color: var(--editor-accent);
+    color: var(--editor-accent);
 }
 
 .window-content {
@@ -54,9 +69,9 @@
     position: absolute;
     width: 14px;
     height: 14px;
-    background: rgba(74, 144, 226, 0.18);
-    border: 1px solid rgba(74, 144, 226, 0.35);
-    border-radius: 3px;
+    background: rgba(1, 125, 211, 0.16);
+    border: 1px solid rgba(1, 125, 211, 0.28);
+    border-radius: var(--editor-radius-s);
     touch-action: none;
 }
 
