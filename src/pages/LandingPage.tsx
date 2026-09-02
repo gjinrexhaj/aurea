@@ -541,7 +541,7 @@ export default function LandingPage() {
         <section className="landing-page-cta-final">
           <div className="landing-page-wrap">
             <h2>Pick up the compass.</h2>
-            <p>No install, no plugin — Aurea runs in the browser.</p>
+            <p>No install needed, Aurea runs in the browser.</p>
             <Link
               to="/app"
               className="landing-page-btn landing-page-btn-primary"
