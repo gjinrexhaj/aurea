@@ -86,7 +86,7 @@ export default function LandingPage() {
                   href="#landing-page-gallery"
                   className="landing-page-btn landing-page-btn-ghost"
                 >
-                  See the constructions ↓
+                  View common constructions ↓
                 </a>
               </div>
             </div>
