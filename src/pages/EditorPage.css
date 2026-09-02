@@ -40,7 +40,8 @@
 .app input,
 .app select,
 .app textarea {
-    font: inherit;
+    font-family: inherit;
+    color: inherit;
 }
 
 .layout-outer {

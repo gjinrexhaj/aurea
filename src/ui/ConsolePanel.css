@@ -112,7 +112,7 @@
     background: var(--editor-bg-raised);
     color: var(--editor-ink);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
+    font-size: 0.75rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     cursor: pointer;

@@ -137,7 +137,7 @@
 
 .snap-preset-btn {
     padding: 1px 5px;
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     border: 1px solid var(--editor-border-soft);
     border-radius: var(--editor-radius-s);
     background: var(--editor-bg);
@@ -153,6 +153,12 @@
 }
 
 .snap-preset-btn.active {
+    background: var(--editor-accent);
+    color: #ffffff;
+    border-color: var(--editor-accent);
+}
+
+.snap-preset-btn.active:hover {
     background: var(--editor-accent);
     color: #ffffff;
     border-color: var(--editor-accent);
@@ -224,7 +230,7 @@
 
 .snap-reset-button {
     width: 100%;
-    padding: 5px 8px;
+    padding: 4px 8px;
     border: 1px solid var(--editor-border);
     border-radius: var(--editor-radius-m);
     background: var(--editor-bg-raised);

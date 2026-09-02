@@ -45,13 +45,13 @@
 
 /* buttons */
 .tool-button {
-    padding: 3px 6px;
+    padding: 4px 8px;
     border: 1px solid var(--editor-border);
     border-radius: var(--editor-radius-s);
     background: var(--editor-bg-raised);
     color: var(--editor-ink);
     font-family: var(--editor-font-button, 'IBM Plex Mono', monospace);
-    font-size: 10px;
+    font-size: 0.75rem;
     line-height: 1.1;
     letter-spacing: 0.03em;
     text-transform: uppercase;
