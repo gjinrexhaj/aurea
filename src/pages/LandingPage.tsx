@@ -312,7 +312,7 @@ export default function LandingPage() {
                   <span className="landing-page-name">
                     Equilateral Triangle
                   </span>
-                  <span className="landing-page-meta">via vesica piscis</span>
+                  <span className="landing-page-meta">from vesica piscis</span>
                 </div>
               </div>
 
@@ -366,7 +366,7 @@ export default function LandingPage() {
                 <div className="landing-page-g-caption">
                   <span className="landing-page-name">Perfect Square</span>
                   <span className="landing-page-meta">
-                    four circles · intersections
+                    from four circles
                   </span>
                 </div>
               </div>
@@ -440,7 +440,7 @@ export default function LandingPage() {
                 </svg>
                 <div className="landing-page-g-caption">
                   <span className="landing-page-name">Pentagon</span>
-                  <span className="landing-page-meta">from vesica piscis</span>
+                  <span className="landing-page-meta">also from vesica piscis</span>
                 </div>
               </div>
 
