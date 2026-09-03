@@ -68,3 +68,11 @@
   background: rgba(1, 125, 211, 0.04);
   color: var(--editor-accent);
 }
+
+.guide-footer-text {
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  font-size: 0.75rem;
+  color: var(--editor-ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+}

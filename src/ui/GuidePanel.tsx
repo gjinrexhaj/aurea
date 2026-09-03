@@ -34,6 +34,10 @@ export function GuidePanel() {
             Use scroll wheel to zoom in/out
           </p>
         </div>
+
+        <div className="guide-footer">
+          <p className={"guide-footer-text"}>Additional information available in the user manual.</p>
+        </div>
       </div>
     </div>
   );
