@@ -13,6 +13,7 @@ import {defaultGeometryColors} from "../ui/GeometryColors.ts";
 import {defaultSnapSettings, type SnapSettings} from "../geometry/snap/SnapSettings.ts";
 import "./EditorPage.css";
 import { ConsolePanel } from '../ui/ConsolePanel.tsx';
+import { GuidePanel } from '../ui/GuidePanel.tsx';
 
 const defaultLayoutJson: IJsonModel = {
   global: {
@@ -87,6 +88,14 @@ const defaultLayoutJson: IJsonModel = {
                 id: 'console-tab',
                 name: 'Console',
                 component: 'console',
+                enableClose: false,
+                enablePopout: false,
+              },
+              {
+                type: 'tab',
+                id: 'guide-tab',
+                name: 'Guide',
+                component: 'guide',
                 enableClose: false,
                 enablePopout: false,
               },
@@ -237,6 +246,10 @@ export default function EditorPage() {
                 case "console":
                     return (
                       <ConsolePanel/>
+                    )
+                case "guide":
+                    return (
+                      <GuidePanel/>
                     )
                 default:
                     return null;
