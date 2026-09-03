@@ -41,6 +41,8 @@
 
 .toolbar-layer {
     gap: 4px;
+    padding-left: 10px;
+    border-left: 1px solid var(--editor-border-soft);
 }
 
 /* buttons */
