@@ -4,11 +4,6 @@ export function GuidePanel() {
   return (
     <div className="guide-panel-wrapper">
       <div className="guide-panel">
-        <div className="guide-intro">
-          <h2 className={"guide-header"}>Usage Guide</h2>
-          <button className="guide-see-more">VIEW USER MANUAL</button>
-        </div>
-
         <div className="guide-section">
           <h3 className={'guide-section-header'}>Tool usage</h3>
           <p>
@@ -36,7 +31,12 @@ export function GuidePanel() {
         </div>
 
         <div className="guide-footer">
-          <p className={"guide-footer-text"}>Additional information available in the user manual.</p>
+          <br/>
+          <p className={'guide-footer-text'}>
+            Additional information available in the user manual.
+          </p>
+          
+          <button className="guide-see-more">OPEN USER MANUAL</button>
         </div>
       </div>
     </div>

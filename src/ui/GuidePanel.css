@@ -13,12 +13,14 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  text-align: left;
 }
 
 .guide-panel {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  text-align: left;
 }
 
 .guide-section {
@@ -36,6 +38,7 @@
 .guide-section p {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.85rem;
+  text-align: left;
 }
 
 .guide-header {
@@ -75,4 +78,10 @@
   font-size: 0.75rem;
   color: var(--editor-ink-dim);
   font-family: 'IBM Plex Mono', monospace;
+  margin-right: 1rem;
+}
+
+.guide-footer {
+  display: flex;
+  padding-top: 8px;
 }
