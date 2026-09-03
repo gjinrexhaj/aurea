@@ -1,6 +1,18 @@
 import "./GuidePanel.css";
+import {generatePath} from 'react-router-dom';
 
 export function GuidePanel() {
+
+  // Handles opening a new route in a new tab
+  const handleViewManual = () => {
+    const basename = window.location.pathname.split('/').slice(0, -1).join('/');
+    const manualPath = generatePath('/manual');
+    const fullUrl = `${window.location.origin}${basename}${manualPath}`;
+
+    // Step 3: Open in new tab
+    window.open(fullUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="guide-panel-wrapper">
       <div className="guide-panel">
@@ -36,7 +48,9 @@ export function GuidePanel() {
             Additional information available in the user manual.
           </p>
 
-          <button className="guide-see-more">OPEN USER MANUAL</button>
+          <button className="guide-see-more" onClick={handleViewManual}>
+            OPEN USER MANUAL
+          </button>
         </div>
       </div>
     </div>
