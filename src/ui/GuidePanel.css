@@ -8,6 +8,13 @@
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
+.guide-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .guide-panel {
   display: flex;
   flex-direction: column;
@@ -29,6 +36,11 @@
 .guide-section p {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.85rem;
+}
+
+.guide-header {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .guide-section-header {

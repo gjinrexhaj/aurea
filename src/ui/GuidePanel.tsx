@@ -5,7 +5,7 @@ export function GuidePanel() {
     <div className="guide-panel-wrapper">
       <div className="guide-panel">
         <div className="guide-intro">
-          <h2>Usage Guide</h2>
+          <h2 className={"guide-header"}>Usage Guide</h2>
           <button className="guide-see-more">VIEW USER MANUAL</button>
         </div>
 
