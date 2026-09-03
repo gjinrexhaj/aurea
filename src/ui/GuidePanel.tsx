@@ -10,20 +10,27 @@ export function GuidePanel() {
         </div>
 
         <div className="guide-section">
-          <h3>Tool usage</h3>
+          <h3 className={'guide-section-header'}>Tool usage</h3>
           <p>
-            1: Select tool<br/>
-            2: Point tool<br/>
-            3: Compass tool<br/>
+            1: Select tool
+            <br />
+            2: Point tool
+            <br />
+            3: Compass tool
+            <br />
             4: Line tool
           </p>
         </div>
 
         <div className="guide-section">
-          <h3>Canvas controls</h3>
+          <h3 className={'guide-section-header'}>Canvas controls</h3>
           <p>
-            LMB or RMB: use tool<br/>
-            DEL: delete selected geometry<br/>
+            LMB or RMB: use tool
+            <br />
+            DEL: delete selected geometry
+            <br />
+            Ctrl+Z: undo construction
+            <br />
             Use scroll wheel to zoom in/out
           </p>
         </div>

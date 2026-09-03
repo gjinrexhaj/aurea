@@ -17,7 +17,7 @@
 .guide-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
   padding: 10px;
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
@@ -29,6 +29,12 @@
 .guide-section p {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.85rem;
+}
+
+.guide-section-header {
+  margin-top: 0.25rem;
+  margin-bottom: 0.1rem;
+  font-size: 1.1rem;
 }
 
 .guide-see-more {
