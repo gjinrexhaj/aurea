@@ -16,7 +16,7 @@ This document covers every current `.ts` and `.tsx` file in the repository.
 
 - **Kind**: top-level React component
 - **Exports**: default `App()`
-- **Imports**: `EditorPage` (with commented `LandingPage` flow)
+- **Imports**: `EditorPage` (with commented `ManualPage` flow)
 - **Responsibility**: app-level route/entry selection (currently always editor).
 - **Used by**: `src/main.tsx`.
 
@@ -24,7 +24,7 @@ This document covers every current `.ts` and `.tsx` file in the repository.
 
 - **Kind**: UI page component
 - **Exports**: default `LandingPage(props)`
-- **Imports**: `LandingPage.css`
+- **Imports**: `ManualPage.css`
 - **Responsibility**: marketing/entry screen with “Enter Workspace” action.
 - **Used by**: currently not active in `App.tsx` (commented flow).
 
