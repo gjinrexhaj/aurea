@@ -25,3 +25,28 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   transition: opacity 0.15s ease;
 }
+
+.guide-section p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.guide-see-more {
+  padding: 4px 8px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.guide-see-more:hover {
+  border-color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+  color: var(--editor-accent);
+}
