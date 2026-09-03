@@ -47,9 +47,10 @@ export default function Canvas({
     onSelectHistoryId,
     onRegisterUndo,
 }: CanvasProps) {
+    const canvasRef = useRef<HTMLDivElement>(null);
     const [camera, setCamera] = useState({
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        x: 0,
+        y: 0,
         zoom: 1,
     });
     const [isPanning, setIsPanning] = useState(false);
@@ -111,6 +112,22 @@ export default function Canvas({
     const selectedHistoryStep =
         history.find(step => step.id === selectedHistoryId) ?? null;
     const historyHighlight = getHistoryHighlight(selectedHistoryStep);
+
+    useEffect(() => {
+        const updateCamera = () => {
+            if (canvasRef.current) {
+                const rect = canvasRef.current.getBoundingClientRect();
+                setCamera(prev => ({
+                    ...prev,
+                    x: rect.width / 2,
+                    y: rect.height / 2,
+                }));
+            }
+        };
+        updateCamera();
+        window.addEventListener('resize', updateCamera);
+        return () => window.removeEventListener('resize', updateCamera);
+    }, []);
 
     useEffect(() => {
         const timeoutId = window.setTimeout(() => {
@@ -527,6 +544,7 @@ export default function Canvas({
 
     return (
         <div
+            ref={canvasRef}
             className="canvas"
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
