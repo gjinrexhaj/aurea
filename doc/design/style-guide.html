@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurea — CSS Style Guide</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: #fafafa; color: #3a3a3a; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+
+  h3 { margin-top: 24px; }
+  h3:first-of-type { margin-top: 0; }
+
+  .sg-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(58,58,58,0.18); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .sg-nav a { color: #3a3a3a; text-decoration: none; padding: 8px 14px; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+  .sg-nav a:hover { color: #000; border-color: rgba(58,58,58,0.18); }
+  .sg-nav a.active { color: #017dd3; border-bottom-color: #017dd3; font-weight: 600; }
+
+  .sg-section { max-width: 1180px; margin: 0 auto; padding: 96px 32px; }
+  .sg-section + .sg-section { border-top: 1px solid rgba(58,58,58,0.10); }
+  .sg-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600; margin: 14px 0 14px; letter-spacing: -0.01em; }
+  .sg-section h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+  .sg-section p { font-size: 16px; color: #3a3a3a; margin-bottom: 14px; }
+  .sg-section .lead { font-size: 17px; max-width: 46ch; color: #3a3a3a; margin-bottom: 30px; }
+
+  .sg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .sg-grid { grid-template-columns: 1fr; } }
+  .sg-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  @media (max-width: 900px) { .sg-grid-2 { grid-template-columns: 1fr; } }
+
+  .sg-card { padding: 26px 24px 28px; border: 1px solid rgba(58,58,58,0.18); border-radius: 5px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .sg-card + .sg-card { margin-top: 20px; }
+
+.sg-divider {
+  border: none;
+  height: 1px;
+  background: rgba(58,58,58,0.10);
+  margin: 0;
+}
+
+  .sg-swatch { height: 22px; border: 1px solid rgba(58,58,58,0.10); border-radius: 3px; margin-bottom: 8px; }
+  .sg-swatch-row { display: flex; align-items: center; gap: 8px; padding: 8px; border: 1px solid rgba(58,58,58,0.10); border-radius: 3px; background: #fff; cursor: pointer; transition: border-color .15s, background .15s; }
+  .sg-swatch-row:hover { border-color: #017dd3; background: rgba(1,125,211,0.03); }
+  .sg-swatch-label { font-size: 0.82rem; font-weight: 500; color: #3a3a3a; }
+  .sg-swatch-value { font-size: 0.72rem; color: #707070; font-family: 'IBM Plex Mono', monospace; }
+
+  .sg-code { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; background: rgba(0,0,0,0.05); padding: 10px 14px; border-radius: 3px; overflow-x: auto; white-space: pre; }
+  .sg-table { width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; }
+  .sg-table th, .sg-table td { padding: 8px 14px; text-align: left; border-bottom: 1px solid rgba(58,58,58,0.10); }
+  .sg-table th { font-weight: 600; color: #707070; text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px; }
+  .sg-table td { color: #3a3a3a; }
+
+  .sg-demo { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .sg-btn { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; padding: 12px 20px; border-radius: 3px; border: 1px solid rgba(58,58,58,0.18); background: #fff; color: #000; cursor: pointer; transition: border-color .15s, background .15s; }
+  .sg-btn:hover { border-color: #707070; }
+  .sg-btn-primary { background: #017dd3; border-color: #017dd3; color: #fff; }
+  .sg-btn-primary:hover { background: #1a8fe8; border-color: #1a8fe8; }
+  .sg-btn-ghost { background: transparent; }
+
+  .sg-input { padding: 8px 14px; border: 1px solid rgba(58,58,58,0.18); border-radius: 3px; font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; color: #000; background: #fff; }
+  .sg-input:focus { outline: 2px solid #017dd3; outline-offset: 3px; }
+
+  .sg-box { padding: 20px; border: 1px solid rgba(58,58,58,0.18); border-radius: 5px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .sg-radius-demo { display: inline-block; width: 60px; height: 60px; background: #fff; border: 1px solid rgba(58,58,58,0.18); }
+
+  .sg-window { position: relative; width: 100%; height: 200px; background: rgba(255,255,255,0.96); border: 1px solid rgba(58,58,58,0.18); border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.10); overflow: hidden; }
+  .sg-window-header { display: flex; align-items: center; justify-content: space-between; padding: 3px 5px; margin: -4px -4px 0; border-radius: 3px; background: rgba(1,125,211,0.06); border-bottom: 1px solid rgba(1,125,211,0.12); font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; color: #000; }
+  .sg-window-body { padding: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: #707070; }
+</style>
+</head>
+<body>
+
+<nav class="sg-nav">
+  <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;">Aurea</span>
+  <div>
+    <a href="#typography">Typography</a>
+    <a href="#colors">Colors</a>
+    <a href="#spacing">Spacing</a>
+    <a href="#components">Components</a>
+    <a href="#layout">Layout</a>
+  </div>
+</nav>
+
+<section class="sg-section" id="typography">
+  <h2>Typography</h2>
+  <p class="lead">Aurea uses three Google Fonts: Space Grotesk for display headings, IBM Plex Sans for body text, and IBM Plex Mono for code and data.</p>
+
+  <h3>Font Stack</h3>
+  <table class="sg-table">
+    <thead><tr><th>Role</th><th>Font</th><th>Weights</th></tr></thead>
+    <tbody>
+      <tr><td>Display</td><td><code>'Space Grotesk', sans-serif</code></td><td>500, 600, 700</td></tr>
+      <tr><td>Body</td><td><code>'IBM Plex Sans', sans-serif</code></td><td>400, 500, 600</td></tr>
+      <tr><td>Mono</td><td><code>'IBM Plex Mono', monospace</code></td><td>400, 500, 600</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Heading Styles</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <h1 style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;letter-spacing:-0.01em;line-height:1.05;">Heading 1 — Bold Display</h1>
+    <h2 style="font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;margin-top:14px;letter-spacing:-0.01em;">Heading 2 — Semi Bold</h2>
+    <h3 style="font-size:17px;font-weight:600;margin-top:24px;">Heading 3 — Medium</h3>
+  </div>
+
+  <h3>Body Text</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <p style="font-size:16px;color:#3a3a3a;line-height:1.55;">Body text — The quick brown fox jumps over the lazy dog. Aurea prioritizes legibility with antialiased rendering and optimizeLegibility text rendering.</p>
+    <p style="font-size:14.5px;color:#3a3a3a;margin-top:10px;">Small body text — Used for descriptions and secondary content in instrument cards and panels.</p>
+    <p style="font-size:13px;color:#3a3a3a;margin-top:10px;">Caption text — Monospace captions in gallery tiles and figure descriptions.</p>
+    <p style="font-size:11px;color:#707070;margin-top:10px;">Faint text — Metadata labels and timestamps, set in monospace.</p>
+  </div>
+
+  <h3>Monospace / Code</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <div class="sg-code">font-family: 'IBM Plex Mono', monospace;<br>font-size: 0.75rem;<br>letter-spacing: 0.04em;<br>text-transform: uppercase;</div>
+  </div>
+
+  <h3>Font Properties</h3>
+  <table class="sg-table">
+    <thead><tr><th>Property</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Base font size</td><td>16px</td></tr>
+      <tr><td>Base line height</td><td>1.55</td></tr>
+      <tr><td>Text rendering</td><td>optimizeLegibility</td></tr>
+      <tr><td>Font smoothing</td><td>-webkit-font-smoothing: antialiased</td></tr>
+      <tr><td>Letter spacing (uppercase)</td><td>0.04em–0.14em</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="sg-divider">
+<section class="sg-section" id="colors">
+  <h2>Colors</h2>
+  <p class="lead">The Aurea editor palette is built around a minimal dark-on-light system with a single blue accent (#017dd3). All colors are exposed as CSS custom properties.</p>
+
+  <h3>Editor / App Palette</h3>
+  <div class="sg-grid" style="margin-top:16px;">
+    <div>
+      <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;color:#707070;">Backgrounds</h3>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:#ffffff;"></div><div><div class="sg-swatch-label">--editor-bg</div><div class="sg-swatch-value">#ffffff</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:#ffffff;opacity:0.92;"></div><div><div class="sg-swatch-label">--editor-bg-raised</div><div class="sg-swatch-value">#ffffff</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:#ffffff;opacity:0.96;"></div><div><div class="sg-swatch-label">--editor-bg-sunken</div><div class="sg-swatch-value">#ffffff</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:rgba(1,125,211,0.04);"></div><div><div class="sg-swatch-label">--editor-accent-soft</div><div class="sg-swatch-value">#c7e8ff</div></div></div>
+    </div>
+    <div>
+      <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;color:#707070;">Ink / Text</h3>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:#000000;"></div><div><div class="sg-swatch-label">--editor-ink</div><div class="sg-swatch-value">#000000</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:#3a3a3a;"></div><div><div class="sg-swatch-label">--editor-ink-dim</div><div class="sg-swatch-value">#3a3a3a</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:#707070;"></div><div><div class="sg-swatch-label">--editor-ink-faint</div><div class="sg-swatch-value">#707070</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:#017dd3;"></div><div><div class="sg-swatch-label">--editor-accent</div><div class="sg-swatch-value">#017dd3</div></div></div>
+    </div>
+    <div>
+      <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;color:#707070;">Borders</h3>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:rgba(58,58,58,0.18);"></div><div><div class="sg-swatch-label">--editor-border</div><div class="sg-swatch-value">rgba(58,58,58,0.18)</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:rgba(58,58,58,0.10);"></div><div><div class="sg-swatch-label">--editor-border-soft</div><div class="sg-swatch-value">rgba(58,58,58,0.10)</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:rgba(1,125,211,0.12);"></div><div><div class="sg-swatch-label">accent border</div><div class="sg-swatch-value">rgba(1,125,211,0.12)</div></div></div>
+      <div class="sg-swatch-row"><div class="sg-swatch" style="background:rgba(1,125,211,0.18);"></div><div><div class="sg-swatch-label">accent border-strong</div><div class="sg-swatch-value">rgba(1,125,211,0.18)</div></div></div>
+    </div>
+  </div>
+
+  <h3>Landing Page Palette</h3>
+  <p style="font-size:14px;color:#707070;margin:16px 0 8px;">The landing page shares the same base palette with <code>--landing-page-*</code> prefixed custom properties. Key additions include a 28px grid background and the same accent colors.</p>
+  <table class="sg-table">
+    <thead><tr><th>Custom Property</th><th>Hex</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td>--landing-page-construction</td><td>#017DD3</td><td>Primary accent (CTA, links, highlights)</td></tr>
+      <tr><td>--landing-page-construction-soft</td><td>#C7E8FF</td><td>Soft accent background (active states)</td></tr>
+      <tr><td>--landing-page-grid-line</td><td>rgba(58,58,58,0.06)</td><td>Background grid lines</td></tr>
+      <tr><td>--landing-page-bg</td><td>#FFFFFF</td><td>Page background</td></tr>
+      <tr><td>--landing-page-border</td><td>rgba(58,58,58,0.18)</td><td>Surface borders</td></tr>
+      <tr><td>--landing-page-border-soft</td><td>rgba(58,58,58,0.10)</td><td>Subtle borders</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Log Level Colors</h3>
+  <table class="sg-table">
+    <thead><tr><th>Level</th><th>Color</th><th>Hex</th></tr></thead>
+    <tbody>
+      <tr><td>Log</td><td>Default ink-dim</td><td>#3a3a3a</td></tr>
+      <tr><td>Info</td><td>Accent</td><td>#017dd3</td></tr>
+      <tr><td>Warn</td><td>Amber</td><td>#b7791f</td></tr>
+      <tr><td>Error</td><td>Red</td><td>#c53030</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="sg-divider">
+<section class="sg-section" id="spacing">
+  <h2>Spacing &amp; Radius</h2>
+  <p class="lead">Aurea uses a consistent spacing scale with two border-radius values and 8px-based grid spacing.</p>
+
+  <h3>Border Radius</h3>
+  <div class="sg-grid" style="margin-top:16px;">
+    <div class="sg-card">
+      <h3 style="font-size:14px;">Radius S (3px)</h3>
+      <div class="sg-radius-demo" style="border-radius:3px;margin-bottom:8px;"></div>
+      <div class="sg-code" style="font-size:0.75rem;">border-radius: var(--editor-radius-s);<br>/* 3px */</div>
+      <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Used for buttons, inputs, swatches, and small interactive elements.</p>
+    </div>
+    <div class="sg-card">
+      <h3 style="font-size:14px;">Radius M (5px)</h3>
+      <div class="sg-radius-demo" style="border-radius:5px;margin-bottom:8px;"></div>
+      <div class="sg-code" style="font-size:0.75rem;">border-radius: var(--editor-radius-m);<br>/* 5px */</div>
+      <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Used for panels, tabs, cards, and modal surfaces.</p>
+    </div>
+  </div>
+
+  <h3>Spacing Scale</h3>
+  <table class="sg-table">
+    <thead><tr><th>Token</th><th>Value</th><th>Context</th></tr></thead>
+    <tbody>
+      <tr><td>--editor-radius-s</td><td>3px</td><td>Small elements (buttons, inputs)</td></tr>
+      <tr><td>--editor-radius-m</td><td>5px</td><td>Medium elements (panels, cards)</td></tr>
+      <tr><td>8px</td><td>8px</td><td>Base grid unit for padding/gaps</td></tr>
+      <tr><td>10px</td><td>10px</td><td>Panel section gaps, padding</td></tr>
+      <tr><td>12px</td><td>12px</td><td>Modal gap, icon gaps</td></tr>
+      <tr><td>14px</td><td>14px</td><td>Nav padding, list margins</td></tr>
+      <tr><td>16px</td><td>16px</td><td>Grid gaps, footer padding</td></tr>
+      <tr><td>20px</td><td>20px</td><td>Card padding, gallery gaps</td></tr>
+      <tr><td>24px</td><td>24px</td><td>Modal padding</td></tr>
+      <tr><td>32px</td><td>32px</td><td>Section horizontal padding</td></tr>
+      <tr><td>56px</td><td>56px</td><td>Section grid gaps (hero, history)</td></tr>
+      <tr><td>96px</td><td>96px</td><td>Section vertical padding</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Scrollbar</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <table class="sg-table">
+      <thead><tr><th>Part</th><th>Width</th><th>Color</th></tr></thead>
+      <tbody>
+        <tr><td>Track</td><td>8px</td><td>rgba(0,0,0,0.05)</td></tr>
+        <tr><td>Thumb</td><td>8px</td><td>#cbd5e0</td></tr>
+        <tr><td>Thumb hover</td><td>8px</td><td>#a0aec0</td></tr>
+        <tr><td>Border radius</td><td>4px</td><td>applies to track &amp; thumb</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.82rem;color:#707070;margin-top:12px;">Firefox fallback uses <code>scrollbar-width: thin</code> and <code>scrollbar-color: #cbd5e0 rgba(0,0,0,0.05)</code>.</p>
+  </div>
+</section>
+
+<hr class="sg-divider">
+<section class="sg-section" id="components">
+  <h2>Components</h2>
+  <p class="lead">Reusable UI components follow consistent styling patterns: 1px borders with soft alpha values, 3px/5px border-radius, and subtle box shadows for depth.</p>
+
+  <h3>Buttons</h3>
+  <div class="sg-demo" style="margin-top:16px;">
+    <button class="sg-btn">Default</button>
+    <button class="sg-btn sg-btn-primary">Primary</button>
+    <button class="sg-btn sg-btn-ghost">Ghost</button>
+  </div>
+  <table class="sg-table" style="margin-top:24px;">
+    <thead><tr><th>Property</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Padding</td><td>12px 20px</td></tr>
+      <tr><td>Font</td><td>'IBM Plex Mono', monospace</td></tr>
+      <tr><td>Font size</td><td>13px</td></tr>
+      <tr><td>Letter spacing</td><td>0.06em</td></tr>
+      <tr><td>Text transform</td><td>uppercase</td></tr>
+      <tr><td>Border</td><td>1px solid rgba(58,58,58,0.18)</td></tr>
+      <tr><td>Border radius</td><td>3px</td></tr>
+      <tr><td>Transition</td><td>border-color .15s, background .15s</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Buttons (Toolbar / Panel)</h3>
+  <div class="sg-demo" style="margin-top:16px;">
+    <button class="sg-btn" style="padding:4px 8px;font-size:0.75rem;">Small</button>
+    <button class="sg-btn sg-btn-primary" style="padding:4px 8px;font-size:0.75rem;">Active</button>
+  </div>
+  <div class="sg-card" style="margin-top:24px;">
+    <p style="font-size:0.82rem;"><strong>Tool button</strong> — Used in toolbars. Padding: 4px 8px, font-size: 0.75rem, uppercase mono. Active state uses accent background with white text and a subtle box shadow.</p>
+    <p style="font-size:0.82rem;margin-top:8px;"><strong>See-more button</strong> — Panel expansion. Same sizing, accent border on hover.</p>
+    <p style="font-size:0.82rem;margin-top:8px;"><strong>Reset button</strong> — Width: 100%, uppercase mono, border + accent color on hover.</p>
+  </div>
+
+  <h3>Input Fields</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <input class="sg-input" type="text" placeholder="Text input..." style="width:100%;max-width:300px;">
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Inputs use border-radius 3px, 1px solid border, and an accent outline on focus.</p>
+  </div>
+
+  <h3>Panel Surface</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <div class="sg-box">Panel Surface</div>
+    <p style="font-size:0.82rem;margin-top:8px;">Background: #fff · Border: 1px solid rgba(58,58,58,0.18) · Border-radius: 5px · Box-shadow: 0 1px 3px rgba(0,0,0,0.06)</p>
+  </div>
+
+  <h3>Toggle / Checkbox</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.82rem;">
+      <input type="checkbox" style="accent-color:#017dd3;"> Toggle option
+    </label>
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Checkboxes use <code>accent-color: var(--editor-accent)</code>. Labels have 8px gap, 1px soft border, and 5px radius with hover highlight.</p>
+  </div>
+
+  <h3>Badge</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <span style="display:inline-block;font-size:0.72rem;font-weight:600;color:#017dd3;background:#c7e8ff;padding:2px 8px;border-radius:999px;border:1px solid rgba(1,125,211,0.18);">Radius Badge</span>
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Used in snap panel to display current radius value. Pill shape with accent colors.</p>
+  </div>
+
+  <h3>Modal</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <div style="width:min(360px,calc(100vw - 48px));padding:12px;border:1px solid rgba(58,58,58,0.18);border-radius:5px;background:#fff;box-shadow:0 12px 32px rgba(0,0,0,0.16);">
+      <p style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;">Modal Title</p>
+      <p style="font-size:0.82rem;color:#707070;margin-top:4px;">Modal content area with actions</p>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <span style="padding:4px 8px;border:1px solid rgba(58,58,58,0.18);border-radius:3px;font-size:0.75rem;font-family:'IBM Plex Mono',monospace;cursor:pointer;">Close</span>
+        <span style="padding:4px 8px;border:1px solid rgba(58,58,58,0.10);border-radius:3px;background:rgba(1,125,211,0.04);color:#017dd3;font-size:0.75rem;font-family:'IBM Plex Mono',monospace;cursor:pointer;">Reset</span>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Backdrop: rgba(0,0,0,0.18) · z-index: 2000 · Width: min(360px, calc(100vw - 48px))</p>
+  </div>
+</section>
+
+<hr class="sg-divider">
+<section class="sg-section" id="layout">
+  <h2>Layout</h2>
+  <p class="lead">Aurea uses a 100vw × 100vh editor shell with flexbox-based panel layouts and CSS Grid for responsive landing page sections.</p>
+
+  <h3>Editor Shell</h3>
+  <div class="sg-window" style="margin-top:16px;">
+    <div class="sg-window-header">
+      <span>Canvas</span>
+      <span style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;">Panel</span>
+    </div>
+    <div class="sg-window-body">Editor content area — 100% width and height, overflow hidden</div>
+  </div>
+  <div class="sg-code" style="margin-top:16px;">.app {<br>  position: relative;<br>  width: 100vw;<br>  height: 100vh;<br>  overflow: hidden;<br>  background: var(--editor-bg);<br>}</div>
+
+  <h3>Window Shell</h3>
+  <div class="sg-card" style="margin-top:24px;">
+    <div style="display:flex;flex-direction:column;gap:10px;padding:12px;background:rgba(255,255,255,0.96);border:1px solid rgba(58,58,58,0.18);border-radius:5px;box-shadow:0 2px 10px rgba(0,0,0,0.10);">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:3px 5px;margin:-4px -4px 0;border-radius:3px;background:rgba(1,125,211,0.06);border-bottom:1px solid rgba(1,125,211,0.12);">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;">Window Title</span>
+        <span style="padding:4px 8px;border:1px solid rgba(58,58,58,0.18);border-radius:3px;font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;">Toggle</span>
+      </div>
+      <div style="flex:1;padding:16px;font-size:0.85rem;color:#707070;">Content area</div>
+    </div>
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Window shell: 12px padding, 10px gap, rgba(255,255,255,0.96) background, 1px border, 5px radius, 0 2px 10px shadow, z-index: 1000</p>
+  </div>
+
+  <h3>Grid Systems</h3>
+  <table class="sg-table" style="margin-top:16px;">
+    <thead><tr><th>Context</th><th>Template</th><th>Gap</th></tr></thead>
+    <tbody>
+      <tr><td>Landing hero</td><td>1.05fr 1fr</td><td>56px</td></tr>
+      <tr><td>Landing instruments</td><td>repeat(3, 1fr)</td><td>20px</td></tr>
+      <tr><td>Landing gallery</td><td>repeat(3, 1fr)</td><td>18px</td></tr>
+      <tr><td>Landing history</td><td>1fr 1fr</td><td>56px</td></tr>
+      <tr><td>Color layer grid</td><td>1fr 1fr</td><td>10px</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Responsive breakpoints: 540px, 780px, 860px, 900px, 940px collapse grids to fewer columns.</p>
+
+  <h3>Navigation</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 32px;max-width:1180px;margin:0 auto;border-bottom:1px solid rgba(58,58,58,0.18);font-family:'IBM Plex Mono',monospace;font-size:12px;">
+      <span style="font-weight:600;">Aurea</span>
+      <div style="display:flex;gap:2px;">
+        <span style="padding:8px 14px;color:#3a3a3a;border-bottom:2px solid transparent;">Home</span>
+        <span style="padding:8px 14px;color:#707070;border-bottom:2px solid transparent;">Docs</span>
+        <span style="padding:8px 14px;color:#707070;border-bottom:2px solid transparent;">Gallery</span>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Sticky header with backdrop-filter blur(8px) and rgba(255,255,255,0.88) background. Tabs use mono font, 12px, uppercase, with 2px underline accent on active/hover.</p>
+  </div>
+
+  <h3>CSS Grid Background</h3>
+  <div style="margin-top:16px;">
+    <div style="background-image:linear-gradient(rgba(1,125,211,0.12) 1px, transparent 1px),linear-gradient(90deg, rgba(1,125,211,0.12) 1px, transparent 1px);background-size:20px 20px;height:120px;border-radius:5px;border:1px solid rgba(58,58,58,0.10);"></div>
+    <div style="background-image:linear-gradient(var(--landing-page-grid-line, rgba(58,58,58,0.06)) 1px, transparent 1px),linear-gradient(90deg, var(--landing-page-grid-line, rgba(58,58,58,0.06)) 1px, transparent 1px);background-size:28px 28px;height:120px;margin-top:8px;border-radius:5px;border:1px solid rgba(58,58,58,0.10);"></div>
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">Two grid patterns are used: 20px grid with accent tint (hero canvas) and 28px grid with subtle lines (landing page background).</p>
+  </div>
+
+  <h3>Animations</h3>
+  <div class="sg-card" style="margin-top:16px;">
+    <table class="sg-table">
+      <thead><tr><th>Animation</th><th>Duration</th><th>Timing</th></tr></thead>
+      <tbody>
+        <tr><td>landingPageDraw</td><td>1.1s</td><td>ease forwards</td></tr>
+        <tr><td>landingPageFadeIn</td><td>0.6s</td><td>ease forwards</td></tr>
+        <tr><td>Component transitions</td><td>0.15s</td><td>ease (color, background, border)</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.82rem;color:#707070;margin-top:8px;">All animations respect <code>prefers-reduced-motion: reduce</code> — drawing animations are disabled, fade-in becomes opacity: 1, scroll-behavior becomes auto.</p>
+  </div>
+</section>
+
+</body>
+</html>
