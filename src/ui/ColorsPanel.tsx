@@ -7,6 +7,7 @@ import {
     type LayeredColor,
     type RgbaColor,
 } from "./GeometryColors.ts";
+import {ConfirmDialog} from "./ConfirmDialog.tsx";
 import "./ColorsPanel.css";
 
 type ColorsPanelProps = {
@@ -288,39 +289,16 @@ export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: C
             )}
 
             {themeDialog && (
-                <div className="color-modal-backdrop" onClick={() => setThemeDialog(null)}>
-                    <div className="color-modal" onClick={event => event.stopPropagation()}>
-                        <div className="color-modal-header">
-                            <strong>Apply suggested colors?</strong>
-                        </div>
-                        <p className="theme-change-message">
-                            Switch to {themeDialog.nextIsDarkMode ? "dark" : "light"} mode and use suggested default colors for that mode?
-                        </p>
-                        <div className="color-modal-actions theme-change-actions">
-                            <button
-                                type="button"
-                                className="color-modal-close"
-                                onClick={() => setThemeDialog(null)}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="button"
-                                className="color-modal-close"
-                                onClick={() => applyThemeChange(false)}
-                            >
-                                Keep my colors
-                            </button>
-                            <button
-                                type="button"
-                                className="color-modal-reset"
-                                onClick={() => applyThemeChange(true)}
-                            >
-                                Use suggested
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <ConfirmDialog
+                    title="Apply suggested colors?"
+                    message={`Switch to ${themeDialog.nextIsDarkMode ? "dark" : "light"} mode and use suggested default colors for that mode?`}
+                    cancelLabel="Cancel"
+                    neutralLabel="Keep my colors"
+                    confirmLabel="Use suggested"
+                    onCancel={() => setThemeDialog(null)}
+                    onNeutral={() => applyThemeChange(false)}
+                    onConfirm={() => applyThemeChange(true)}
+                />
             )}
         </div>
     );

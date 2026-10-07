@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { subscribeToLogs, type LogEntry, getLogs } from '../util/Logger';
+import { ConfirmDialog } from "./ConfirmDialog.tsx";
 import "./ConsolePanel.css"
 
 
@@ -8,6 +9,7 @@ export function ConsolePanel() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [wrapText, setWrapText] = useState<boolean>(false);
   const [autoscroll, setAutoscroll] = useState<boolean>(true);
+  const [showClearConfirm, setShowClearConfirm] = useState<boolean>(false);
 
   const handleTextWrapButton = () => {
     setWrapText(prevState => !prevState);
@@ -18,10 +20,7 @@ export function ConsolePanel() {
   }
 
   const handleClearButton = () => {
-    const confirmed = confirm("Are you sure you want to clear the console?");
-    if (confirmed) {
-      setLogs([]);
-    }
+    setShowClearConfirm(true);
   }
 
   useEffect(() => {
@@ -89,6 +88,20 @@ export function ConsolePanel() {
           <button onClick={handleClearButton}>Clear Console</button>
         </div>
       </div>
+
+      {showClearConfirm && (
+        <ConfirmDialog
+          title="Clear console?"
+          message="This will remove all currently visible log messages from the console panel."
+          cancelLabel="Cancel"
+          confirmLabel="Clear"
+          onCancel={() => setShowClearConfirm(false)}
+          onConfirm={() => {
+            setLogs([]);
+            setShowClearConfirm(false);
+          }}
+        />
+      )}
 
     </div>
   );
