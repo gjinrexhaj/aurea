@@ -39,19 +39,19 @@ export const defaultGeometryColors: GeometryColors = {
 
 export const darkModeGeometryColors: GeometryColors = {
   point: {
-    graphite: { r: 130, g: 130, b: 130, a: 1 },
+    graphite: { r: 95, g: 95, b: 95, a: 1 },
     ink: { r: 255, g: 255, b: 255, a: 1 },
   },
   circle: {
-    graphite: { r: 130, g: 130, b: 130, a: 1 },
+    graphite: { r: 95, g: 95, b: 95, a: 1 },
     ink: { r: 255, g: 255, b: 255, a: 1 },
   },
   line: {
-    graphite: { r: 130, g: 130, b: 130, a: 1 },
+    graphite: { r: 95, g: 95, b: 95, a: 1 },
     ink: { r: 255, g: 255, b: 255, a: 1 },
   },
-  axes: { r: 105, g: 105, b: 105, a: 1 },
-  infiniteLines: { r: 130, g: 130, b: 130, a: 1 },
+  axes: { r: 75, g: 75, b: 75, a: 1 },
+  infiniteLines: { r: 95, g: 95, b: 95, a: 1 },
 };
 
 export function rgbaToCss(color: RgbaColor): string {
