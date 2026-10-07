@@ -11,6 +11,7 @@
     --editor-ink-faint: #707070;
     --editor-accent: #017dd3;
     --editor-accent-soft: #c7e8ff;
+    --editor-tab-selected-bg: #eef6ff;
 
     --editor-font-display: 'Space Grotesk', sans-serif;
     --editor-font-body: 'IBM Plex Sans', sans-serif;
@@ -29,6 +30,20 @@
     font-family: 'IBM Plex Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+}
+
+.app.app-dark {
+    --editor-bg: #15181e;
+    --editor-bg-raised: #1d222b;
+    --editor-bg-sunken: #11141a;
+    --editor-border: rgba(208, 216, 233, 0.22);
+    --editor-border-soft: rgba(208, 216, 233, 0.12);
+    --editor-ink: #eef2fb;
+    --editor-ink-dim: #c2cce0;
+    --editor-ink-faint: #92a1bc;
+    --editor-accent: #63b3ff;
+    --editor-accent-soft: rgba(99, 179, 255, 0.25);
+    --editor-tab-selected-bg: rgba(99, 179, 255, 0.16);
 }
 
 .app,
@@ -85,6 +100,61 @@
     text-transform: uppercase;
 }
 
+.app.app-dark .flexlayout__tabset_header {
+    background: rgba(21, 24, 30, 0.96);
+}
+
+.flexlayout__tabset {
+    background: var(--editor-bg-raised);
+    border: 1px solid var(--editor-border);
+}
+
+.flexlayout__tabset_tabbar_outer {
+    background: var(--editor-bg-raised);
+    border-bottom: 1px solid var(--editor-border-soft);
+}
+
+.flexlayout__tabset_tabbar_inner {
+    background: transparent;
+}
+
+.flexlayout__tabset_content {
+    background: var(--editor-bg-raised);
+}
+
+.flexlayout__tab_button--unselected {
+    color: var(--editor-ink-dim);
+}
+
+.flexlayout__tabset-selected {
+    background: var(--editor-tab-selected-bg);
+}
+
+.flexlayout__tabset_tabbar_inner_tab_container_top.flexlayout__tabset-selected {
+    border-top-color: var(--editor-accent);
+}
+
+.flexlayout__tabset_tabbar_inner_tab_container_bottom.flexlayout__tabset-selected {
+    border-bottom-color: var(--editor-accent);
+}
+
+.flexlayout__float_window {
+    background: var(--editor-bg-raised);
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius-m);
+    color: var(--editor-ink);
+}
+
+.flexlayout__float_window_header {
+    background: var(--editor-bg-raised);
+    border-bottom: 1px solid var(--editor-border-soft);
+    color: var(--editor-ink);
+}
+
+.flexlayout__float_window_content {
+    background: var(--editor-bg-raised);
+}
+
 .flexlayout__tab_button {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
@@ -106,6 +176,7 @@
     color: var(--editor-accent);
     font-weight: 600;
     border-bottom-color: var(--editor-accent);
+    background: var(--editor-tab-selected-bg);
 }
 
 .flexlayout__splitter {

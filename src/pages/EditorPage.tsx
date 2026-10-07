@@ -154,6 +154,7 @@ export default function EditorPage() {
     const [snapSettings, setSnapSettings] = useState<SnapSettings>(defaultSnapSettings);
     const [history, setHistory] = useState<HistoryStep[]>([]);
     const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
         const html = document.documentElement;
@@ -232,6 +233,10 @@ export default function EditorPage() {
                         <ColorsPanel
                             colors={colors}
                             setColors={setColors}
+                            isDarkMode={isDarkMode}
+                            onDarkModeChange={nextIsDarkMode =>
+                                setIsDarkMode(() => nextIsDarkMode)
+                            }
                         />
                     );
                 case "history":
@@ -263,6 +268,7 @@ export default function EditorPage() {
             snapSettings,
             history,
             selectedHistoryId,
+            isDarkMode,
             handleRegisterUndo,
             handleUndo,
         ]
@@ -270,7 +276,7 @@ export default function EditorPage() {
 
     // render component
     return (
-        <div className="app">
+        <div className={`app${isDarkMode ? " app-dark" : ""}`}>
             <div className="layout-outer">
                 <Layout model={model} factory={factory} />
             </div>

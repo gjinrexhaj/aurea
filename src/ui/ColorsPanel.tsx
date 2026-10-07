@@ -11,6 +11,8 @@ import "./ColorsPanel.css";
 type ColorsPanelProps = {
     colors: GeometryColors;
     setColors: React.Dispatch<React.SetStateAction<GeometryColors>>;
+    isDarkMode: boolean;
+    onDarkModeChange: (isDarkMode: boolean) => void;
 };
 
 type ColorTarget =
@@ -129,7 +131,7 @@ function LayeredSwatches({
     );
 }
 
-export function ColorsPanel({colors, setColors}: ColorsPanelProps) {
+export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: ColorsPanelProps) {
     const [picker, setPicker] = useState<PickerState>(null);
 
     useEffect(() => {
@@ -172,6 +174,19 @@ export function ColorsPanel({colors, setColors}: ColorsPanelProps) {
     return (
         <div className="colors-panel-wrapper">
             <div className="colors-panel">
+                <section className="colors-section">
+                    <div className="colors-theme-toggle">
+                        <strong>Theme</strong>
+                        <button
+                            type="button"
+                            className={`colors-theme-toggle-button${isDarkMode ? " is-active" : ""}`}
+                            onClick={() => onDarkModeChange(!isDarkMode)}
+                            aria-pressed={isDarkMode}
+                        >
+                            {isDarkMode ? "Dark mode: on" : "Dark mode: off"}
+                        </button>
+                    </div>
+                </section>
                 <LayeredSwatches
                     label="Points"
                     colors={colors.point}
