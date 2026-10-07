@@ -19,6 +19,7 @@
     border-radius: var(--editor-radius-m);
     background: var(--editor-bg-raised);
     color: var(--editor-ink);
+    font-family: 'IBM Plex Sans', sans-serif;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
 }
 
@@ -30,16 +31,16 @@
 }
 
 .confirm-dialog-header strong {
-    font-family: var(--editor-font-mono);
-    font-size: 13px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.95rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: normal;
+    text-transform: none;
 }
 
 .confirm-dialog-message {
     margin: 0;
-    font-family: var(--editor-font-body);
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.85rem;
     color: var(--editor-ink-dim);
     line-height: 1.45;
@@ -58,8 +59,10 @@
     border-radius: var(--editor-radius-s);
     background: var(--editor-bg);
     color: var(--editor-ink);
-    font-family: var(--editor-font-body);
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.85rem;
+    letter-spacing: normal;
+    text-transform: none;
     cursor: pointer;
 }
 
@@ -69,8 +72,10 @@
     border-radius: var(--editor-radius-s);
     background: rgba(1, 125, 211, 0.04);
     color: var(--editor-accent);
-    font-family: var(--editor-font-body);
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.85rem;
+    letter-spacing: normal;
+    text-transform: none;
     cursor: pointer;
 }
 

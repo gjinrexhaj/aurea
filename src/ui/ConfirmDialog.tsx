@@ -37,7 +37,7 @@ export function ConfirmDialog({
         <div className="confirm-dialog-backdrop" onClick={onCancel}>
             <div className="confirm-dialog" onClick={event => event.stopPropagation()}>
                 <div className="confirm-dialog-header">
-                    <strong>{title}</strong>
+                    <strong>{title.toUpperCase()}</strong>
                 </div>
                 <p className="confirm-dialog-message">{message}</p>
                 <div className="confirm-dialog-actions">

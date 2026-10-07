@@ -111,10 +111,10 @@
     border-radius: var(--editor-radius-s);
     background: var(--editor-bg-raised);
     color: var(--editor-ink);
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    letter-spacing: normal;
+    text-transform: none;
     cursor: pointer;
     transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
