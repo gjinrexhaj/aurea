@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {RgbaColorPicker} from "react-colorful";
 import {
     defaultGeometryColors,
+    darkModeGeometryColors,
     type GeometryColors,
     type LayeredColor,
     type RgbaColor,
@@ -14,6 +15,10 @@ type ColorsPanelProps = {
     isDarkMode: boolean;
     onDarkModeChange: (isDarkMode: boolean) => void;
 };
+
+type ThemeChangeDialogState = {
+    nextIsDarkMode: boolean;
+} | null;
 
 type ColorTarget =
     | {group: "point"; layer: "graphite" | "ink"}
@@ -133,6 +138,7 @@ function LayeredSwatches({
 
 export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: ColorsPanelProps) {
     const [picker, setPicker] = useState<PickerState>(null);
+    const [themeDialog, setThemeDialog] = useState<ThemeChangeDialogState>(null);
 
     useEffect(() => {
         function onKeyDown(event: KeyboardEvent) {
@@ -171,6 +177,29 @@ export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: C
         setColors(current => applyColorChange(current, picker.target, next));
     }
 
+    function getThemeSuggestedColors(nextIsDarkMode: boolean): GeometryColors {
+        return nextIsDarkMode ? darkModeGeometryColors : defaultGeometryColors;
+    }
+
+    function openThemeChangeDialog(nextIsDarkMode: boolean) {
+        setThemeDialog({nextIsDarkMode});
+    }
+
+    function applyThemeChange(useSuggestedColors: boolean) {
+        if (!themeDialog) {
+            return;
+        }
+
+        const nextIsDarkMode = themeDialog.nextIsDarkMode;
+        onDarkModeChange(nextIsDarkMode);
+
+        if (useSuggestedColors) {
+            setColors(getThemeSuggestedColors(nextIsDarkMode));
+        }
+
+        setThemeDialog(null);
+    }
+
     return (
         <div className="colors-panel-wrapper">
             <div className="colors-panel">
@@ -180,7 +209,7 @@ export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: C
                         <button
                             type="button"
                             className={`colors-theme-toggle-button${isDarkMode ? " is-active" : ""}`}
-                            onClick={() => onDarkModeChange(!isDarkMode)}
+                            onClick={() => openThemeChangeDialog(!isDarkMode)}
                             aria-pressed={isDarkMode}
                         >
                             {isDarkMode ? "Dark mode: on" : "Dark mode: off"}
@@ -254,6 +283,42 @@ export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: C
                         />
 
                         <RgbaColorPicker color={picker.color} onChange={updateColor} />
+                    </div>
+                </div>
+            )}
+
+            {themeDialog && (
+                <div className="color-modal-backdrop" onClick={() => setThemeDialog(null)}>
+                    <div className="color-modal" onClick={event => event.stopPropagation()}>
+                        <div className="color-modal-header">
+                            <strong>Apply suggested colors?</strong>
+                        </div>
+                        <p className="theme-change-message">
+                            Switch to {themeDialog.nextIsDarkMode ? "dark" : "light"} mode and use suggested default colors for that mode?
+                        </p>
+                        <div className="color-modal-actions theme-change-actions">
+                            <button
+                                type="button"
+                                className="color-modal-close"
+                                onClick={() => setThemeDialog(null)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="color-modal-close"
+                                onClick={() => applyThemeChange(false)}
+                            >
+                                Keep my colors
+                            </button>
+                            <button
+                                type="button"
+                                className="color-modal-reset"
+                                onClick={() => applyThemeChange(true)}
+                            >
+                                Use suggested
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

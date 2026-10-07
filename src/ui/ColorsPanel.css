@@ -170,6 +170,17 @@
     gap: 8px;
 }
 
+.theme-change-actions {
+    justify-content: flex-end;
+}
+
+.theme-change-message {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--editor-ink-dim);
+    line-height: 1.45;
+}
+
 .color-modal-close {
     padding: 4px 8px;
     border: 1px solid var(--editor-border);

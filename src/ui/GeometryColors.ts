@@ -37,6 +37,23 @@ export const defaultGeometryColors: GeometryColors = {
   infiniteLines: { r: 211, g: 211, b: 211, a: 1 },
 };
 
+export const darkModeGeometryColors: GeometryColors = {
+  point: {
+    graphite: { r: 130, g: 130, b: 130, a: 1 },
+    ink: { r: 255, g: 255, b: 255, a: 1 },
+  },
+  circle: {
+    graphite: { r: 130, g: 130, b: 130, a: 1 },
+    ink: { r: 255, g: 255, b: 255, a: 1 },
+  },
+  line: {
+    graphite: { r: 130, g: 130, b: 130, a: 1 },
+    ink: { r: 255, g: 255, b: 255, a: 1 },
+  },
+  axes: { r: 105, g: 105, b: 105, a: 1 },
+  infiniteLines: { r: 130, g: 130, b: 130, a: 1 },
+};
+
 export function rgbaToCss(color: RgbaColor): string {
     return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
 }
