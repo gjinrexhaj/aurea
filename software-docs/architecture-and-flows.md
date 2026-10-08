@@ -85,7 +85,7 @@ Each intersection is returned as:
 type IntersectionPoint = {
   x: number;
   y: number;
-  source: "line-line" | "line-circle" | "circle-circle";
+  source: 'line-line' | 'line-circle' | 'circle-circle';
 };
 ```
 
@@ -122,4 +122,3 @@ Styling semantics:
 - Build script: `tsc -b && vite build`
 - Deploy target base path: `/aurea/` (`vite.config.ts`)
 - Deployment script uses `gh-pages` to publish `dist/`
-

@@ -27,4 +27,3 @@ The reference currently covers all discovered TypeScript files:
 - `src/**/*.ts`
 - `src/**/*.tsx`
 - `vite.config.ts`
-

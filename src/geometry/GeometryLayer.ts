@@ -1,3 +1,1 @@
-export type GeometryLayer =
-    | "construction"
-    | "final";
+export type GeometryLayer = 'construction' | 'final';

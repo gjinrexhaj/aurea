@@ -1,250 +1,256 @@
 .snap-panel-wrapper {
-    height: 100%;
-    overflow: auto;
-    padding: 10px;
-    box-sizing: border-box;
-    background: var(--editor-bg);
-    color: var(--editor-ink);
-    font-family: 'IBM Plex Sans', sans-serif;
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .snap-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .snap-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    border: 1px solid var(--editor-border);
-    border-radius: var(--editor-radius-m);
-    background: var(--editor-bg-raised);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    transition: opacity 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg-raised);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: opacity 0.15s ease;
 }
 
 .snap-section.disabled {
-    opacity: 0.5;
-    pointer-events: none;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .snap-master-section {
-    background: rgba(1, 125, 211, 0.03);
-    border-color: rgba(1, 125, 211, 0.18);
+  background: rgba(1, 125, 211, 0.03);
+  border-color: rgba(1, 125, 211, 0.18);
 }
 
 .snap-section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    color: var(--editor-ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--editor-ink);
 }
 
 .snap-section-header strong {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .snap-radius-badge {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--editor-accent);
-    background: var(--editor-accent-soft);
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(1, 125, 211, 0.18);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--editor-accent);
+  background: var(--editor-accent-soft);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(1, 125, 211, 0.18);
 }
 
 .snap-radius-slider-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .snap-radius-slider {
-    flex: 1;
-    cursor: pointer;
-    accent-color: var(--editor-accent);
+  flex: 1;
+  cursor: pointer;
+  accent-color: var(--editor-accent);
 }
 
 .snap-radius-input-wrap {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--editor-border);
-    border-radius: var(--editor-radius-s);
-    background: var(--editor-bg);
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  overflow: hidden;
 }
 
 .snap-stepper-btn {
-    padding: 3px 6px;
-    border: none;
-    background: rgba(1, 125, 211, 0.04);
-    cursor: pointer;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: var(--editor-ink-dim);
-    transition: background 0.15s ease, color 0.15s ease;
+  padding: 3px 6px;
+  border: none;
+  background: rgba(1, 125, 211, 0.04);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--editor-ink-dim);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .snap-stepper-btn:hover:not(:disabled) {
-    background: rgba(1, 125, 211, 0.08);
-    color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.08);
+  color: var(--editor-accent);
 }
 
 .snap-stepper-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .snap-radius-number {
-    width: 44px;
-    border: none;
-    text-align: center;
-    font-size: 0.75rem;
-    padding: 4px 2px;
-    color: var(--editor-ink);
-    background: var(--editor-bg);
+  width: 44px;
+  border: none;
+  text-align: center;
+  font-size: 0.75rem;
+  padding: 4px 2px;
+  color: var(--editor-ink);
+  background: var(--editor-bg);
 }
 
 .snap-radius-number:focus {
-    outline: none;
-    background: rgba(1, 125, 211, 0.04);
+  outline: none;
+  background: rgba(1, 125, 211, 0.04);
 }
 
 .snap-presets-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
 }
 
 .snap-presets-label {
-    font-size: 0.8rem;
-    color: var(--editor-ink-faint);
+  font-size: 0.8rem;
+  color: var(--editor-ink-faint);
 }
 
 .snap-presets-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .snap-preset-btn {
-    padding: 1px 5px;
-    font-size: 0.75rem;
-    border: 1px solid var(--editor-border-soft);
-    border-radius: var(--editor-radius-s);
-    background: var(--editor-bg);
-    color: var(--editor-ink-dim);
-    font-family: 'IBM Plex Mono', monospace;
-    cursor: pointer;
-    transition: all 0.1s ease;
+  padding: 1px 5px;
+  font-size: 0.75rem;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  cursor: pointer;
+  transition: all 0.1s ease;
 }
 
 .snap-preset-btn:hover:not(:disabled) {
-    background: rgba(1, 125, 211, 0.04);
-    border-color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+  border-color: var(--editor-accent);
 }
 
 .snap-preset-btn.active {
-    background: var(--editor-accent);
-    color: #ffffff;
-    border-color: var(--editor-accent);
+  background: var(--editor-accent);
+  color: #ffffff;
+  border-color: var(--editor-accent);
 }
 
 .snap-preset-btn.active:hover {
-    background: var(--editor-accent);
-    color: #ffffff;
-    border-color: var(--editor-accent);
+  background: var(--editor-accent);
+  color: #ffffff;
+  border-color: var(--editor-accent);
 }
 
 .snap-toggles-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .snap-toggle-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 6px 8px;
-    border: 1px solid var(--editor-border-soft);
-    border-radius: var(--editor-radius-m);
-    background: var(--editor-bg);
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.15s ease, border-color 0.15s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 8px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .snap-toggle-label:hover {
-    background: rgba(1, 125, 211, 0.03);
-    border-color: var(--editor-accent-soft);
+  background: rgba(1, 125, 211, 0.03);
+  border-color: var(--editor-accent-soft);
 }
 
-.snap-toggle-label input[type="checkbox"] {
-    margin-top: 3px;
-    cursor: pointer;
-    accent-color: var(--editor-accent);
+.snap-toggle-label input[type='checkbox'] {
+  margin-top: 3px;
+  cursor: pointer;
+  accent-color: var(--editor-accent);
 }
 
 .snap-toggle-label.master-label {
-    padding: 8px 10px;
-    border-color: rgba(1, 125, 211, 0.18);
-    align-items: center;
+  padding: 8px 10px;
+  border-color: rgba(1, 125, 211, 0.18);
+  align-items: center;
 }
 
-.snap-toggle-label.master-label input[type="checkbox"] {
-    margin-top: 0;
-    transform: scale(1.15);
+.snap-toggle-label.master-label input[type='checkbox'] {
+  margin-top: 0;
+  transform: scale(1.15);
 }
 
 .snap-toggle-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .snap-toggle-title {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--editor-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--editor-ink);
 }
 
 .snap-toggle-desc {
-    font-size: 0.68rem;
-    color: var(--editor-ink-faint);
+  font-size: 0.68rem;
+  color: var(--editor-ink-faint);
 }
 
 .snap-actions {
-    display: flex;
-    justify-content: stretch;
-    margin-top: 4px;
+  display: flex;
+  justify-content: stretch;
+  margin-top: 4px;
 }
 
 .snap-reset-button {
-    width: 100%;
-    padding: 4px 8px;
-    border: 1px solid var(--editor-border);
-    border-radius: var(--editor-radius-m);
-    background: var(--editor-bg-raised);
-    color: var(--editor-ink);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .snap-reset-button:hover {
-    background: rgba(1, 125, 211, 0.04);
-    border-color: var(--editor-accent);
-    color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+  border-color: var(--editor-accent);
+  color: var(--editor-accent);
 }

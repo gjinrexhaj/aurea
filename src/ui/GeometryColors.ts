@@ -1,23 +1,23 @@
-import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
+import type { GeometryLayer } from '../geometry/GeometryLayer.ts';
 
 export type RgbaColor = {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
+  r: number;
+  g: number;
+  b: number;
+  a: number;
 };
 
 export type LayeredColor = {
-    graphite: RgbaColor;
-    ink: RgbaColor;
+  graphite: RgbaColor;
+  ink: RgbaColor;
 };
 
 export type GeometryColors = {
-    point: LayeredColor;
-    circle: LayeredColor;
-    line: LayeredColor;
-    axes: RgbaColor;
-    infiniteLines: RgbaColor;
+  point: LayeredColor;
+  circle: LayeredColor;
+  line: LayeredColor;
+  axes: RgbaColor;
+  infiniteLines: RgbaColor;
 };
 
 export const defaultGeometryColors: GeometryColors = {
@@ -55,9 +55,12 @@ export const darkModeGeometryColors: GeometryColors = {
 };
 
 export function rgbaToCss(color: RgbaColor): string {
-    return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+  return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
 }
 
-export function colorForLayeredValue(value: LayeredColor, layer: GeometryLayer): RgbaColor {
-    return layer === "construction" ? value.graphite : value.ink;
+export function colorForLayeredValue(
+  value: LayeredColor,
+  layer: GeometryLayer,
+): RgbaColor {
+  return layer === 'construction' ? value.graphite : value.ink;
 }

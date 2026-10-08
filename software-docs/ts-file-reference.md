@@ -302,4 +302,3 @@ If an agent needs to add/modify behavior, start from these files:
 2. **Add new primitive/rendering behavior**: `src/geometry/*.ts`, `src/canvas/GeometrySvg.tsx`, `src/geometry/utils/HitTesting.ts`
 3. **Add new snap targets**: `src/geometry/snap/SnapEngine.ts` + relevant intersection/math modules
 4. **Add view toggles**: `src/ui/ViewSettings.ts`, `src/ui/Toolbar.tsx`, `src/canvas/GeometrySvg.tsx`
-

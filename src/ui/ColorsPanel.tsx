@@ -1,307 +1,327 @@
-import {useEffect, useState} from "react";
-import {RgbaColorPicker} from "react-colorful";
+import { useEffect, useState } from 'react';
+import { RgbaColorPicker } from 'react-colorful';
 import {
-    defaultGeometryColors,
-    darkModeGeometryColors,
-    type GeometryColors,
-    type LayeredColor,
-    type RgbaColor,
-} from "./GeometryColors.ts";
-import {ConfirmDialog} from "./ConfirmDialog.tsx";
-import "./ColorsPanel.css";
+  defaultGeometryColors,
+  darkModeGeometryColors,
+  type GeometryColors,
+  type LayeredColor,
+  type RgbaColor,
+} from './GeometryColors.ts';
+import { ConfirmDialog } from './ConfirmDialog.tsx';
+import './ColorsPanel.css';
 
 type ColorsPanelProps = {
-    colors: GeometryColors;
-    setColors: React.Dispatch<React.SetStateAction<GeometryColors>>;
-    isDarkMode: boolean;
-    onDarkModeChange: (isDarkMode: boolean) => void;
+  colors: GeometryColors;
+  setColors: React.Dispatch<React.SetStateAction<GeometryColors>>;
+  isDarkMode: boolean;
+  onDarkModeChange: (isDarkMode: boolean) => void;
 };
 
 type ThemeChangeDialogState = {
-    nextIsDarkMode: boolean;
+  nextIsDarkMode: boolean;
 } | null;
 
 type ColorTarget =
-    | {group: "point"; layer: "graphite" | "ink"}
-    | {group: "circle"; layer: "graphite" | "ink"}
-    | {group: "line"; layer: "graphite" | "ink"}
-    | {group: "axes"}
-    | {group: "infiniteLines"};
+  | { group: 'point'; layer: 'graphite' | 'ink' }
+  | { group: 'circle'; layer: 'graphite' | 'ink' }
+  | { group: 'line'; layer: 'graphite' | 'ink' }
+  | { group: 'axes' }
+  | { group: 'infiniteLines' };
 
 type PickerState = {
-    title: string;
-    target: ColorTarget;
-    color: RgbaColor;
+  title: string;
+  target: ColorTarget;
+  color: RgbaColor;
 } | null;
 
 function applyColorChange(
-    current: GeometryColors,
-    target: ColorTarget,
-    next: RgbaColor
+  current: GeometryColors,
+  target: ColorTarget,
+  next: RgbaColor,
 ): GeometryColors {
-    const nextColors = {...current};
+  const nextColors = { ...current };
 
-    switch (target.group) {
-        case "point":
-            nextColors.point = {
-                ...nextColors.point,
-                [target.layer]: next,
-            };
-            break;
-        case "circle":
-            nextColors.circle = {
-                ...nextColors.circle,
-                [target.layer]: next,
-            };
-            break;
-        case "line":
-            nextColors.line = {
-                ...nextColors.line,
-                [target.layer]: next,
-            };
-            break;
-        case "axes":
-            nextColors.axes = next;
-            break;
-        case "infiniteLines":
-            nextColors.infiniteLines = next;
-            break;
-    }
+  switch (target.group) {
+    case 'point':
+      nextColors.point = {
+        ...nextColors.point,
+        [target.layer]: next,
+      };
+      break;
+    case 'circle':
+      nextColors.circle = {
+        ...nextColors.circle,
+        [target.layer]: next,
+      };
+      break;
+    case 'line':
+      nextColors.line = {
+        ...nextColors.line,
+        [target.layer]: next,
+      };
+      break;
+    case 'axes':
+      nextColors.axes = next;
+      break;
+    case 'infiniteLines':
+      nextColors.infiniteLines = next;
+      break;
+  }
 
-    return nextColors;
+  return nextColors;
 }
 
 function getDefaultColor(target: ColorTarget, isDarkMode: boolean): RgbaColor {
-    const defaultColors = isDarkMode ? darkModeGeometryColors : defaultGeometryColors;
+  const defaultColors = isDarkMode
+    ? darkModeGeometryColors
+    : defaultGeometryColors;
 
-    switch (target.group) {
-        case "point":
-            return defaultColors.point[target.layer];
-        case "circle":
-            return defaultColors.circle[target.layer];
-        case "line":
-            return defaultColors.line[target.layer];
-        case "axes":
-            return defaultColors.axes;
-        case "infiniteLines":
-            return defaultColors.infiniteLines;
-    }
+  switch (target.group) {
+    case 'point':
+      return defaultColors.point[target.layer];
+    case 'circle':
+      return defaultColors.circle[target.layer];
+    case 'line':
+      return defaultColors.line[target.layer];
+    case 'axes':
+      return defaultColors.axes;
+    case 'infiniteLines':
+      return defaultColors.infiniteLines;
+  }
 }
 
 function ColorSwatch({
-    label,
-    color,
-    onClick,
+  label,
+  color,
+  onClick,
 }: {
-    label: string;
-    color: RgbaColor;
-    onClick: () => void;
+  label: string;
+  color: RgbaColor;
+  onClick: () => void;
 }) {
-    return (
-        <button type="button" className="color-swatch" onClick={onClick}>
-            <span className="color-swatch-label">{label}</span>
-            <span
-                className="color-swatch-preview"
-                style={{background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}
-            />
-            <span className="color-swatch-value">
-                rgba({color.r}, {color.g}, {color.b}, {color.a.toFixed(2)})
-            </span>
-        </button>
-    );
+  return (
+    <button type="button" className="color-swatch" onClick={onClick}>
+      <span className="color-swatch-label">{label}</span>
+      <span
+        className="color-swatch-preview"
+        style={{
+          background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+        }}
+      />
+      <span className="color-swatch-value">
+        rgba({color.r}, {color.g}, {color.b}, {color.a.toFixed(2)})
+      </span>
+    </button>
+  );
 }
 
 function LayeredSwatches({
-    label,
-    colors,
-    onPick,
+  label,
+  colors,
+  onPick,
 }: {
-    label: string;
-    colors: LayeredColor;
-    onPick: (layer: "graphite" | "ink", color: RgbaColor) => void;
+  label: string;
+  colors: LayeredColor;
+  onPick: (layer: 'graphite' | 'ink', color: RgbaColor) => void;
 }) {
-    return (
-        <section className="colors-section">
-            <strong>{label}</strong>
-            <div className="color-layer-grid">
-                <ColorSwatch
-                    label="Graphite"
-                    color={colors.graphite}
-                    onClick={() => onPick("graphite", colors.graphite)}
-                />
-                <ColorSwatch
-                    label="Ink"
-                    color={colors.ink}
-                    onClick={() => onPick("ink", colors.ink)}
-                />
-            </div>
-        </section>
-    );
+  return (
+    <section className="colors-section">
+      <strong>{label}</strong>
+      <div className="color-layer-grid">
+        <ColorSwatch
+          label="Graphite"
+          color={colors.graphite}
+          onClick={() => onPick('graphite', colors.graphite)}
+        />
+        <ColorSwatch
+          label="Ink"
+          color={colors.ink}
+          onClick={() => onPick('ink', colors.ink)}
+        />
+      </div>
+    </section>
+  );
 }
 
-export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: ColorsPanelProps) {
-    const [picker, setPicker] = useState<PickerState>(null);
-    const [themeDialog, setThemeDialog] = useState<ThemeChangeDialogState>(null);
+export function ColorsPanel({
+  colors,
+  setColors,
+  isDarkMode,
+  onDarkModeChange,
+}: ColorsPanelProps) {
+  const [picker, setPicker] = useState<PickerState>(null);
+  const [themeDialog, setThemeDialog] = useState<ThemeChangeDialogState>(null);
 
-    useEffect(() => {
-        function onKeyDown(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                setPicker(null);
-            }
-        }
-
-        window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onKeyDown);
-    }, []);
-
-    function openPicker(title: string, target: ColorTarget, color: RgbaColor) {
-        setPicker({title, target, color});
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setPicker(null);
+      }
     }
 
-    function updateColor(next: RgbaColor) {
-        setPicker(prev => (prev ? {...prev, color: next} : prev));
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
-        setColors(current => {
-            if (!picker) {
-                return current;
-            }
+  function openPicker(title: string, target: ColorTarget, color: RgbaColor) {
+    setPicker({ title, target, color });
+  }
 
-            return applyColorChange(current, picker.target, next);
-        });
+  function updateColor(next: RgbaColor) {
+    setPicker((prev) => (prev ? { ...prev, color: next } : prev));
+
+    setColors((current) => {
+      if (!picker) {
+        return current;
+      }
+
+      return applyColorChange(current, picker.target, next);
+    });
+  }
+
+  function resetToDefault() {
+    if (!picker) {
+      return;
     }
 
-    function resetToDefault() {
-        if (!picker) {
-            return;
-        }
+    const next = getDefaultColor(picker.target, isDarkMode);
+    setPicker((prev) => (prev ? { ...prev, color: next } : prev));
+    setColors((current) => applyColorChange(current, picker.target, next));
+  }
 
-        const next = getDefaultColor(picker.target, isDarkMode);
-        setPicker(prev => (prev ? {...prev, color: next} : prev));
-        setColors(current => applyColorChange(current, picker.target, next));
+  function getThemeSuggestedColors(nextIsDarkMode: boolean): GeometryColors {
+    return nextIsDarkMode ? darkModeGeometryColors : defaultGeometryColors;
+  }
+
+  function openThemeChangeDialog(nextIsDarkMode: boolean) {
+    setThemeDialog({ nextIsDarkMode });
+  }
+
+  function applyThemeChange(useSuggestedColors: boolean) {
+    if (!themeDialog) {
+      return;
     }
 
-    function getThemeSuggestedColors(nextIsDarkMode: boolean): GeometryColors {
-        return nextIsDarkMode ? darkModeGeometryColors : defaultGeometryColors;
+    const nextIsDarkMode = themeDialog.nextIsDarkMode;
+    onDarkModeChange(nextIsDarkMode);
+
+    if (useSuggestedColors) {
+      setColors(getThemeSuggestedColors(nextIsDarkMode));
     }
 
-    function openThemeChangeDialog(nextIsDarkMode: boolean) {
-        setThemeDialog({nextIsDarkMode});
-    }
+    setThemeDialog(null);
+  }
 
-    function applyThemeChange(useSuggestedColors: boolean) {
-        if (!themeDialog) {
-            return;
-        }
+  return (
+    <div className="colors-panel-wrapper">
+      <div className="colors-panel">
+        <section className="colors-section">
+          <div className="colors-theme-toggle">
+            <strong>Theme</strong>
+            <button
+              type="button"
+              className={`colors-theme-toggle-button${isDarkMode ? ' is-active' : ''}`}
+              onClick={() => openThemeChangeDialog(!isDarkMode)}
+              aria-pressed={isDarkMode}
+            >
+              {isDarkMode ? 'Dark mode: on' : 'Dark mode: off'}
+            </button>
+          </div>
+        </section>
+        <LayeredSwatches
+          label="Points"
+          colors={colors.point}
+          onPick={(layer, color) =>
+            openPicker(`Points ${layer}`, { group: 'point', layer }, color)
+          }
+        />
+        <LayeredSwatches
+          label="Circles"
+          colors={colors.circle}
+          onPick={(layer, color) =>
+            openPicker(`Circles ${layer}`, { group: 'circle', layer }, color)
+          }
+        />
+        <LayeredSwatches
+          label="Lines"
+          colors={colors.line}
+          onPick={(layer, color) =>
+            openPicker(`Lines ${layer}`, { group: 'line', layer }, color)
+          }
+        />
+        <div className="colors-section">
+          <strong>Guidelines</strong>
+          <div className="color-layer-grid">
+            <ColorSwatch
+              label="Axes"
+              color={colors.axes}
+              onClick={() => openPicker('Axes', { group: 'axes' }, colors.axes)}
+            />
+            <ColorSwatch
+              label="Infinite Lines"
+              color={colors.infiniteLines}
+              onClick={() =>
+                openPicker(
+                  'Infinite Lines',
+                  { group: 'infiniteLines' },
+                  colors.infiniteLines,
+                )
+              }
+            />
+          </div>
+        </div>
+      </div>
 
-        const nextIsDarkMode = themeDialog.nextIsDarkMode;
-        onDarkModeChange(nextIsDarkMode);
-
-        if (useSuggestedColors) {
-            setColors(getThemeSuggestedColors(nextIsDarkMode));
-        }
-
-        setThemeDialog(null);
-    }
-
-    return (
-        <div className="colors-panel-wrapper">
-            <div className="colors-panel">
-                <section className="colors-section">
-                    <div className="colors-theme-toggle">
-                        <strong>Theme</strong>
-                        <button
-                            type="button"
-                            className={`colors-theme-toggle-button${isDarkMode ? " is-active" : ""}`}
-                            onClick={() => openThemeChangeDialog(!isDarkMode)}
-                            aria-pressed={isDarkMode}
-                        >
-                            {isDarkMode ? "Dark mode: on" : "Dark mode: off"}
-                        </button>
-                    </div>
-                </section>
-                <LayeredSwatches
-                    label="Points"
-                    colors={colors.point}
-                    onPick={(layer, color) =>
-                        openPicker(`Points ${layer}`, {group: "point", layer}, color)
-                    }
-                />
-                <LayeredSwatches
-                    label="Circles"
-                    colors={colors.circle}
-                    onPick={(layer, color) =>
-                        openPicker(`Circles ${layer}`, {group: "circle", layer}, color)
-                    }
-                />
-                <LayeredSwatches
-                    label="Lines"
-                    colors={colors.line}
-                    onPick={(layer, color) =>
-                        openPicker(`Lines ${layer}`, {group: "line", layer}, color)
-                    }
-                />
-                <div className="colors-section">
-                    <strong>Guidelines</strong>
-                    <div className="color-layer-grid">
-                    <ColorSwatch label="Axes" color={colors.axes} onClick={() => openPicker("Axes", {group: "axes"}, colors.axes)} />
-                    <ColorSwatch label="Infinite Lines" color={colors.infiniteLines} onClick={() => openPicker("Infinite Lines", {group: "infiniteLines"}, colors.infiniteLines)} />
-                </div>
-                </div>
+      {picker && (
+        <div className="color-modal-backdrop" onClick={() => setPicker(null)}>
+          <div
+            className="color-modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="color-modal-header">
+              <strong>{picker.title}</strong>
+              <div className="color-modal-actions">
+                <button
+                  type="button"
+                  className="color-modal-reset"
+                  onClick={resetToDefault}
+                >
+                  Revert
+                </button>
+                <button
+                  type="button"
+                  className="color-modal-close"
+                  onClick={() => setPicker(null)}
+                >
+                  Close
+                </button>
+              </div>
             </div>
 
-            {picker && (
-                <div
-                    className="color-modal-backdrop"
-                    onClick={() => setPicker(null)}
-                >
-                    <div
-                        className="color-modal"
-                        onClick={event => event.stopPropagation()}
-                    >
-                        <div className="color-modal-header">
-                            <strong>{picker.title}</strong>
-                            <div className="color-modal-actions">
-                                <button
-                                    type="button"
-                                    className="color-modal-reset"
-                                    onClick={resetToDefault}
-                                >
-                                    Revert
-                                </button>
-                                <button
-                                    type="button"
-                                    className="color-modal-close"
-                                    onClick={() => setPicker(null)}
-                                >
-                                    Close
-                                </button>
-                            </div>
-                        </div>
+            <div
+              className="color-modal-preview"
+              style={{
+                background: `rgba(${picker.color.r}, ${picker.color.g}, ${picker.color.b}, ${picker.color.a})`,
+              }}
+            />
 
-                        <div
-                            className="color-modal-preview"
-                            style={{
-                                background: `rgba(${picker.color.r}, ${picker.color.g}, ${picker.color.b}, ${picker.color.a})`,
-                            }}
-                        />
-
-                        <RgbaColorPicker color={picker.color} onChange={updateColor} />
-                    </div>
-                </div>
-            )}
-
-            {themeDialog && (
-                <ConfirmDialog
-                    title="Apply suggested colors?"
-                    message={`Switch to ${themeDialog.nextIsDarkMode ? "dark" : "light"} mode and use suggested default colors for that mode?`}
-                    cancelLabel="Cancel"
-                    neutralLabel="Keep my colors"
-                    confirmLabel="Use suggested"
-                    onCancel={() => setThemeDialog(null)}
-                    onNeutral={() => applyThemeChange(false)}
-                    onConfirm={() => applyThemeChange(true)}
-                />
-            )}
+            <RgbaColorPicker color={picker.color} onChange={updateColor} />
+          </div>
         </div>
-    );
+      )}
+
+      {themeDialog && (
+        <ConfirmDialog
+          title="Apply suggested colors?"
+          message={`Switch to ${themeDialog.nextIsDarkMode ? 'dark' : 'light'} mode and use suggested default colors for that mode?`}
+          cancelLabel="Cancel"
+          neutralLabel="Keep my colors"
+          confirmLabel="Use suggested"
+          onCancel={() => setThemeDialog(null)}
+          onNeutral={() => applyThemeChange(false)}
+          onConfirm={() => applyThemeChange(true)}
+        />
+      )}
+    </div>
+  );
 }
