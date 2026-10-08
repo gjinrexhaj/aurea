@@ -71,18 +71,20 @@ function applyColorChange(
     return nextColors;
 }
 
-function getDefaultColor(target: ColorTarget): RgbaColor {
+function getDefaultColor(target: ColorTarget, isDarkMode: boolean): RgbaColor {
+    const defaultColors = isDarkMode ? darkModeGeometryColors : defaultGeometryColors;
+
     switch (target.group) {
         case "point":
-            return defaultGeometryColors.point[target.layer];
+            return defaultColors.point[target.layer];
         case "circle":
-            return defaultGeometryColors.circle[target.layer];
+            return defaultColors.circle[target.layer];
         case "line":
-            return defaultGeometryColors.line[target.layer];
+            return defaultColors.line[target.layer];
         case "axes":
-            return defaultGeometryColors.axes;
+            return defaultColors.axes;
         case "infiniteLines":
-            return defaultGeometryColors.infiniteLines;
+            return defaultColors.infiniteLines;
     }
 }
 
@@ -173,7 +175,7 @@ export function ColorsPanel({colors, setColors, isDarkMode, onDarkModeChange}: C
             return;
         }
 
-        const next = getDefaultColor(picker.target);
+        const next = getDefaultColor(picker.target, isDarkMode);
         setPicker(prev => (prev ? {...prev, color: next} : prev));
         setColors(current => applyColorChange(current, picker.target, next));
     }
