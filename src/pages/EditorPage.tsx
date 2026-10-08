@@ -17,6 +17,7 @@ import {
 import './EditorPage.css';
 import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 import { GuidePanel } from '../ui/GuidePanel.tsx';
+import {FilePanel} from "../ui/FilePanel.tsx";
 
 const defaultLayoutJson: IJsonModel = {
   global: {
@@ -96,12 +97,20 @@ const defaultLayoutJson: IJsonModel = {
               },
               {
                 type: 'tab',
+                id: 'file-tab',
+                name: 'File',
+                component: 'file',
+                enableClose: false,
+                enablePopout: false,
+              },
+              {
+                type: 'tab',
                 id: 'guide-tab',
                 name: 'Guide',
                 component: 'guide',
                 enableClose: false,
                 enablePopout: false,
-              },
+              }
             ],
           },
         ],
@@ -256,6 +265,8 @@ export default function EditorPage() {
           return <ConsolePanel />;
         case 'guide':
           return <GuidePanel />;
+        case 'file':
+          return <FilePanel />;
         default:
           return null;
       }
