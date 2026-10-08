@@ -23,7 +23,7 @@ export default function LandingPage() {
           }
         });
       },
-      { threshold: 0.35 }
+      { threshold: 0.35 },
     );
 
     observer.observe(node);
@@ -169,9 +169,10 @@ export default function LandingPage() {
               <span className="landing-page-eyebrow">The Toolset</span>
               <h2>Three fundamental tools.</h2>
               <p>
-                Everything in a construction comes from circles, lines, and
-                the intersections between them, with the only true degree of freedom
-                being the placement of points, for which the snapping engine enables precise placement.
+                Everything in a construction comes from circles, lines, and the
+                intersections between them, with the only true degree of freedom
+                being the placement of points, for which the snapping engine
+                enables precise placement.
               </p>
             </div>
 
@@ -203,7 +204,8 @@ export default function LandingPage() {
                 <h3>Compass</h3>
                 <p>
                   Constructs a circle from any two points, a foundational unit
-                  of measurement from which all other geometric forms derive from.
+                  of measurement from which all other geometric forms derive
+                  from.
                 </p>
               </div>
               <div className="landing-page-panel landing-page-instrument-card">
@@ -247,9 +249,9 @@ export default function LandingPage() {
                 </svg>
                 <h3>Snapping</h3>
                 <p>
-                  Intersections pull your cursor in automatically,
-                  ensuring that a construction lands exactly where the
-                  geometry says it should.
+                  Intersections pull your cursor in automatically, ensuring that
+                  a construction lands exactly where the geometry says it
+                  should.
                 </p>
               </div>
             </div>
@@ -365,9 +367,7 @@ export default function LandingPage() {
                 </svg>
                 <div className="landing-page-g-caption">
                   <span className="landing-page-name">Perfect Square</span>
-                  <span className="landing-page-meta">
-                    from four circles
-                  </span>
+                  <span className="landing-page-meta">from four circles</span>
                 </div>
               </div>
 
@@ -440,7 +440,9 @@ export default function LandingPage() {
                 </svg>
                 <div className="landing-page-g-caption">
                   <span className="landing-page-name">Pentagon</span>
-                  <span className="landing-page-meta">also from vesica piscis</span>
+                  <span className="landing-page-meta">
+                    also from vesica piscis
+                  </span>
                 </div>
               </div>
 

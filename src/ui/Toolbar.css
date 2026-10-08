@@ -1,93 +1,96 @@
 .toolbar-wrapper {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    padding: 6px 8px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    background: var(--editor-bg);
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background: var(--editor-bg);
 }
 
 .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
-    background: transparent;
-    color: var(--editor-ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  background: transparent;
+  color: var(--editor-ink);
 }
 
 /* shared layout behavior for all groups */
 .toolbar-tools,
 .toolbar-view,
 .toolbar-layer {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 /* spacing per group */
 .toolbar-tools {
-    gap: 4px;
-    flex-wrap: wrap;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .toolbar-view {
-    gap: 8px;
-    padding-left: 10px;
-    border-left: 1px solid var(--editor-border-soft);
-    flex-wrap: wrap;
+  gap: 8px;
+  padding-left: 10px;
+  border-left: 1px solid var(--editor-border-soft);
+  flex-wrap: wrap;
 }
 
 .toolbar-layer {
-    gap: 4px;
-    padding-left: 10px;
-    border-left: 1px solid var(--editor-border-soft);
+  gap: 4px;
+  padding-left: 10px;
+  border-left: 1px solid var(--editor-border-soft);
 }
 
 /* buttons */
 .tool-button {
-    padding: 4px 8px;
-    border: 1px solid var(--editor-border);
-    border-radius: var(--editor-radius-s);
-    background: var(--editor-bg-raised);
-    color: var(--editor-ink);
-    font-family: var(--editor-font-button, 'IBM Plex Mono', monospace);
-    font-size: 0.75rem;
-    line-height: 1.1;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    cursor: pointer;
-    user-select: none;
-    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease,
-        box-shadow 0.15s ease;
+  padding: 4px 8px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink);
+  font-family: var(--editor-font-button, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .tool-button:hover {
-    border-color: var(--editor-ink-faint);
+  border-color: var(--editor-ink-faint);
 }
 
 .tool-button.active {
-    background-color: var(--editor-accent);
-    color: white;
-    border-color: var(--editor-accent);
-    box-shadow: 0 1px 3px rgba(1, 125, 211, 0.18);
+  background-color: var(--editor-accent);
+  color: white;
+  border-color: var(--editor-accent);
+  box-shadow: 0 1px 3px rgba(1, 125, 211, 0.18);
 }
 
 /* view checkboxes */
 .toolbar-view label {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
-    color: var(--editor-ink-dim);
-    cursor: pointer;
-    user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--editor-ink-dim);
+  cursor: pointer;
+  user-select: none;
 }
 
 .toolbar-view input {
-    cursor: pointer;
-    accent-color: var(--editor-accent);
+  cursor: pointer;
+  accent-color: var(--editor-accent);
 }

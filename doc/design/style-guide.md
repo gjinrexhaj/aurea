@@ -6,11 +6,11 @@ Aurea uses three Google Fonts: **Space Grotesk** for display headings, **IBM Ple
 
 ### Font Stack
 
-| Role | Font | Weights |
-|------|------|---------|
+| Role    | Font                          | Weights       |
+| ------- | ----------------------------- | ------------- |
 | Display | `'Space Grotesk', sans-serif` | 500, 600, 700 |
-| Body | `'IBM Plex Sans', sans-serif` | 400, 500, 600 |
-| Mono | `'IBM Plex Mono', monospace` | 400, 500, 600 |
+| Body    | `'IBM Plex Sans', sans-serif` | 400, 500, 600 |
+| Mono    | `'IBM Plex Mono', monospace`  | 400, 500, 600 |
 
 ### Heading Styles
 
@@ -33,13 +33,13 @@ Code text uses `'IBM Plex Mono', monospace` at 0.75–0.85rem with uppercase let
 
 ### Font Properties
 
-| Property | Value |
-|----------|-------|
-| Base font size | 16px |
-| Base line height | 1.55 |
-| Text rendering | `optimizeLegibility` |
-| Font smoothing | `-webkit-font-smoothing: antialiased` |
-| Letter spacing (uppercase) | 0.04em–0.14em |
+| Property                   | Value                                 |
+| -------------------------- | ------------------------------------- |
+| Base font size             | 16px                                  |
+| Base line height           | 1.55                                  |
+| Text rendering             | `optimizeLegibility`                  |
+| Font smoothing             | `-webkit-font-smoothing: antialiased` |
+| Letter spacing (uppercase) | 0.04em–0.14em                         |
 
 ---
 
@@ -51,52 +51,52 @@ The Aurea editor palette is built around a minimal dark-on-light system with a s
 
 #### Backgrounds
 
-| Custom Property | Value | Description |
-|----------------|-------|-------------|
-| `--editor-bg` | `#ffffff` | Base background |
-| `--editor-bg-raised` | `#ffffff` | Raised surfaces (cards, panels) |
-| `--editor-bg-sunken` | `#ffffff` | Sunken areas (canvas) |
-| `--editor-accent-soft` | `#c7e8ff` | Soft accent tint |
+| Custom Property        | Value     | Description                     |
+| ---------------------- | --------- | ------------------------------- |
+| `--editor-bg`          | `#ffffff` | Base background                 |
+| `--editor-bg-raised`   | `#ffffff` | Raised surfaces (cards, panels) |
+| `--editor-bg-sunken`   | `#ffffff` | Sunken areas (canvas)           |
+| `--editor-accent-soft` | `#c7e8ff` | Soft accent tint                |
 
 #### Ink / Text
 
-| Custom Property | Value | Description |
-|----------------|-------|-------------|
-| `--editor-ink` | `#000000` | Primary text |
-| `--editor-ink-dim` | `#3a3a3a` | Secondary text |
-| `--editor-ink-faint` | `#707070` | Muted / metadata text |
-| `--editor-accent` | `#017dd3` | Primary accent (links, CTAs) |
+| Custom Property      | Value     | Description                  |
+| -------------------- | --------- | ---------------------------- |
+| `--editor-ink`       | `#000000` | Primary text                 |
+| `--editor-ink-dim`   | `#3a3a3a` | Secondary text               |
+| `--editor-ink-faint` | `#707070` | Muted / metadata text        |
+| `--editor-accent`    | `#017dd3` | Primary accent (links, CTAs) |
 
 #### Borders
 
-| Custom Property | Value | Description |
-|----------------|-------|-------------|
-| `--editor-border` | `rgba(58,58,58,0.18)` | Standard border |
-| `--editor-border-soft` | `rgba(58,58,58,0.10)` | Subtle border |
-| Accent border | `rgba(1,125,211,0.12)` | Light accent border |
-| Accent border-strong | `rgba(1,125,211,0.18)` | Stronger accent border |
+| Custom Property        | Value                  | Description            |
+| ---------------------- | ---------------------- | ---------------------- |
+| `--editor-border`      | `rgba(58,58,58,0.18)`  | Standard border        |
+| `--editor-border-soft` | `rgba(58,58,58,0.10)`  | Subtle border          |
+| Accent border          | `rgba(1,125,211,0.12)` | Light accent border    |
+| Accent border-strong   | `rgba(1,125,211,0.18)` | Stronger accent border |
 
 ### Landing Page Palette
 
 The landing page shares the same base palette with `--landing-page-*` prefixed custom properties. Key additions include a 28px grid background pattern using `rgba(58,58,58,0.06)` lines.
 
-| Custom Property | Value | Usage |
-|----------------|-------|-------|
-| `--landing-page-construction` | `#017DD3` | Primary accent (CTA, links, highlights) |
-| `--landing-page-construction-soft` | `#C7E8FF` | Soft accent background (active states) |
-| `--landing-page-grid-line` | `rgba(58,58,58,0.06)` | Background grid lines |
-| `--landing-page-bg` | `#FFFFFF` | Page background |
-| `--landing-page-border` | `rgba(58,58,58,0.18)` | Surface borders |
-| `--landing-page-border-soft` | `rgba(58,58,58,0.10)` | Subtle borders |
+| Custom Property                    | Value                 | Usage                                   |
+| ---------------------------------- | --------------------- | --------------------------------------- |
+| `--landing-page-construction`      | `#017DD3`             | Primary accent (CTA, links, highlights) |
+| `--landing-page-construction-soft` | `#C7E8FF`             | Soft accent background (active states)  |
+| `--landing-page-grid-line`         | `rgba(58,58,58,0.06)` | Background grid lines                   |
+| `--landing-page-bg`                | `#FFFFFF`             | Page background                         |
+| `--landing-page-border`            | `rgba(58,58,58,0.18)` | Surface borders                         |
+| `--landing-page-border-soft`       | `rgba(58,58,58,0.10)` | Subtle borders                          |
 
 ### Log Level Colors
 
-| Level | Color | Hex |
-|-------|-------|-----|
-| Log | Default ink-dim | `#3a3a3a` |
-| Info | Accent | `#017dd3` |
-| Warn | Amber | `#b7791f` |
-| Error | Red | `#c53030` |
+| Level | Color           | Hex       |
+| ----- | --------------- | --------- |
+| Log   | Default ink-dim | `#3a3a3a` |
+| Info  | Accent          | `#017dd3` |
+| Warn  | Amber           | `#b7791f` |
+| Error | Red             | `#c53030` |
 
 ---
 
@@ -106,34 +106,34 @@ Aurea uses a consistent spacing scale based on 8px grid units and two border-rad
 
 ### Border Radius
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--editor-radius-s` | 3px | Small elements: buttons, inputs, swatches |
-| `--editor-radius-m` | 5px | Medium elements: panels, tabs, cards, modals |
+| Token               | Value | Usage                                        |
+| ------------------- | ----- | -------------------------------------------- |
+| `--editor-radius-s` | 3px   | Small elements: buttons, inputs, swatches    |
+| `--editor-radius-m` | 5px   | Medium elements: panels, tabs, cards, modals |
 
 ### Spacing Scale
 
-| Token | Value | Context |
-|-------|-------|---------|
-| 8px | 8px | Base grid unit |
-| 10px | 10px | Panel section gaps, padding |
-| 12px | 12px | Modal gap, icon gaps |
-| 14px | 14px | Nav padding, list margins |
-| 16px | 16px | Grid gaps, footer padding |
-| 20px | 20px | Card padding, gallery gaps |
-| 24px | 24px | Modal padding |
-| 32px | 32px | Section horizontal padding |
-| 56px | 56px | Section grid gaps (hero, history) |
-| 96px | 96px | Section vertical padding |
+| Token | Value | Context                           |
+| ----- | ----- | --------------------------------- |
+| 8px   | 8px   | Base grid unit                    |
+| 10px  | 10px  | Panel section gaps, padding       |
+| 12px  | 12px  | Modal gap, icon gaps              |
+| 14px  | 14px  | Nav padding, list margins         |
+| 16px  | 16px  | Grid gaps, footer padding         |
+| 20px  | 20px  | Card padding, gallery gaps        |
+| 24px  | 24px  | Modal padding                     |
+| 32px  | 32px  | Section horizontal padding        |
+| 56px  | 56px  | Section grid gaps (hero, history) |
+| 96px  | 96px  | Section vertical padding          |
 
 ### Scrollbar
 
-| Part | Width | Color |
-|------|-------|-------|
-| Track | 8px | `rgba(0,0,0,0.05)` |
-| Thumb | 8px | `#cbd5e0` |
-| Thumb hover | 8px | `#a0aec0` |
-| Border radius | 4px | Applies to track & thumb |
+| Part          | Width | Color                    |
+| ------------- | ----- | ------------------------ |
+| Track         | 8px   | `rgba(0,0,0,0.05)`       |
+| Thumb         | 8px   | `#cbd5e0`                |
+| Thumb hover   | 8px   | `#a0aec0`                |
+| Border radius | 4px   | Applies to track & thumb |
 
 Firefox fallback uses `scrollbar-width: thin` and `scrollbar-color: #cbd5e0 rgba(0,0,0,0.05)`.
 
@@ -145,18 +145,19 @@ All reusable UI components follow consistent styling patterns: 1px borders with 
 
 ### Buttons
 
-| Property | Value |
-|----------|-------|
-| Padding | 12px 20px |
-| Font | `'IBM Plex Mono', monospace` |
-| Font size | 13px |
-| Letter spacing | 0.06em |
-| Text transform | uppercase |
-| Border | `1px solid rgba(58,58,58,0.18)` |
-| Border radius | 3px |
-| Transition | `border-color .15s, background .15s` |
+| Property       | Value                                |
+| -------------- | ------------------------------------ |
+| Padding        | 12px 20px                            |
+| Font           | `'IBM Plex Mono', monospace`         |
+| Font size      | 13px                                 |
+| Letter spacing | 0.06em                               |
+| Text transform | uppercase                            |
+| Border         | `1px solid rgba(58,58,58,0.18)`      |
+| Border radius  | 3px                                  |
+| Transition     | `border-color .15s, background .15s` |
 
 **Variants:**
+
 - **Default**: White background, dark text, light border
 - **Primary**: Blue (`#017dd3`) background with white text
 - **Ghost**: Transparent background
@@ -185,6 +186,7 @@ Checkboxes use `accent-color: var(--editor-accent)` (`#017dd3`). Labels have 8px
 ### Badge
 
 Used in the snap panel to display current radius values. Pill shape with accent colors:
+
 - Text: `#017dd3`, font-weight 600, font-size 0.72rem
 - Background: `#c7e8ff`
 - Border: `1px solid rgba(1,125,211,0.18)`
@@ -236,13 +238,13 @@ All children use `box-sizing: border-box`.
 
 ### Grid Systems
 
-| Context | Template | Gap |
-|---------|----------|-----|
-| Landing hero | 1.05fr 1fr | 56px |
+| Context             | Template       | Gap  |
+| ------------------- | -------------- | ---- |
+| Landing hero        | 1.05fr 1fr     | 56px |
 | Landing instruments | repeat(3, 1fr) | 20px |
-| Landing gallery | repeat(3, 1fr) | 18px |
-| Landing history | 1fr 1fr | 56px |
-| Color layer grid | 1fr 1fr | 10px |
+| Landing gallery     | repeat(3, 1fr) | 18px |
+| Landing history     | 1fr 1fr        | 56px |
+| Color layer grid    | 1fr 1fr        | 10px |
 
 Responsive breakpoints: 540px, 780px, 860px, 900px, 940px collapse grids to fewer columns.
 
@@ -253,16 +255,17 @@ Sticky header with `backdrop-filter: blur(8px)` and `rgba(255,255,255,0.88)` bac
 ### CSS Grid Background
 
 Two grid patterns are used:
+
 - **20px grid** with accent tint (`rgba(1,125,211,0.12)`) — hero canvas area
 - **28px grid** with subtle lines (`rgba(58,58,58,0.06)`) — landing page background
 
 ### Animations
 
-| Animation | Duration | Timing |
-|-----------|----------|--------|
-| `landingPageDraw` | 1.1s | ease forwards |
-| `landingPageFadeIn` | 0.6s | ease forwards |
-| Component transitions | 0.15s | ease (color, background, border) |
+| Animation             | Duration | Timing                           |
+| --------------------- | -------- | -------------------------------- |
+| `landingPageDraw`     | 1.1s     | ease forwards                    |
+| `landingPageFadeIn`   | 0.6s     | ease forwards                    |
+| Component transitions | 0.15s    | ease (color, background, border) |
 
 All animations respect `prefers-reduced-motion: reduce` — drawing animations are disabled, fade-in becomes `opacity: 1`, and scroll-behavior becomes auto.
 

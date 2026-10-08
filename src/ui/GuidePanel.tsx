@@ -1,8 +1,7 @@
-import "./GuidePanel.css";
-import {generatePath} from 'react-router-dom';
+import './GuidePanel.css';
+import { generatePath } from 'react-router-dom';
 
 export function GuidePanel() {
-
   // Handles opening a new route in a new tab
   const handleViewManual = () => {
     const basename = window.location.pathname.split('/').slice(0, -1).join('/');
@@ -43,7 +42,7 @@ export function GuidePanel() {
         </div>
 
         <div className="guide-footer">
-          <br/>
+          <br />
           <p className={'guide-footer-text'}>
             Additional information available in the user manual.
           </p>

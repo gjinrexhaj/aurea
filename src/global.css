@@ -1,40 +1,40 @@
 html,
 body,
 #root {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    overflow-x: hidden;
-    overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Custom scrollbars - keep scrollbars visible on overflowing content */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #cbd5e0;
-    border-radius: 4px;
+  background: #cbd5e0;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #a0aec0;
+  background: #a0aec0;
 }
 
 /* Fallback for browsers without ::-webkit-scrollbar support (e.g. Firefox) */
 @supports not selector(::-webkit-scrollbar) {
-    * {
-        scrollbar-width: thin;
-        scrollbar-color: #cbd5e0 rgba(0, 0, 0, 0.05);
-    }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 rgba(0, 0, 0, 0.05);
+  }
 }

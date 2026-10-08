@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { subscribeToLogs, type LogEntry, getLogs } from '../util/Logger';
-import { ConfirmDialog } from "./ConfirmDialog.tsx";
-import "./ConsolePanel.css"
-
+import { ConfirmDialog } from './ConfirmDialog.tsx';
+import './ConsolePanel.css';
 
 export function ConsolePanel() {
   const [logs, setLogs] = useState<LogEntry[]>(getLogs());
@@ -12,16 +11,16 @@ export function ConsolePanel() {
   const [showClearConfirm, setShowClearConfirm] = useState<boolean>(false);
 
   const handleTextWrapButton = () => {
-    setWrapText(prevState => !prevState);
-  }
+    setWrapText((prevState) => !prevState);
+  };
 
   const handleAutoscrollButton = () => {
-    setAutoscroll(prevState => !prevState);
-  }
+    setAutoscroll((prevState) => !prevState);
+  };
 
   const handleClearButton = () => {
     setShowClearConfirm(true);
-  }
+  };
 
   useEffect(() => {
     return subscribeToLogs((entry) => {
@@ -30,7 +29,6 @@ export function ConsolePanel() {
   }, []);
 
   useEffect(() => {
-
     if (autoscroll) {
       bottomRef.current?.scrollIntoView({
         behavior: 'smooth',
@@ -47,7 +45,7 @@ export function ConsolePanel() {
           logs.map((entry) => (
             <div
               key={entry.id}
-              className={`console-line console-${entry.level} ${wrapText ? 'is-wrapped': ''}`}
+              className={`console-line console-${entry.level} ${wrapText ? 'is-wrapped' : ''}`}
             >
               <span className="console-time">
                 {entry.timestamp.toLocaleTimeString()}
@@ -78,10 +76,20 @@ export function ConsolePanel() {
 
       <div className="console-controls">
         <div className="control-item">
-          <input type={"checkbox"} checked={wrapText} onInput={handleTextWrapButton}/><label>Wrap Text</label>
+          <input
+            type={'checkbox'}
+            checked={wrapText}
+            onInput={handleTextWrapButton}
+          />
+          <label>Wrap Text</label>
         </div>
         <div className="control-item">
-          <input type={"checkbox"} checked={autoscroll} onInput={handleAutoscrollButton}/><label>Autoscroll</label>
+          <input
+            type={'checkbox'}
+            checked={autoscroll}
+            onInput={handleAutoscrollButton}
+          />
+          <label>Autoscroll</label>
         </div>
 
         <div className="control-item">
@@ -102,7 +110,6 @@ export function ConsolePanel() {
           }}
         />
       )}
-
     </div>
   );
 }

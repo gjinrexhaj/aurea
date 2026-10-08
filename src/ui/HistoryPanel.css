@@ -1,100 +1,106 @@
 .history-panel-wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    box-sizing: border-box;
-    background: var(--editor-bg);
-    color: var(--editor-ink);
-    font-family: 'IBM Plex Sans', sans-serif;
-    overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  font-family: 'IBM Plex Sans', sans-serif;
+  overflow: hidden;
 }
 
 .history-panel-body {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .history-list-scroll {
-    flex: 1;
-    min-height: 0;
-    overflow: auto;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
 }
 
 .history-empty {
-    color: var(--editor-ink-faint);
-    font-size: 0.9rem;
-    font-style: italic;
-    list-style: none;
-    margin-left: 0;
+  color: var(--editor-ink-faint);
+  font-size: 0.9rem;
+  font-style: italic;
+  list-style: none;
+  margin-left: 0;
 }
 
 .history-list {
-    margin: 0;
-    padding: 10px 10px 10px 2.8rem;
-    list-style: decimal outside;
+  margin: 0;
+  padding: 10px 10px 10px 2.8rem;
+  list-style: decimal outside;
 }
 
 .history-list li + li {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 .history-item {
-    display: block;
-    width: 100%;
-    padding: 4px 6px;
-    border: 1px solid var(--editor-border-soft);
-    border-radius: var(--editor-radius-s);
-    background: var(--editor-bg-raised);
-    color: var(--editor-ink-dim);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.02em;
-    text-align: left;
-    white-space: nowrap;
-    cursor: pointer;
-    box-sizing: border-box;
-    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  display: block;
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .history-item:hover {
-    border-color: var(--editor-ink-faint);
-    background: rgba(1, 125, 211, 0.03);
-    color: var(--editor-ink);
+  border-color: var(--editor-ink-faint);
+  background: rgba(1, 125, 211, 0.03);
+  color: var(--editor-ink);
 }
 
 .history-item.active {
-    border-color: var(--editor-accent);
-    background: var(--editor-accent-soft);
-    color: var(--editor-ink);
+  border-color: var(--editor-accent);
+  background: var(--editor-accent-soft);
+  color: var(--editor-ink);
 }
 
 .history-undo-button-footer {
-    align-self: flex-start;
-    margin: 0 10px 10px;
-    padding: 4px 8px;
-    border: 1px solid var(--editor-border);
-    border-radius: var(--editor-radius-s);
-    background: var(--editor-bg-raised);
-    color: var(--editor-ink);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  align-self: flex-start;
+  margin: 0 10px 10px;
+  padding: 4px 8px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .history-undo-button-footer:hover:not(:disabled) {
-    border-color: var(--editor-accent);
-    background: rgba(1, 125, 211, 0.04);
-    color: var(--editor-accent);
+  border-color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+  color: var(--editor-accent);
 }
 
 .history-undo-button-footer:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+  cursor: not-allowed;
+  opacity: 0.5;
 }

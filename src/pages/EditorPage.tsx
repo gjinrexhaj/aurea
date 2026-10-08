@@ -1,17 +1,20 @@
-import {useCallback, useEffect, useRef, useState} from "react";
-import {Layout, Model, type TabNode, type IJsonModel} from "flexlayout-react";
-import "flexlayout-react/style/light.css";
-import type {ViewSettings} from "../ui/ViewSettings.ts";
-import type {GeometryLayer} from "../geometry/GeometryLayer.ts";
-import {Toolbar} from "../ui/Toolbar.tsx";
-import Canvas from "../canvas/Canvas.tsx";
-import {ColorsPanel} from "../ui/ColorsPanel.tsx";
-import {HistoryPanel} from "../ui/HistoryPanel.tsx";
-import {SnapPanel} from "../ui/SnapPanel.tsx";
-import type {HistoryStep} from "../construction/HistoryStep.ts";
-import {defaultGeometryColors} from "../ui/GeometryColors.ts";
-import {defaultSnapSettings, type SnapSettings} from "../geometry/snap/SnapSettings.ts";
-import "./EditorPage.css";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Layout, Model, type TabNode, type IJsonModel } from 'flexlayout-react';
+import 'flexlayout-react/style/light.css';
+import type { ViewSettings } from '../ui/ViewSettings.ts';
+import type { GeometryLayer } from '../geometry/GeometryLayer.ts';
+import { Toolbar } from '../ui/Toolbar.tsx';
+import Canvas from '../canvas/Canvas.tsx';
+import { ColorsPanel } from '../ui/ColorsPanel.tsx';
+import { HistoryPanel } from '../ui/HistoryPanel.tsx';
+import { SnapPanel } from '../ui/SnapPanel.tsx';
+import type { HistoryStep } from '../construction/HistoryStep.ts';
+import { defaultGeometryColors } from '../ui/GeometryColors.ts';
+import {
+  defaultSnapSettings,
+  type SnapSettings,
+} from '../geometry/snap/SnapSettings.ts';
+import './EditorPage.css';
 import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 import { GuidePanel } from '../ui/GuidePanel.tsx';
 
@@ -138,148 +141,145 @@ const defaultLayoutJson: IJsonModel = {
   },
 };
 
-
-
 export default function EditorPage() {
-    // declare state
-    const [model] = useState(() => Model.fromJson(defaultLayoutJson));
-    const [activeTool, setActiveTool] = useState("select");
-    const [viewSettings, setViewSettings] = useState<ViewSettings>({
-        showAxes: true,
-        showGrid: false,
-        showInfiniteLines: false,
-    });
-    const [activeLayer, setActiveLayer] = useState<GeometryLayer>("construction");
-    const [colors, setColors] = useState(defaultGeometryColors);
-    const [snapSettings, setSnapSettings] = useState<SnapSettings>(defaultSnapSettings);
-    const [history, setHistory] = useState<HistoryStep[]>([]);
-    const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+  // declare state
+  const [model] = useState(() => Model.fromJson(defaultLayoutJson));
+  const [activeTool, setActiveTool] = useState('select');
+  const [viewSettings, setViewSettings] = useState<ViewSettings>({
+    showAxes: true,
+    showGrid: false,
+    showInfiniteLines: false,
+  });
+  const [activeLayer, setActiveLayer] = useState<GeometryLayer>('construction');
+  const [colors, setColors] = useState(defaultGeometryColors);
+  const [snapSettings, setSnapSettings] =
+    useState<SnapSettings>(defaultSnapSettings);
+  const [history, setHistory] = useState<HistoryStep[]>([]);
+  const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(
+    null,
+  );
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-    useEffect(() => {
-        const html = document.documentElement;
-        const body = document.body;
-        const root = document.getElementById("root");
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const root = document.getElementById('root');
 
-        const previousHtmlOverflow = html.style.overflow;
-        const previousBodyOverflow = body.style.overflow;
-        const previousRootOverflow = root?.style.overflow ?? "";
+    const previousHtmlOverflow = html.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousRootOverflow = root?.style.overflow ?? '';
 
-        html.style.overflow = "hidden";
-        body.style.overflow = "hidden";
-        if (root) {
-            root.style.overflow = "hidden";
-        }
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+    if (root) {
+      root.style.overflow = 'hidden';
+    }
 
-        return () => {
-            html.style.overflow = previousHtmlOverflow;
-            body.style.overflow = previousBodyOverflow;
-            if (root) {
-                root.style.overflow = previousRootOverflow;
-            }
-        };
-    }, []);
+    return () => {
+      html.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+      if (root) {
+        root.style.overflow = previousRootOverflow;
+      }
+    };
+  }, []);
 
-    const undoRef = useRef<(() => void) | null>(null);
-    const handleRegisterUndo = useCallback((undoFn: () => void) => {
-        undoRef.current = undoFn;
-    }, []);
+  const undoRef = useRef<(() => void) | null>(null);
+  const handleRegisterUndo = useCallback((undoFn: () => void) => {
+    undoRef.current = undoFn;
+  }, []);
 
-    const handleUndo = useCallback(() => {
-        undoRef.current?.();
-    }, []);
+  const handleUndo = useCallback(() => {
+    undoRef.current?.();
+  }, []);
 
-    const factory = useCallback(
-        (node: TabNode) => {
-            const component = node.getComponent();
-            switch (component) {
-                case "canvas":
-                    return (
-                        <div className="canvas-outer">
-                            <Canvas
-                                activeTool={activeTool}
-                                viewSettings={viewSettings}
-                                activeLayer={activeLayer}
-                                colors={colors}
-                                snapSettings={snapSettings}
-                                history={history}
-                                onHistoryChange={setHistory}
-                                selectedHistoryId={selectedHistoryId}
-                                onSelectHistoryId={setSelectedHistoryId}
-                                onRegisterUndo={handleRegisterUndo}
-                            />
-                        </div>
-                    );
-                case "toolbar":
-                    return (
-                        <Toolbar
-                            activeTool={activeTool}
-                            onToolChange={setActiveTool}
-                            viewSettings={viewSettings}
-                            setViewSettings={setViewSettings}
-                            activeLayer={activeLayer}
-                            onLayerChange={setActiveLayer}
-                        />
-                    );
-                case "snap":
-                    return (
-                        <SnapPanel
-                            snapSettings={snapSettings}
-                            setSnapSettings={setSnapSettings}
-                        />
-                    );
-                case "colors":
-                    return (
-                        <ColorsPanel
-                            colors={colors}
-                            setColors={setColors}
-                            isDarkMode={isDarkMode}
-                            onDarkModeChange={nextIsDarkMode =>
-                                setIsDarkMode(() => nextIsDarkMode)
-                            }
-                        />
-                    );
-                case "history":
-                    return (
-                        <HistoryPanel
-                            history={history}
-                            selectedHistoryId={selectedHistoryId}
-                            onSelectHistoryId={setSelectedHistoryId}
-                            onUndo={handleUndo}
-                        />
-                    );
-                case "console":
-                    return (
-                      <ConsolePanel/>
-                    )
-                case "guide":
-                    return (
-                      <GuidePanel/>
-                    )
-                default:
-                    return null;
-            }
-        },
-        [
-            activeTool,
-            viewSettings,
-            activeLayer,
-            colors,
-            snapSettings,
-            history,
-            selectedHistoryId,
-            isDarkMode,
-            handleRegisterUndo,
-            handleUndo,
-        ]
-    );
-
-    // render component
-    return (
-        <div className={`app${isDarkMode ? " app-dark" : ""}`}>
-            <div className="layout-outer">
-                <Layout model={model} factory={factory} />
+  const factory = useCallback(
+    (node: TabNode) => {
+      const component = node.getComponent();
+      switch (component) {
+        case 'canvas':
+          return (
+            <div className="canvas-outer">
+              <Canvas
+                activeTool={activeTool}
+                viewSettings={viewSettings}
+                activeLayer={activeLayer}
+                colors={colors}
+                snapSettings={snapSettings}
+                history={history}
+                onHistoryChange={setHistory}
+                selectedHistoryId={selectedHistoryId}
+                onSelectHistoryId={setSelectedHistoryId}
+                onRegisterUndo={handleRegisterUndo}
+              />
             </div>
-        </div>
-    );
+          );
+        case 'toolbar':
+          return (
+            <Toolbar
+              activeTool={activeTool}
+              onToolChange={setActiveTool}
+              viewSettings={viewSettings}
+              setViewSettings={setViewSettings}
+              activeLayer={activeLayer}
+              onLayerChange={setActiveLayer}
+            />
+          );
+        case 'snap':
+          return (
+            <SnapPanel
+              snapSettings={snapSettings}
+              setSnapSettings={setSnapSettings}
+            />
+          );
+        case 'colors':
+          return (
+            <ColorsPanel
+              colors={colors}
+              setColors={setColors}
+              isDarkMode={isDarkMode}
+              onDarkModeChange={(nextIsDarkMode) =>
+                setIsDarkMode(() => nextIsDarkMode)
+              }
+            />
+          );
+        case 'history':
+          return (
+            <HistoryPanel
+              history={history}
+              selectedHistoryId={selectedHistoryId}
+              onSelectHistoryId={setSelectedHistoryId}
+              onUndo={handleUndo}
+            />
+          );
+        case 'console':
+          return <ConsolePanel />;
+        case 'guide':
+          return <GuidePanel />;
+        default:
+          return null;
+      }
+    },
+    [
+      activeTool,
+      viewSettings,
+      activeLayer,
+      colors,
+      snapSettings,
+      history,
+      selectedHistoryId,
+      isDarkMode,
+      handleRegisterUndo,
+      handleUndo,
+    ],
+  );
+
+  // render component
+  return (
+    <div className={`app${isDarkMode ? ' app-dark' : ''}`}>
+      <div className="layout-outer">
+        <Layout model={model} factory={factory} />
+      </div>
+    </div>
+  );
 }
