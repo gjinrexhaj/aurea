@@ -18,6 +18,7 @@ import './EditorPage.css';
 import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 import { GuidePanel } from '../ui/GuidePanel.tsx';
 import {FilePanel} from "../ui/FilePanel.tsx";
+import { DocumentProvider } from '../context/DocumentContext.tsx';
 
 const defaultLayoutJson: IJsonModel = {
   global: {
@@ -287,10 +288,12 @@ export default function EditorPage() {
 
   // render component
   return (
-    <div className={`app${isDarkMode ? ' app-dark' : ''}`}>
-      <div className="layout-outer">
-        <Layout model={model} factory={factory} />
+    <DocumentProvider>
+      <div className={`app${isDarkMode ? ' app-dark' : ''}`}>
+        <div className="layout-outer">
+          <Layout model={model} factory={factory} />
+        </div>
       </div>
-    </div>
+    </DocumentProvider>
   );
 }

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Point } from '../geometry/Point.ts';
 import './Canvas.css';
-import type { GeometryDocument } from '../geometry/GeometryDocument.ts';
 import GeometrySvg from './GeometrySvg.tsx';
 import type { Circle } from '../geometry/Circle.ts';
 import type { CursorPos } from '../geometry/utils/CursorPos.ts';
@@ -27,6 +26,7 @@ import {
 } from '../construction/historyUtils.ts';
 import type { GeometryColors } from '../ui/GeometryColors.ts';
 import { logger } from '../util/Logger.ts';
+import { useDocument } from '../context/DocumentContext.tsx';
 
 type CanvasProps = {
   activeTool: string;
@@ -65,11 +65,7 @@ export default function Canvas({
   const [snapResult, setSnapResult] = useState<SnapResult>(null);
   const [selection, setSelection] = useState<Selection>(null);
   const [hovered, setHovered] = useState<Hover>(null);
-  const [document, setDocument] = useState<GeometryDocument>({
-    points: [],
-    circles: [],
-    lines: [],
-  });
+  const { document, setDocument } = useDocument();
   const [mousePos, setMousePos] = useState<CursorPos | null>(null);
   const [compass, setCompass] = useState<CompassState>({
     stage: 'idle',
