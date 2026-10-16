@@ -1,12 +1,18 @@
 import './FilePanel.css'
 import { useState } from 'react';
 import { useDocument } from '../context/DocumentContext.tsx';
+import {
+    exportDocument,
+    type ExportElements,
+    type ExportFormat,
+    type ExportTarget,
+} from '../services/export/exportDocument.ts';
 
 export function FilePanel() {
     const { document: geomDocument } = useDocument();
-    const [exportFormat, setExportFormat] = useState<'jpg' | 'png' | 'svg'>('png');
-    const [exportTarget, setExportTarget] = useState<'canvas' | 'shape'>('canvas');
-    const [exportElements, setExportElements] = useState({
+    const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
+    const [exportTarget, setExportTarget] = useState<ExportTarget>('canvas');
+    const [exportElements, setExportElements] = useState<ExportElements>({
         points: true,
         circles: true,
         lines: true,
@@ -16,6 +22,28 @@ export function FilePanel() {
         ink: true,
         background: false,
     });
+    const [isExporting, setIsExporting] = useState(false);
+
+    const handleExport = async () => {
+        const svg = document.querySelector<SVGSVGElement>('.canvas svg');
+        if (!svg) {
+            console.error('Unable to export: canvas SVG was not found');
+            return;
+        }
+
+        setIsExporting(true);
+        try {
+            await exportDocument(geomDocument, svg, {
+                format: exportFormat,
+                target: exportTarget,
+                elements: exportElements,
+            });
+        } catch (error) {
+            console.error('Unable to export document', error);
+        } finally {
+            setIsExporting(false);
+        }
+    };
 
     return (
         <div className="file-panel-wrapper">
@@ -114,7 +142,12 @@ export function FilePanel() {
                             </label>
                         ))}
                     </div>
-                    <button className="file-button file-export-button" type="button" disabled>
+                    <button
+                        className="file-button file-export-button"
+                        type="button"
+                        disabled={isExporting}
+                        onClick={() => void handleExport()}
+                    >
                         Export {exportTarget === 'canvas' ? 'canvas' : 'shape'} as {exportFormat.toUpperCase()}
                     </button>
                 </section>
