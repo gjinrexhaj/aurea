@@ -6,6 +6,15 @@ export function FilePanel() {
     const { document: geomDocument } = useDocument();
     const [exportFormat, setExportFormat] = useState<'jpg' | 'png' | 'svg'>('png');
     const [exportTarget, setExportTarget] = useState<'canvas' | 'shape'>('canvas');
+    const [exportElements, setExportElements] = useState({
+        points: true,
+        circles: true,
+        lines: true,
+        axes: true,
+        infiniteLines: true,
+        graphite: true,
+        ink: true,
+    });
 
     return (
         <div className="file-panel-wrapper">
@@ -82,6 +91,27 @@ export function FilePanel() {
                                 </button>
                             ))}
                         </div>
+                    </div>
+                    <div className="file-export-elements">
+                        {(['points', 'circles', 'lines', 'axes', 'infiniteLines', 'graphite', 'ink'] as const).map((element) => (
+                            <label className="file-checkbox-label" key={element}>
+                                <input
+                                    type="checkbox"
+                                    checked={exportElements[element]}
+                                    onChange={(event) =>
+                                        setExportElements((current) => ({
+                                            ...current,
+                                            [element]: event.target.checked,
+                                        }))
+                                    }
+                                />
+                                <span>
+                                    {element === 'infiniteLines'
+                                        ? 'Infinite lines'
+                                        : element.charAt(0).toUpperCase() + element.slice(1)}
+                                </span>
+                            </label>
+                        ))}
                     </div>
                     <button className="file-button file-export-button" type="button" disabled>
                         Export {exportTarget === 'canvas' ? 'canvas' : 'shape'} as {exportFormat.toUpperCase()}
