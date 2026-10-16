@@ -11,9 +11,10 @@ export function FilePanel() {
         circles: true,
         lines: true,
         axes: true,
-        infiniteLines: true,
+        infiniteLines: false,
         graphite: true,
         ink: true,
+        background: false,
     });
 
     return (
@@ -93,7 +94,7 @@ export function FilePanel() {
                         </div>
                     </div>
                     <div className="file-export-elements">
-                        {(['points', 'circles', 'lines', 'axes', 'infiniteLines', 'graphite', 'ink'] as const).map((element) => (
+                        {(['points', 'circles', 'lines', 'axes', 'infiniteLines', 'graphite', 'ink', 'background'] as const).map((element) => (
                             <label className="file-checkbox-label" key={element}>
                                 <input
                                     type="checkbox"
