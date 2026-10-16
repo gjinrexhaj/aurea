@@ -8,6 +8,10 @@ import {
     type ExportFormat,
     type ExportTarget,
 } from '../services/export/exportDocument.ts';
+import {
+    loadDocument,
+    saveDocument,
+} from '../services/persistence/documentPersistence.ts';
 
 export function FilePanel() {
     const { document: geomDocument, setDocument } = useDocument();
@@ -24,7 +28,10 @@ export function FilePanel() {
         background: false,
     });
     const [isExporting, setIsExporting] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [showNewConfirm, setShowNewConfirm] = useState(false);
+    const [showSaveDialog, setShowSaveDialog] = useState(false);
+    const [saveFileName, setSaveFileName] = useState('aurea-document');
 
     const handleExport = async () => {
         const svg = document.querySelector<SVGSVGElement>('.canvas svg');
@@ -44,6 +51,25 @@ export function FilePanel() {
             console.error('Unable to export document', error);
         } finally {
             setIsExporting(false);
+        }
+    };
+
+    const handleSave = () => {
+        saveDocument(geomDocument, saveFileName);
+        setShowSaveDialog(false);
+    };
+
+    const handleLoad = async () => {
+        setIsLoading(true);
+        try {
+            const loadedDocument = await loadDocument();
+            if (loadedDocument) {
+                setDocument(loadedDocument);
+            }
+        } catch (error) {
+            console.error('Unable to load document', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -78,10 +104,10 @@ export function FilePanel() {
                         <button className="file-button" type="button" onClick={() => setShowNewConfirm(true)}>
                             New Document
                         </button>
-                        <button className="file-button" onClick={() => console.log('Save (not implemented)', geomDocument)}>
+                        <button className="file-button" type="button" onClick={() => setShowSaveDialog(true)}>
                             Save
                         </button>
-                        <button className="file-button" onClick={() => console.log('Load (not implemented)')}>
+                        <button className="file-button" type="button" disabled={isLoading} onClick={() => void handleLoad()}>
                             Load
                         </button>
                     </div>
@@ -157,6 +183,44 @@ export function FilePanel() {
                     </button>
                 </section>
             </div>
+            {showSaveDialog && (
+                <div className="file-dialog-backdrop" onClick={() => setShowSaveDialog(false)}>
+                    <form
+                        className="file-dialog"
+                        onClick={(event) => event.stopPropagation()}
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            handleSave();
+                        }}
+                    >
+                        <div className="file-dialog-header">
+                            <strong>Save document</strong>
+                        </div>
+                        <label className="file-dialog-field">
+                            <span>File name</span>
+                            <input
+                                autoFocus
+                                type="text"
+                                value={saveFileName}
+                                onChange={(event) => setSaveFileName(event.target.value)}
+                                placeholder="aurea-document"
+                            />
+                        </label>
+                        <div className="file-dialog-actions">
+                            <button
+                                className="file-dialog-cancel"
+                                type="button"
+                                onClick={() => setShowSaveDialog(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button className="file-dialog-save" type="submit">
+                                Save JSON
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
             {showNewConfirm && (
                 <ConfirmDialog
                     title="Create new document?"

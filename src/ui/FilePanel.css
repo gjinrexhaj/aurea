@@ -203,3 +203,83 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
+
+.file-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.18);
+  z-index: 2000;
+}
+
+.file-dialog {
+  width: min(360px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.file-dialog-header strong {
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.file-dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--editor-ink-dim);
+  font-size: 0.8rem;
+}
+
+.file-dialog-field input {
+  padding: 7px 8px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+}
+
+.file-dialog-field input:focus {
+  outline: 2px solid rgba(1, 125, 211, 0.22);
+  outline-offset: 1px;
+  border-color: var(--editor-accent);
+}
+
+.file-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.file-dialog-cancel,
+.file-dialog-save {
+  padding: 5px 9px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  cursor: pointer;
+}
+
+.file-dialog-save {
+  border-color: var(--editor-border-soft);
+  background: rgba(1, 125, 211, 0.04);
+  color: var(--editor-accent);
+}
+
+.file-dialog-cancel:hover,
+.file-dialog-save:hover {
+  border-color: var(--editor-accent);
+}
