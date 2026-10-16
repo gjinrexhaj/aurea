@@ -93,7 +93,7 @@ export default function GeometrySvg({
             />
 
             {/* Origin marker */}
-            <circle cx={0} cy={0} r={3} fill={rgbaToCss(colors.axes)} />
+            {/*<circle cx={0} cy={0} r={3} fill={rgbaToCss(colors.axes)} />*/}
           </g>
         )}
 
