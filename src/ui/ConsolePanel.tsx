@@ -9,6 +9,12 @@ export function ConsolePanel() {
   const [wrapText, setWrapText] = useState<boolean>(false);
   const [autoscroll, setAutoscroll] = useState<boolean>(true);
   const [showClearConfirm, setShowClearConfirm] = useState<boolean>(false);
+  const [visibleFields, setVisibleFields] = useState({
+    time: false,
+    level: false,
+    type: true,
+    content: true,
+  });
 
   const handleTextWrapButton = () => {
     setWrapText((prevState) => !prevState);
@@ -47,25 +53,35 @@ export function ConsolePanel() {
               key={entry.id}
               className={`console-line console-${entry.level} ${wrapText ? 'is-wrapped' : ''}`}
             >
-              <span className="console-time">
-                {entry.timestamp.toLocaleTimeString()}
-              </span>
-
-              <span className="console-level">{entry.level.toUpperCase()}</span>
-
-              <span className="console-source">[{entry.source}]</span>
-
-              <span className="console-message">{entry.message}</span>
-
-              {entry.args.length > 0 && (
-                <span className="console-args">
-                  {entry.args.map((arg, index) => (
-                    <span key={index}>
-                      {typeof arg === 'string' ? arg : JSON.stringify(arg)}
-                      {index < entry.args.length - 1 && ' '}
-                    </span>
-                  ))}
+              {visibleFields.time && (
+                <span className="console-time">
+                  {entry.timestamp.toLocaleTimeString()}
                 </span>
+              )}
+
+              {visibleFields.level && (
+                <span className="console-level">{entry.level.toUpperCase()}</span>
+              )}
+
+              {visibleFields.type && (
+                <span className="console-source">[{entry.source}]</span>
+              )}
+
+              {visibleFields.content && (
+                <>
+                  <span className="console-message">{entry.message}</span>
+
+                  {entry.args.length > 0 && (
+                    <span className="console-args">
+                      {entry.args.map((arg, index) => (
+                        <span key={index}>
+                          {typeof arg === 'string' ? arg : JSON.stringify(arg)}
+                          {index < entry.args.length - 1 && ' '}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </>
               )}
             </div>
           ))
@@ -75,21 +91,48 @@ export function ConsolePanel() {
       </div>
 
       <div className="console-controls">
+        <div className="console-visibility-controls" aria-label="Log line fields">
+          {(Object.keys(visibleFields) as Array<keyof typeof visibleFields>).map(
+            (field) => (
+              <label className="control-item console-field-toggle" key={field}>
+                <input
+                  id={`console-show-${field}`}
+                  type="checkbox"
+                  checked={visibleFields[field]}
+                  onChange={(event) =>
+                    setVisibleFields((current) => ({
+                      ...current,
+                      [field]: event.target.checked,
+                    }))
+                  }
+                />
+                <span>
+                  {field === 'level'
+                    ? 'Loglevel'
+                    : field.charAt(0).toUpperCase() + field.slice(1)}
+                </span>
+              </label>
+            ),
+          )}
+        </div>
+
         <div className="control-item">
           <input
-            type={'checkbox'}
+            id="console-wrap-text"
+            type="checkbox"
             checked={wrapText}
-            onInput={handleTextWrapButton}
+            onChange={handleTextWrapButton}
           />
-          <label>Wrap Text</label>
+          <label htmlFor="console-wrap-text">Wrap Text</label>
         </div>
         <div className="control-item">
           <input
-            type={'checkbox'}
+            id="console-autoscroll"
+            type="checkbox"
             checked={autoscroll}
-            onInput={handleAutoscrollButton}
+            onChange={handleAutoscrollButton}
           />
-          <label>Autoscroll</label>
+          <label htmlFor="console-autoscroll">Autoscroll</label>
         </div>
 
         <div className="control-item">

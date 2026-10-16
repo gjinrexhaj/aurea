@@ -17,6 +17,17 @@ import {
 import './EditorPage.css';
 import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 import { GuidePanel } from '../ui/GuidePanel.tsx';
+import {FilePanel} from "../ui/FilePanel.tsx";
+import { DocumentProvider } from '../context/DocumentContext.tsx';
+import { useDocument } from '../context/DocumentContext.tsx';
+import {
+  loadDocumentFromLocalStorage,
+  saveDocumentToLocalStorage,
+  loadAppearanceFromLocalStorage,
+  saveAppearanceToLocalStorage,
+  loadLayoutFromLocalStorage,
+  saveLayoutToLocalStorage,
+} from '../services/persistence/documentPersistence.ts';
 
 const defaultLayoutJson: IJsonModel = {
   global: {
@@ -96,12 +107,20 @@ const defaultLayoutJson: IJsonModel = {
               },
               {
                 type: 'tab',
+                id: 'file-tab',
+                name: 'File',
+                component: 'file',
+                enableClose: false,
+                enablePopout: false,
+              },
+              {
+                type: 'tab',
                 id: 'guide-tab',
                 name: 'Guide',
                 component: 'guide',
                 enableClose: false,
                 enablePopout: false,
-              },
+              }
             ],
           },
         ],
@@ -141,9 +160,46 @@ const defaultLayoutJson: IJsonModel = {
   },
 };
 
+function DocumentPersistenceBridge({
+  history,
+  onHistoryChange,
+}: {
+  history: HistoryStep[];
+  onHistoryChange: (history: HistoryStep[]) => void;
+}) {
+  const { document, setDocument } = useDocument();
+  const isStorageReady = useRef(false);
+  const initialDocument = useRef(document);
+  const initialHistory = useRef(history);
+
+  useEffect(() => {
+    const persistedDocument = loadDocumentFromLocalStorage();
+    if (persistedDocument) {
+      setDocument(persistedDocument.document);
+      onHistoryChange(persistedDocument.history);
+    } else {
+      saveDocumentToLocalStorage(initialDocument.current, initialHistory.current);
+    }
+
+    queueMicrotask(() => {
+      isStorageReady.current = true;
+    });
+  }, [onHistoryChange, setDocument]);
+
+  useEffect(() => {
+    if (isStorageReady.current) {
+      saveDocumentToLocalStorage(document, history);
+    }
+  }, [document, history]);
+
+  return null;
+}
+
 export default function EditorPage() {
   // declare state
-  const [model] = useState(() => Model.fromJson(defaultLayoutJson));
+  const [model] = useState(() =>
+    Model.fromJson(loadLayoutFromLocalStorage() ?? defaultLayoutJson),
+  );
   const [activeTool, setActiveTool] = useState('select');
   const [viewSettings, setViewSettings] = useState<ViewSettings>({
     showAxes: true,
@@ -151,14 +207,22 @@ export default function EditorPage() {
     showInfiniteLines: false,
   });
   const [activeLayer, setActiveLayer] = useState<GeometryLayer>('construction');
-  const [colors, setColors] = useState(defaultGeometryColors);
+  const [colors, setColors] = useState(() => {
+    return loadAppearanceFromLocalStorage()?.colors ?? defaultGeometryColors;
+  });
   const [snapSettings, setSnapSettings] =
     useState<SnapSettings>(defaultSnapSettings);
   const [history, setHistory] = useState<HistoryStep[]>([]);
   const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(
     null,
   );
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return loadAppearanceFromLocalStorage()?.isDarkMode ?? false;
+  });
+
+  useEffect(() => {
+    saveAppearanceToLocalStorage({ isDarkMode, colors });
+  }, [colors, isDarkMode]);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -256,6 +320,14 @@ export default function EditorPage() {
           return <ConsolePanel />;
         case 'guide':
           return <GuidePanel />;
+        case 'file':
+          return (
+            <FilePanel
+              history={history}
+              onHistoryChange={setHistory}
+              onHistorySelectionChange={setSelectedHistoryId}
+            />
+          );
         default:
           return null;
       }
@@ -276,10 +348,20 @@ export default function EditorPage() {
 
   // render component
   return (
-    <div className={`app${isDarkMode ? ' app-dark' : ''}`}>
-      <div className="layout-outer">
-        <Layout model={model} factory={factory} />
+    <DocumentProvider>
+      <DocumentPersistenceBridge
+        history={history}
+        onHistoryChange={setHistory}
+      />
+      <div className={`app${isDarkMode ? ' app-dark' : ''}`}>
+        <div className="layout-outer">
+          <Layout
+            model={model}
+            factory={factory}
+            onModelChange={(nextModel) => saveLayoutToLocalStorage(nextModel.toJson())}
+          />
+        </div>
       </div>
-    </div>
+    </DocumentProvider>
   );
 }

@@ -36,6 +36,11 @@
   border-color: rgba(1, 125, 211, 0.18);
 }
 
+.app.app-dark .snap-master-section {
+  background: rgba(99, 179, 255, 0.12);
+  border-color: rgba(99, 179, 255, 0.42);
+}
+
 .snap-section-header {
   display: flex;
   align-items: center;

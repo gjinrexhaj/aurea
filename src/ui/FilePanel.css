@@ -1,0 +1,368 @@
+.file-panel-wrapper {
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+}
+
+.file-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.file-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg-raised);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.file-export-card {
+  background: rgba(1, 125, 211, 0.03);
+  border-color: rgba(1, 125, 211, 0.18);
+}
+
+.app.app-dark .file-export-card {
+  background: rgba(99, 179, 255, 0.12);
+  border-color: rgba(99, 179, 255, 0.42);
+}
+
+.file-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.file-section-header strong {
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.file-view-content-button {
+  padding: 4px 7px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-view-content-button:hover {
+  border-color: var(--editor-accent);
+  color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.file-document-content-wrap {
+  position: relative;
+}
+
+.file-document-content {
+  min-height: 120px;
+  height: 220px;
+  margin: 0;
+  padding: 8px;
+  overflow: auto;
+  resize: vertical;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.7rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.file-document-line {
+  display: block;
+}
+
+.file-document-line.is-highlighted {
+  color: var(--editor-accent);
+}
+
+.file-document-autoscroll {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 7px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink-dim);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+  font-size: 0.7rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.file-document-autoscroll:hover {
+  border-color: var(--editor-accent);
+  color: var(--editor-ink);
+}
+
+.file-document-autoscroll input {
+  margin: 0;
+  accent-color: var(--editor-accent);
+  cursor: pointer;
+}
+
+.file-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.file-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+}
+
+.file-stat-value {
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--editor-ink);
+}
+
+.file-stat-label {
+  color: var(--editor-ink-faint);
+  font-size: 0.72rem;
+}
+
+.file-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.file-button {
+  padding: 6px 10px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-button:hover:not(:disabled) {
+  border-color: var(--editor-accent);
+  color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.file-export-target {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.file-field-label {
+  color: var(--editor-ink-dim);
+  font-size: 0.8rem;
+}
+
+.file-target-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+}
+
+.file-target-option {
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid transparent;
+  border-radius: var(--editor-radius-s);
+  background: transparent;
+  color: var(--editor-ink-faint);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-target-option:hover {
+  color: var(--editor-ink);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.file-target-option.is-active {
+  border-color: rgba(1, 125, 211, 0.22);
+  background: var(--editor-accent-soft);
+  color: var(--editor-accent);
+  font-weight: 600;
+}
+
+.file-format-switch {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.file-export-elements {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.file-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-size: 0.78rem;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-checkbox-label:hover {
+  background: rgba(1, 125, 211, 0.03);
+  border-color: var(--editor-accent-soft);
+}
+
+.file-checkbox-label input {
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--editor-accent);
+}
+
+.file-export-button {
+  width: 100%;
+  color: var(--editor-accent);
+  border-color: rgba(1, 125, 211, 0.24);
+  background: var(--editor-bg);
+}
+
+.file-export-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.file-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.18);
+  z-index: 2000;
+}
+
+.file-dialog {
+  width: min(360px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.file-dialog-header strong {
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.file-dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--editor-ink-dim);
+  font-size: 0.8rem;
+}
+
+.file-dialog-field input {
+  padding: 7px 8px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+}
+
+.file-dialog-field input:focus {
+  outline: 2px solid rgba(1, 125, 211, 0.22);
+  outline-offset: 1px;
+  border-color: var(--editor-accent);
+}
+
+.file-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.file-dialog-cancel,
+.file-dialog-save {
+  padding: 5px 9px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  cursor: pointer;
+}
+
+.file-dialog-save {
+  border-color: var(--editor-border-soft);
+  background: rgba(1, 125, 211, 0.04);
+  color: var(--editor-accent);
+}
+
+.file-dialog-cancel:hover,
+.file-dialog-save:hover {
+  border-color: var(--editor-accent);
+}

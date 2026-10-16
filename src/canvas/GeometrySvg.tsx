@@ -71,7 +71,7 @@ export default function GeometrySvg({
       >
         {/* render axes */}
         {viewSettings.showAxes && (
-          <g>
+          <g data-export-kind="axes">
             {/* X axis */}
             <line
               x1={-100000}
@@ -93,7 +93,7 @@ export default function GeometrySvg({
             />
 
             {/* Origin marker */}
-            <circle cx={0} cy={0} r={3} fill={rgbaToCss(colors.axes)} />
+            {/*<circle cx={0} cy={0} r={3} fill={rgbaToCss(colors.axes)} />*/}
           </g>
         )}
 
@@ -116,7 +116,7 @@ export default function GeometrySvg({
               line.id,
             );
             return (
-              <g key={line.id}>
+              <g key={line.id} data-export-kind="infiniteLines" data-export-layer={line.layer === 'construction' ? 'graphite' : 'ink'}>
                 {/* infinite euclidean line */}
                 <line
                   x1={infinite.x1}
@@ -167,6 +167,8 @@ export default function GeometrySvg({
           return (
             <circle
               key={circle.id}
+              data-export-kind="circles"
+              data-export-layer={circle.layer === 'construction' ? 'graphite' : 'ink'}
               cx={centerPoint.x}
               cy={centerPoint.y}
               r={radius}
@@ -206,7 +208,7 @@ export default function GeometrySvg({
           );
 
           return (
-            <g key={line.id}>
+            <g key={line.id} data-export-kind="lines" data-export-layer={line.layer === 'construction' ? 'graphite' : 'ink'}>
               {/* defining segment */}
               <line
                 x1={pointA.x}
@@ -297,6 +299,8 @@ export default function GeometrySvg({
           return (
             <circle
               key={point.id}
+              data-export-kind="points"
+              data-export-layer={point.layer === 'construction' ? 'graphite' : 'ink'}
               cx={point.x}
               cy={point.y}
               r={isHistoryHighlighted ? 3 : isSelected ? 3 : isHovered ? 2 : 2}
