@@ -25,6 +25,8 @@ import {
   saveDocumentToLocalStorage,
   loadAppearanceFromLocalStorage,
   saveAppearanceToLocalStorage,
+  loadLayoutFromLocalStorage,
+  saveLayoutToLocalStorage,
 } from '../services/persistence/documentPersistence.ts';
 
 const defaultLayoutJson: IJsonModel = {
@@ -195,7 +197,9 @@ function DocumentPersistenceBridge({
 
 export default function EditorPage() {
   // declare state
-  const [model] = useState(() => Model.fromJson(defaultLayoutJson));
+  const [model] = useState(() =>
+    Model.fromJson(loadLayoutFromLocalStorage() ?? defaultLayoutJson),
+  );
   const [activeTool, setActiveTool] = useState('select');
   const [viewSettings, setViewSettings] = useState<ViewSettings>({
     showAxes: true,
@@ -351,7 +355,11 @@ export default function EditorPage() {
       />
       <div className={`app${isDarkMode ? ' app-dark' : ''}`}>
         <div className="layout-outer">
-          <Layout model={model} factory={factory} />
+          <Layout
+            model={model}
+            factory={factory}
+            onModelChange={(nextModel) => saveLayoutToLocalStorage(nextModel.toJson())}
+          />
         </div>
       </div>
     </DocumentProvider>

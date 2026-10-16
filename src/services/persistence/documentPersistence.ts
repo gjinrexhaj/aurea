@@ -1,11 +1,13 @@
 import type { GeometryDocument } from '../../geometry/GeometryDocument.ts';
 import type { HistoryStep } from '../../construction/HistoryStep.ts';
 import type { GeometryColors } from '../../ui/GeometryColors.ts';
+import type { IJsonModel } from 'flexlayout-react';
 
 const DEFAULT_DOCUMENT_NAME = 'aurea-document';
 const LOCAL_STORAGE_KEY = 'aurea:current-document';
 const CAMERA_STORAGE_KEY = 'aurea:camera';
 const APPEARANCE_STORAGE_KEY = 'aurea:appearance';
+const LAYOUT_STORAGE_KEY = 'aurea:layout';
 
 export type CameraState = {
   x: number;
@@ -100,6 +102,33 @@ export function loadAppearanceFromLocalStorage(): AppearanceState | null {
     return parsed;
   } catch (error) {
     console.error('Unable to load appearance from local storage', error);
+    return null;
+  }
+}
+
+export function saveLayoutToLocalStorage(layout: IJsonModel): void {
+  try {
+    window.localStorage.setItem(LAYOUT_STORAGE_KEY, JSON.stringify(layout));
+  } catch (error) {
+    console.error('Unable to save layout to local storage', error);
+  }
+}
+
+export function loadLayoutFromLocalStorage(): IJsonModel | null {
+  try {
+    const data = window.localStorage.getItem(LAYOUT_STORAGE_KEY);
+    if (!data) {
+      return null;
+    }
+
+    const parsed: unknown = JSON.parse(data);
+    if (!isLayoutModel(parsed)) {
+      throw new Error('Stored layout is invalid');
+    }
+
+    return parsed;
+  } catch (error) {
+    console.error('Unable to load layout from local storage', error);
     return null;
   }
 }
@@ -212,6 +241,15 @@ function isAppearanceState(value: unknown): value is AppearanceState {
     isRecord(value) &&
     typeof value.isDarkMode === 'boolean' &&
     isGeometryColors(value.colors)
+  );
+}
+
+function isLayoutModel(value: unknown): value is IJsonModel {
+  return (
+    isRecord(value) &&
+    isRecord(value.global) &&
+    Array.isArray(value.borders) &&
+    isRecord(value.layout)
   );
 }
 
