@@ -23,6 +23,8 @@ import { useDocument } from '../context/DocumentContext.tsx';
 import {
   loadDocumentFromLocalStorage,
   saveDocumentToLocalStorage,
+  loadAppearanceFromLocalStorage,
+  saveAppearanceToLocalStorage,
 } from '../services/persistence/documentPersistence.ts';
 
 const defaultLayoutJson: IJsonModel = {
@@ -201,14 +203,22 @@ export default function EditorPage() {
     showInfiniteLines: false,
   });
   const [activeLayer, setActiveLayer] = useState<GeometryLayer>('construction');
-  const [colors, setColors] = useState(defaultGeometryColors);
+  const [colors, setColors] = useState(() => {
+    return loadAppearanceFromLocalStorage()?.colors ?? defaultGeometryColors;
+  });
   const [snapSettings, setSnapSettings] =
     useState<SnapSettings>(defaultSnapSettings);
   const [history, setHistory] = useState<HistoryStep[]>([]);
   const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(
     null,
   );
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return loadAppearanceFromLocalStorage()?.isDarkMode ?? false;
+  });
+
+  useEffect(() => {
+    saveAppearanceToLocalStorage({ isDarkMode, colors });
+  }, [colors, isDarkMode]);
 
   useEffect(() => {
     const html = document.documentElement;

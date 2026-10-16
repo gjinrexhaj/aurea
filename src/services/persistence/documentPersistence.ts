@@ -1,14 +1,21 @@
 import type { GeometryDocument } from '../../geometry/GeometryDocument.ts';
 import type { HistoryStep } from '../../construction/HistoryStep.ts';
+import type { GeometryColors } from '../../ui/GeometryColors.ts';
 
 const DEFAULT_DOCUMENT_NAME = 'aurea-document';
 const LOCAL_STORAGE_KEY = 'aurea:current-document';
 const CAMERA_STORAGE_KEY = 'aurea:camera';
+const APPEARANCE_STORAGE_KEY = 'aurea:appearance';
 
 export type CameraState = {
   x: number;
   y: number;
   zoom: number;
+};
+
+export type AppearanceState = {
+  isDarkMode: boolean;
+  colors: GeometryColors;
 };
 
 export type PersistedDocument = {
@@ -63,6 +70,36 @@ export function loadCameraFromLocalStorage(): CameraState | null {
     return parsed;
   } catch (error) {
     console.error('Unable to load camera from local storage', error);
+    return null;
+  }
+}
+
+export function saveAppearanceToLocalStorage(appearance: AppearanceState): void {
+  try {
+    window.localStorage.setItem(
+      APPEARANCE_STORAGE_KEY,
+      JSON.stringify(appearance),
+    );
+  } catch (error) {
+    console.error('Unable to save appearance to local storage', error);
+  }
+}
+
+export function loadAppearanceFromLocalStorage(): AppearanceState | null {
+  try {
+    const data = window.localStorage.getItem(APPEARANCE_STORAGE_KEY);
+    if (!data) {
+      return null;
+    }
+
+    const parsed: unknown = JSON.parse(data);
+    if (!isAppearanceState(parsed)) {
+      throw new Error('Stored appearance state is invalid');
+    }
+
+    return parsed;
+  } catch (error) {
+    console.error('Unable to load appearance from local storage', error);
     return null;
   }
 }
@@ -168,6 +205,46 @@ function isCameraState(value: unknown): value is CameraState {
     Number.isFinite(value.zoom) &&
     value.zoom > 0
   );
+}
+
+function isAppearanceState(value: unknown): value is AppearanceState {
+  return (
+    isRecord(value) &&
+    typeof value.isDarkMode === 'boolean' &&
+    isGeometryColors(value.colors)
+  );
+}
+
+function isGeometryColors(value: unknown): value is GeometryColors {
+  if (!isRecord(value)) {
+    return false;
+  }
+
+  return (
+    isLayeredColor(value.point) &&
+    isLayeredColor(value.circle) &&
+    isLayeredColor(value.line) &&
+    isRgbaColor(value.axes) &&
+    isRgbaColor(value.infiniteLines)
+  );
+}
+
+function isLayeredColor(value: unknown): boolean {
+  return isRecord(value) && isRgbaColor(value.graphite) && isRgbaColor(value.ink);
+}
+
+function isRgbaColor(value: unknown): boolean {
+  return (
+    isRecord(value) &&
+    isFiniteColorChannel(value.r) &&
+    isFiniteColorChannel(value.g) &&
+    isFiniteColorChannel(value.b) &&
+    isFiniteColorChannel(value.a)
+  );
+}
+
+function isFiniteColorChannel(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
 }
 
 function isPoint(value: unknown): boolean {
