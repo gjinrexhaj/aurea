@@ -80,6 +80,8 @@ export default function GeometrySvg({
               y2={0}
               stroke={rgbaToCss(colors.axes)}
               strokeWidth={1}
+              strokeDasharray="1 8"
+              strokeLinecap="round"
             />
 
             {/* Y axis */}
@@ -90,6 +92,8 @@ export default function GeometrySvg({
               y2={100000}
               stroke={rgbaToCss(colors.axes)}
               strokeWidth={1}
+              strokeDasharray="1 8"
+              strokeLinecap="round"
             />
 
             {/* Origin marker */}
