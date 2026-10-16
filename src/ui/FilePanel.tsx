@@ -2,6 +2,7 @@ import './FilePanel.css'
 import { useState } from 'react';
 import { useDocument } from '../context/DocumentContext.tsx';
 import { ConfirmDialog } from './ConfirmDialog.tsx';
+import type { HistoryStep } from '../construction/HistoryStep.ts';
 import {
     exportDocument,
     type ExportElements,
@@ -13,7 +14,17 @@ import {
     saveDocument,
 } from '../services/persistence/documentPersistence.ts';
 
-export function FilePanel() {
+type FilePanelProps = {
+    history: HistoryStep[];
+    onHistoryChange: (history: HistoryStep[]) => void;
+    onHistorySelectionChange: (historyId: string | null) => void;
+};
+
+export function FilePanel({
+    history,
+    onHistoryChange,
+    onHistorySelectionChange,
+}: FilePanelProps) {
     const { document: geomDocument, setDocument } = useDocument();
     const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
     const [exportTarget, setExportTarget] = useState<ExportTarget>('canvas');
@@ -55,7 +66,7 @@ export function FilePanel() {
     };
 
     const handleSave = () => {
-        saveDocument(geomDocument, saveFileName);
+        saveDocument(geomDocument, history, saveFileName);
         setShowSaveDialog(false);
     };
 
@@ -64,7 +75,9 @@ export function FilePanel() {
         try {
             const loadedDocument = await loadDocument();
             if (loadedDocument) {
-                setDocument(loadedDocument);
+                setDocument(loadedDocument.document);
+                onHistoryChange(loadedDocument.history);
+                onHistorySelectionChange(null);
             }
         } catch (error) {
             console.error('Unable to load document', error);
@@ -230,6 +243,8 @@ export function FilePanel() {
                     onCancel={() => setShowNewConfirm(false)}
                     onConfirm={() => {
                         setDocument({ points: [], lines: [], circles: [] });
+                        onHistoryChange([]);
+                        onHistorySelectionChange(null);
                         setShowNewConfirm(false);
                     }}
                 />

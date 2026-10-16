@@ -35,7 +35,7 @@ type CanvasProps = {
   colors: GeometryColors;
   snapSettings?: SnapSettings;
   history?: HistoryStep[];
-  onHistoryChange?: (history: HistoryStep[]) => void;
+  onHistoryChange?: React.Dispatch<React.SetStateAction<HistoryStep[]>>;
   selectedHistoryId?: string | null;
   onSelectHistoryId?: (id: string | null) => void;
   onRegisterUndo?: (undoFn: () => void) => void;
@@ -86,16 +86,7 @@ export default function Canvas({
   const setHistory = useCallback(
     (action: React.SetStateAction<HistoryStep[]>) => {
       if (onHistoryChange) {
-        if (typeof action === 'function') {
-          setInternalHistory((prev) => {
-            const next = action(prev);
-            onHistoryChange(next);
-            return next;
-          });
-        } else {
-          setInternalHistory(action);
-          onHistoryChange(action);
-        }
+        onHistoryChange(action);
       } else {
         setInternalHistory(action);
       }

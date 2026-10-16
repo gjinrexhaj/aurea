@@ -267,7 +267,13 @@ export default function EditorPage() {
         case 'guide':
           return <GuidePanel />;
         case 'file':
-          return <FilePanel />;
+          return (
+            <FilePanel
+              history={history}
+              onHistoryChange={setHistory}
+              onHistorySelectionChange={setSelectedHistoryId}
+            />
+          );
         default:
           return null;
       }
