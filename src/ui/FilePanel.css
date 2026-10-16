@@ -1,0 +1,170 @@
+.file-panel-wrapper {
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+}
+
+.file-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.file-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg-raised);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.file-export-card {
+  background: rgba(1, 125, 211, 0.03);
+  border-color: rgba(1, 125, 211, 0.18);
+}
+
+.app.app-dark .file-export-card {
+  background: rgba(99, 179, 255, 0.12);
+  border-color: rgba(99, 179, 255, 0.42);
+}
+
+.file-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.file-section-header strong {
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.file-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.file-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+}
+
+.file-stat-value {
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--editor-ink);
+}
+
+.file-stat-label {
+  color: var(--editor-ink-faint);
+  font-size: 0.72rem;
+}
+
+.file-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.file-button {
+  padding: 6px 10px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-button:hover:not(:disabled) {
+  border-color: var(--editor-accent);
+  color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.file-export-target {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.file-field-label {
+  color: var(--editor-ink-dim);
+  font-size: 0.8rem;
+}
+
+.file-target-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+}
+
+.file-target-option {
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid transparent;
+  border-radius: var(--editor-radius-s);
+  background: transparent;
+  color: var(--editor-ink-faint);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-target-option:hover {
+  color: var(--editor-ink);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.file-target-option.is-active {
+  border-color: rgba(1, 125, 211, 0.22);
+  background: var(--editor-accent-soft);
+  color: var(--editor-accent);
+  font-weight: 600;
+}
+
+.file-format-switch {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.file-export-button {
+  width: 100%;
+  color: var(--editor-accent);
+  border-color: rgba(1, 125, 211, 0.24);
+  background: var(--editor-bg);
+}
+
+.file-export-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
