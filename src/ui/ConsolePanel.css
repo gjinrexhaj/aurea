@@ -87,12 +87,39 @@
   flex-wrap: wrap;
 }
 
+.console-visibility-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 10px;
+  border-right: 1px solid var(--editor-border-soft);
+}
+
 .control-item {
   padding-left: 0;
   display: flex;
   align-items: center;
   gap: 6px;
   color: var(--editor-ink-dim);
+}
+
+.console-field-toggle {
+  padding: 6px 8px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.console-field-toggle:hover {
+  background: rgba(1, 125, 211, 0.03);
+  border-color: var(--editor-accent-soft);
+  color: var(--editor-ink);
 }
 
 .control-item input[type='checkbox'] {
