@@ -48,6 +48,89 @@
   font-weight: 600;
 }
 
+.file-view-content-button {
+  padding: 4px 7px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-view-content-button:hover {
+  border-color: var(--editor-accent);
+  color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.file-document-content-wrap {
+  position: relative;
+}
+
+.file-document-content {
+  min-height: 120px;
+  height: 220px;
+  margin: 0;
+  padding: 8px;
+  overflow: auto;
+  resize: vertical;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink-dim);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.7rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.file-document-line {
+  display: block;
+}
+
+.file-document-line.is-highlighted {
+  color: var(--editor-accent);
+}
+
+.file-document-autoscroll {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 7px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink-dim);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+  font-size: 0.7rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.file-document-autoscroll:hover {
+  border-color: var(--editor-accent);
+  color: var(--editor-ink);
+}
+
+.file-document-autoscroll input {
+  margin: 0;
+  accent-color: var(--editor-accent);
+  cursor: pointer;
+}
+
 .file-stat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

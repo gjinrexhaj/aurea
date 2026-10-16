@@ -1,5 +1,5 @@
 import './FilePanel.css'
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDocument } from '../context/DocumentContext.tsx';
 import { ConfirmDialog } from './ConfirmDialog.tsx';
 import type { HistoryStep } from '../construction/HistoryStep.ts';
@@ -43,6 +43,64 @@ export function FilePanel({
     const [showNewConfirm, setShowNewConfirm] = useState(false);
     const [showSaveDialog, setShowSaveDialog] = useState(false);
     const [saveFileName, setSaveFileName] = useState('aurea-document');
+    const [showDocumentContent, setShowDocumentContent] = useState(false);
+    const [documentAutoscroll, setDocumentAutoscroll] = useState(true);
+    const documentContentRef = useRef<HTMLPreElement>(null);
+    const documentJson = JSON.stringify(geomDocument, null, 2);
+    const documentJsonLines = documentJson.split('\n');
+    const lastCreatedId = history.at(-1)?.type === 'create' ? history.at(-1)?.id : null;
+    const highlightedLines = new Set<number>();
+
+    if (lastCreatedId) {
+        const idLine = documentJsonLines.findIndex((line) =>
+            line.includes(`"id": "${lastCreatedId}"`),
+        );
+
+        if (idLine >= 0) {
+            let startLine = idLine;
+            while (startLine > 0 && !documentJsonLines[startLine].trim().startsWith('{')) {
+                startLine -= 1;
+            }
+
+            let endLine = idLine;
+            while (
+                endLine < documentJsonLines.length - 1 &&
+                !/^\s*},?\s*$/.test(documentJsonLines[endLine])
+            ) {
+                endLine += 1;
+            }
+
+            for (let line = startLine; line <= endLine; line += 1) {
+                highlightedLines.add(line);
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (!documentAutoscroll || !showDocumentContent || !documentContentRef.current) {
+            return;
+        }
+
+        const lastHistoryStep = history[history.length - 1];
+        if (lastHistoryStep?.type !== 'create') {
+            return;
+        }
+
+        const targetIndex = documentJson.indexOf(`"id": "${lastHistoryStep.id}"`);
+        if (targetIndex < 0) {
+            return;
+        }
+
+        const targetLine = documentJson.slice(0, targetIndex).split('\n').length - 1;
+        const lineCount = documentJsonLines.length;
+        const lineHeight = documentContentRef.current.scrollHeight / lineCount;
+        const targetOffset = targetLine * lineHeight - documentContentRef.current.clientHeight / 2;
+
+        documentContentRef.current.scrollTo({
+            top: Math.max(0, targetOffset),
+            behavior: 'smooth',
+        });
+    }, [documentAutoscroll, documentJson, history, showDocumentContent]);
 
     const handleExport = async () => {
         const svg = document.querySelector<SVGSVGElement>('.canvas svg');
@@ -92,21 +150,57 @@ export function FilePanel({
                 <section className="file-section file-summary">
                     <div className="file-section-header">
                         <strong>Document</strong>
+                        <button
+                            className="file-view-content-button"
+                            type="button"
+                            aria-expanded={showDocumentContent}
+                            onClick={() => setShowDocumentContent((visible) => !visible)}
+                        >
+                            {showDocumentContent ? 'Hide content' : 'View content'}
+                        </button>
                     </div>
-                    <div className="file-stat-grid">
-                        <div className="file-stat">
-                            <span className="file-stat-value">{geomDocument.points.length}</span>
-                            <span className="file-stat-label">Points</span>
+                    {showDocumentContent ? (
+                        <div className="file-document-content-wrap">
+                            <pre className="file-document-content" ref={documentContentRef}>
+                                {documentJsonLines.map((line, index) => (
+                                    <span
+                                        className={
+                                            highlightedLines.has(index)
+                                                ? 'file-document-line is-highlighted'
+                                                : 'file-document-line'
+                                        }
+                                        key={`${index}-${line}`}
+                                    >
+                                        {line}
+                                        {index < documentJsonLines.length - 1 ? '\n' : ''}
+                                    </span>
+                                ))}
+                            </pre>
+                            <label className="file-document-autoscroll">
+                                <input
+                                    type="checkbox"
+                                    checked={documentAutoscroll}
+                                    onChange={(event) => setDocumentAutoscroll(event.target.checked)}
+                                />
+                                <span>Autoscroll</span>
+                            </label>
                         </div>
-                        <div className="file-stat">
-                            <span className="file-stat-value">{geomDocument.lines.length}</span>
-                            <span className="file-stat-label">Lines</span>
+                    ) : (
+                        <div className="file-stat-grid">
+                            <div className="file-stat">
+                                <span className="file-stat-value">{geomDocument.points.length}</span>
+                                <span className="file-stat-label">Points</span>
+                            </div>
+                            <div className="file-stat">
+                                <span className="file-stat-value">{geomDocument.lines.length}</span>
+                                <span className="file-stat-label">Lines</span>
+                            </div>
+                            <div className="file-stat">
+                                <span className="file-stat-value">{geomDocument.circles.length}</span>
+                                <span className="file-stat-label">Circles</span>
+                            </div>
                         </div>
-                        <div className="file-stat">
-                            <span className="file-stat-value">{geomDocument.circles.length}</span>
-                            <span className="file-stat-label">Circles</span>
-                        </div>
-                    </div>
+                    )}
                 </section>
 
                 <section className="file-section">
