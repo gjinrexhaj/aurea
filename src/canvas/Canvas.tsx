@@ -27,6 +27,11 @@ import {
 import type { GeometryColors } from '../ui/GeometryColors.ts';
 import { logger } from '../util/Logger.ts';
 import { useDocument } from '../context/DocumentContext.tsx';
+import {
+  loadCameraFromLocalStorage,
+  saveCameraToLocalStorage,
+  type CameraState,
+} from '../services/persistence/documentPersistence.ts';
 
 type CanvasProps = {
   activeTool: string;
@@ -54,10 +59,15 @@ export default function Canvas({
   onRegisterUndo,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [camera, setCamera] = useState({
-    x: 0,
-    y: 0,
-    zoom: 1,
+  const hasStoredCamera = useRef(false);
+  const [camera, setCamera] = useState<CameraState>(() => {
+    const storedCamera = loadCameraFromLocalStorage();
+    hasStoredCamera.current = storedCamera !== null;
+    return storedCamera ?? {
+      x: 0,
+      y: 0,
+      zoom: 1,
+    };
   });
   const [isPanning, setIsPanning] = useState(false);
   const lastPanPosition = useRef({ x: 0, y: 0 });
@@ -113,17 +123,25 @@ export default function Canvas({
     const updateCamera = () => {
       if (canvasRef.current) {
         const rect = canvasRef.current.getBoundingClientRect();
-        setCamera((prev) => ({
-          ...prev,
-          x: rect.width / 2,
-          y: rect.height / 2,
-        }));
+        setCamera((prev) =>
+          hasStoredCamera.current
+            ? prev
+            : {
+                ...prev,
+                x: rect.width / 2,
+                y: rect.height / 2,
+              },
+        );
       }
     };
     updateCamera();
     window.addEventListener('resize', updateCamera);
     return () => window.removeEventListener('resize', updateCamera);
   }, []);
+
+  useEffect(() => {
+    saveCameraToLocalStorage(camera);
+  }, [camera]);
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {

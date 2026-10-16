@@ -19,6 +19,11 @@ import { ConsolePanel } from '../ui/ConsolePanel.tsx';
 import { GuidePanel } from '../ui/GuidePanel.tsx';
 import {FilePanel} from "../ui/FilePanel.tsx";
 import { DocumentProvider } from '../context/DocumentContext.tsx';
+import { useDocument } from '../context/DocumentContext.tsx';
+import {
+  loadDocumentFromLocalStorage,
+  saveDocumentToLocalStorage,
+} from '../services/persistence/documentPersistence.ts';
 
 const defaultLayoutJson: IJsonModel = {
   global: {
@@ -150,6 +155,41 @@ const defaultLayoutJson: IJsonModel = {
     },
   },
 };
+
+function DocumentPersistenceBridge({
+  history,
+  onHistoryChange,
+}: {
+  history: HistoryStep[];
+  onHistoryChange: (history: HistoryStep[]) => void;
+}) {
+  const { document, setDocument } = useDocument();
+  const isStorageReady = useRef(false);
+  const initialDocument = useRef(document);
+  const initialHistory = useRef(history);
+
+  useEffect(() => {
+    const persistedDocument = loadDocumentFromLocalStorage();
+    if (persistedDocument) {
+      setDocument(persistedDocument.document);
+      onHistoryChange(persistedDocument.history);
+    } else {
+      saveDocumentToLocalStorage(initialDocument.current, initialHistory.current);
+    }
+
+    queueMicrotask(() => {
+      isStorageReady.current = true;
+    });
+  }, [onHistoryChange, setDocument]);
+
+  useEffect(() => {
+    if (isStorageReady.current) {
+      saveDocumentToLocalStorage(document, history);
+    }
+  }, [document, history]);
+
+  return null;
+}
 
 export default function EditorPage() {
   // declare state
@@ -295,6 +335,10 @@ export default function EditorPage() {
   // render component
   return (
     <DocumentProvider>
+      <DocumentPersistenceBridge
+        history={history}
+        onHistoryChange={setHistory}
+      />
       <div className={`app${isDarkMode ? ' app-dark' : ''}`}>
         <div className="layout-outer">
           <Layout model={model} factory={factory} />

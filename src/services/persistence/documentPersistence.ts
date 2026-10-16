@@ -2,11 +2,70 @@ import type { GeometryDocument } from '../../geometry/GeometryDocument.ts';
 import type { HistoryStep } from '../../construction/HistoryStep.ts';
 
 const DEFAULT_DOCUMENT_NAME = 'aurea-document';
+const LOCAL_STORAGE_KEY = 'aurea:current-document';
+const CAMERA_STORAGE_KEY = 'aurea:camera';
+
+export type CameraState = {
+  x: number;
+  y: number;
+  zoom: number;
+};
 
 export type PersistedDocument = {
   document: GeometryDocument;
   history: HistoryStep[];
 };
+
+export function saveDocumentToLocalStorage(
+  document: GeometryDocument,
+  history: HistoryStep[],
+): void {
+  try {
+    window.localStorage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify({ document, history }),
+    );
+  } catch (error) {
+    console.error('Unable to save document to local storage', error);
+  }
+}
+
+export function loadDocumentFromLocalStorage(): PersistedDocument | null {
+  try {
+    const data = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    return data ? parseDocument(data) : null;
+  } catch (error) {
+    console.error('Unable to load document from local storage', error);
+    return null;
+  }
+}
+
+export function saveCameraToLocalStorage(camera: CameraState): void {
+  try {
+    window.localStorage.setItem(CAMERA_STORAGE_KEY, JSON.stringify(camera));
+  } catch (error) {
+    console.error('Unable to save camera to local storage', error);
+  }
+}
+
+export function loadCameraFromLocalStorage(): CameraState | null {
+  try {
+    const data = window.localStorage.getItem(CAMERA_STORAGE_KEY);
+    if (!data) {
+      return null;
+    }
+
+    const parsed: unknown = JSON.parse(data);
+    if (!isCameraState(parsed)) {
+      throw new Error('Stored camera state is invalid');
+    }
+
+    return parsed;
+  } catch (error) {
+    console.error('Unable to load camera from local storage', error);
+    return null;
+  }
+}
 
 export function saveDocument(
   document: GeometryDocument,
@@ -95,6 +154,19 @@ function isGeometryDocument(value: unknown): value is GeometryDocument {
     value.lines.every(isLine) &&
     Array.isArray(value.circles) &&
     value.circles.every(isCircle)
+  );
+}
+
+function isCameraState(value: unknown): value is CameraState {
+  return (
+    isRecord(value) &&
+    typeof value.x === 'number' &&
+    Number.isFinite(value.x) &&
+    typeof value.y === 'number' &&
+    Number.isFinite(value.y) &&
+    typeof value.zoom === 'number' &&
+    Number.isFinite(value.zoom) &&
+    value.zoom > 0
   );
 }
 
