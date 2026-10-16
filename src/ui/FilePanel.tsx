@@ -1,6 +1,7 @@
 import './FilePanel.css'
 import { useState } from 'react';
 import { useDocument } from '../context/DocumentContext.tsx';
+import { ConfirmDialog } from './ConfirmDialog.tsx';
 import {
     exportDocument,
     type ExportElements,
@@ -9,7 +10,7 @@ import {
 } from '../services/export/exportDocument.ts';
 
 export function FilePanel() {
-    const { document: geomDocument } = useDocument();
+    const { document: geomDocument, setDocument } = useDocument();
     const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
     const [exportTarget, setExportTarget] = useState<ExportTarget>('canvas');
     const [exportElements, setExportElements] = useState<ExportElements>({
@@ -23,6 +24,7 @@ export function FilePanel() {
         background: false,
     });
     const [isExporting, setIsExporting] = useState(false);
+    const [showNewConfirm, setShowNewConfirm] = useState(false);
 
     const handleExport = async () => {
         const svg = document.querySelector<SVGSVGElement>('.canvas svg');
@@ -73,6 +75,9 @@ export function FilePanel() {
                         <strong>File actions</strong>
                     </div>
                     <div className="file-actions">
+                        <button className="file-button" type="button" onClick={() => setShowNewConfirm(true)}>
+                            New Document
+                        </button>
                         <button className="file-button" onClick={() => console.log('Save (not implemented)', geomDocument)}>
                             Save
                         </button>
@@ -152,6 +157,19 @@ export function FilePanel() {
                     </button>
                 </section>
             </div>
+            {showNewConfirm && (
+                <ConfirmDialog
+                    title="Create new document?"
+                    message="This will clear all points, lines, and circles from the current geometry document."
+                    cancelLabel="Cancel"
+                    confirmLabel="Create new"
+                    onCancel={() => setShowNewConfirm(false)}
+                    onConfirm={() => {
+                        setDocument({ points: [], lines: [], circles: [] });
+                        setShowNewConfirm(false);
+                    }}
+                />
+            )}
         </div>
     )
 }
