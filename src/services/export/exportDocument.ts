@@ -58,6 +58,11 @@ export async function exportDocument(
     svg.setAttribute('viewBox', `${viewBox.minX} ${viewBox.minY} ${viewBox.width} ${viewBox.height}`);
     const scene = svg.querySelector(':scope > g');
     scene?.removeAttribute('transform');
+    const background = svg.querySelector<SVGRectElement>('[data-export-background]');
+    background?.setAttribute('x', `${viewBox.minX}`);
+    background?.setAttribute('y', `${viewBox.minY}`);
+    background?.setAttribute('width', `${viewBox.width}`);
+    background?.setAttribute('height', `${viewBox.height}`);
     svg.setAttribute('width', `${viewBox.width}`);
     svg.setAttribute('height', `${viewBox.height}`);
   } else {
@@ -132,6 +137,9 @@ function prepareSvg(
 
   if (options.elements.background) {
     const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    background.setAttribute('data-export-background', '');
+    background.setAttribute('x', '0');
+    background.setAttribute('y', '0');
     background.setAttribute('width', '100%');
     background.setAttribute('height', '100%');
     background.setAttribute('fill', backgroundColor || '#ffffff');
