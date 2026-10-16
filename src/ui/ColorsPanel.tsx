@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { RgbaColorPicker } from 'react-colorful';
 import {
   defaultGeometryColors,
@@ -212,6 +213,9 @@ export function ColorsPanel({
     setThemeDialog(null);
   }
 
+  const modalRoot =
+    document.querySelector<HTMLElement>('.app') ?? document.body;
+
   return (
     <div className="colors-panel-wrapper">
       <div className="colors-panel">
@@ -272,7 +276,7 @@ export function ColorsPanel({
         </div>
       </div>
 
-      {picker && (
+      {picker && createPortal(
         <div className="color-modal-backdrop" onClick={() => setPicker(null)}>
           <div
             className="color-modal"
@@ -307,7 +311,8 @@ export function ColorsPanel({
 
             <RgbaColorPicker color={picker.color} onChange={updateColor} />
           </div>
-        </div>
+        </div>,
+        modalRoot,
       )}
 
       {themeDialog && (

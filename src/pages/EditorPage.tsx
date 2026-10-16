@@ -3,6 +3,7 @@ import { Layout, Model, type TabNode, type IJsonModel } from 'flexlayout-react';
 import 'flexlayout-react/style/light.css';
 import type { ViewSettings } from '../ui/ViewSettings.ts';
 import type { GeometryLayer } from '../geometry/GeometryLayer.ts';
+import type { Tool } from '../store/Tools.ts';
 import { Toolbar } from '../ui/Toolbar.tsx';
 import Canvas from '../canvas/Canvas.tsx';
 import { ColorsPanel } from '../ui/ColorsPanel.tsx';
@@ -27,6 +28,10 @@ import {
   saveAppearanceToLocalStorage,
   loadLayoutFromLocalStorage,
   saveLayoutToLocalStorage,
+  loadActiveToolFromLocalStorage,
+  saveActiveToolToLocalStorage,
+  loadEditorSettingsFromLocalStorage,
+  saveEditorSettingsToLocalStorage,
 } from '../services/persistence/documentPersistence.ts';
 
 const defaultLayoutJson: IJsonModel = {
@@ -200,13 +205,20 @@ export default function EditorPage() {
   const [model] = useState(() =>
     Model.fromJson(loadLayoutFromLocalStorage() ?? defaultLayoutJson),
   );
-  const [activeTool, setActiveTool] = useState('select');
-  const [viewSettings, setViewSettings] = useState<ViewSettings>({
-    showAxes: true,
-    showGrid: false,
-    showInfiniteLines: false,
-  });
-  const [activeLayer, setActiveLayer] = useState<GeometryLayer>('construction');
+  const [activeTool, setActiveTool] = useState<Tool>(
+    () => loadActiveToolFromLocalStorage() ?? 'select',
+  );
+  const [viewSettings, setViewSettings] = useState<ViewSettings>(
+    () =>
+      loadEditorSettingsFromLocalStorage()?.viewSettings ?? {
+        showAxes: true,
+        showGrid: false,
+        showInfiniteLines: false,
+      },
+  );
+  const [activeLayer, setActiveLayer] = useState<GeometryLayer>(
+    () => loadEditorSettingsFromLocalStorage()?.activeLayer ?? 'construction',
+  );
   const [colors, setColors] = useState(() => {
     return loadAppearanceFromLocalStorage()?.colors ?? defaultGeometryColors;
   });
@@ -223,6 +235,14 @@ export default function EditorPage() {
   useEffect(() => {
     saveAppearanceToLocalStorage({ isDarkMode, colors });
   }, [colors, isDarkMode]);
+
+  useEffect(() => {
+    saveActiveToolToLocalStorage(activeTool);
+  }, [activeTool]);
+
+  useEffect(() => {
+    saveEditorSettingsToLocalStorage({ viewSettings, activeLayer });
+  }, [activeLayer, viewSettings]);
 
   useEffect(() => {
     const html = document.documentElement;

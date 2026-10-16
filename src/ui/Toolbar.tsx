@@ -1,4 +1,4 @@
-import { Tools } from '../store/Tools.ts';
+import { Tools, type Tool } from '../store/Tools.ts';
 import './Toolbar.css';
 import type { ViewSettings } from './ViewSettings.ts';
 import type { GeometryLayer } from '../geometry/GeometryLayer.ts';
@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 type ToolbarProps = {
   activeTool: string;
-  onToolChange: (tool: string) => void;
+  onToolChange: (tool: Tool) => void;
 
   viewSettings: ViewSettings;
   setViewSettings: React.Dispatch<React.SetStateAction<ViewSettings>>;

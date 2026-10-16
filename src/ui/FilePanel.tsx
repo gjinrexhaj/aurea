@@ -1,4 +1,5 @@
 import './FilePanel.css'
+import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useDocument } from '../context/DocumentContext.tsx';
 import { ConfirmDialog } from './ConfirmDialog.tsx';
@@ -50,6 +51,8 @@ export function FilePanel({
     const documentJsonLines = documentJson.split('\n');
     const lastCreatedId = history.at(-1)?.type === 'create' ? history.at(-1)?.id : null;
     const highlightedLines = new Set<number>();
+    const modalRoot =
+        document.querySelector<HTMLElement>('.app') ?? document.body;
 
     if (lastCreatedId) {
         const idLine = documentJsonLines.findIndex((line) =>
@@ -291,42 +294,45 @@ export function FilePanel({
                 </section>
             </div>
             {showSaveDialog && (
-                <div className="file-dialog-backdrop" onClick={() => setShowSaveDialog(false)}>
-                    <form
-                        className="file-dialog"
-                        onClick={(event) => event.stopPropagation()}
-                        onSubmit={(event) => {
-                            event.preventDefault();
-                            handleSave();
-                        }}
-                    >
-                        <div className="file-dialog-header">
-                            <strong>Save document</strong>
-                        </div>
-                        <label className="file-dialog-field">
-                            <span>File name</span>
-                            <input
-                                autoFocus
-                                type="text"
-                                value={saveFileName}
-                                onChange={(event) => setSaveFileName(event.target.value)}
-                                placeholder="aurea-document"
-                            />
-                        </label>
-                        <div className="file-dialog-actions">
-                            <button
-                                className="file-dialog-cancel"
-                                type="button"
-                                onClick={() => setShowSaveDialog(false)}
-                            >
-                                Cancel
-                            </button>
-                            <button className="file-dialog-save" type="submit">
-                                Save JSON
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                createPortal(
+                    <div className="file-dialog-backdrop" onClick={() => setShowSaveDialog(false)}>
+                        <form
+                            className="file-dialog"
+                            onClick={(event) => event.stopPropagation()}
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                handleSave();
+                            }}
+                        >
+                            <div className="file-dialog-header">
+                                <strong>Save document</strong>
+                            </div>
+                            <label className="file-dialog-field">
+                                <span>File name</span>
+                                <input
+                                    autoFocus
+                                    type="text"
+                                    value={saveFileName}
+                                    onChange={(event) => setSaveFileName(event.target.value)}
+                                    placeholder="aurea-document"
+                                />
+                            </label>
+                            <div className="file-dialog-actions">
+                                <button
+                                    className="file-dialog-cancel"
+                                    type="button"
+                                    onClick={() => setShowSaveDialog(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button className="file-dialog-save" type="submit">
+                                    Save JSON
+                                </button>
+                            </div>
+                        </form>
+                    </div>,
+                    modalRoot,
+                )
             )}
             {showNewConfirm && (
                 <ConfirmDialog

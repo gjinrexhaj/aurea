@@ -567,6 +567,21 @@ export default function Canvas({
     setLineState({});
   }
 
+  const handleResetCamera = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    const rect = canvas.getBoundingClientRect();
+    hasStoredCamera.current = true;
+    setCamera({
+      x: rect.width / 2,
+      y: rect.height / 2,
+      zoom: 1,
+    });
+  }, []);
+
   return (
     <div
       ref={canvasRef}
@@ -590,6 +605,15 @@ export default function Canvas({
         colors={colors}
         historyHighlight={historyHighlight}
       />
+      <button
+        type="button"
+        className="canvas-reset-camera"
+        aria-label="Reset camera"
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={handleResetCamera}
+      >
+        Center camera
+      </button>
     </div>
   );
 }

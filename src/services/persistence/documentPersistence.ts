@@ -2,12 +2,17 @@ import type { GeometryDocument } from '../../geometry/GeometryDocument.ts';
 import type { HistoryStep } from '../../construction/HistoryStep.ts';
 import type { GeometryColors } from '../../ui/GeometryColors.ts';
 import type { IJsonModel } from 'flexlayout-react';
+import type { Tool } from '../../store/Tools.ts';
+import type { ViewSettings } from '../../ui/ViewSettings.ts';
+import type { GeometryLayer } from '../../geometry/GeometryLayer.ts';
 
 const DEFAULT_DOCUMENT_NAME = 'aurea-document';
 const LOCAL_STORAGE_KEY = 'aurea:current-document';
 const CAMERA_STORAGE_KEY = 'aurea:camera';
 const APPEARANCE_STORAGE_KEY = 'aurea:appearance';
 const LAYOUT_STORAGE_KEY = 'aurea:layout';
+const TOOL_STORAGE_KEY = 'aurea:active-tool';
+const EDITOR_SETTINGS_STORAGE_KEY = 'aurea:editor-settings';
 
 export type CameraState = {
   x: number;
@@ -18,6 +23,11 @@ export type CameraState = {
 export type AppearanceState = {
   isDarkMode: boolean;
   colors: GeometryColors;
+};
+
+export type EditorSettingsState = {
+  viewSettings: ViewSettings;
+  activeLayer: GeometryLayer;
 };
 
 export type PersistedDocument = {
@@ -129,6 +139,56 @@ export function loadLayoutFromLocalStorage(): IJsonModel | null {
     return parsed;
   } catch (error) {
     console.error('Unable to load layout from local storage', error);
+    return null;
+  }
+}
+
+export function saveActiveToolToLocalStorage(tool: Tool): void {
+  try {
+    window.localStorage.setItem(TOOL_STORAGE_KEY, tool);
+  } catch (error) {
+    console.error('Unable to save active tool to local storage', error);
+  }
+}
+
+export function loadActiveToolFromLocalStorage(): Tool | null {
+  try {
+    const tool = window.localStorage.getItem(TOOL_STORAGE_KEY);
+    return isTool(tool) ? tool : null;
+  } catch (error) {
+    console.error('Unable to load active tool from local storage', error);
+    return null;
+  }
+}
+
+export function saveEditorSettingsToLocalStorage(
+  settings: EditorSettingsState,
+): void {
+  try {
+    window.localStorage.setItem(
+      EDITOR_SETTINGS_STORAGE_KEY,
+      JSON.stringify(settings),
+    );
+  } catch (error) {
+    console.error('Unable to save editor settings to local storage', error);
+  }
+}
+
+export function loadEditorSettingsFromLocalStorage(): EditorSettingsState | null {
+  try {
+    const data = window.localStorage.getItem(EDITOR_SETTINGS_STORAGE_KEY);
+    if (!data) {
+      return null;
+    }
+
+    const parsed: unknown = JSON.parse(data);
+    if (!isEditorSettingsState(parsed)) {
+      throw new Error('Stored editor settings are invalid');
+    }
+
+    return parsed;
+  } catch (error) {
+    console.error('Unable to load editor settings from local storage', error);
     return null;
   }
 }
@@ -251,6 +311,36 @@ function isLayoutModel(value: unknown): value is IJsonModel {
     Array.isArray(value.borders) &&
     isRecord(value.layout)
   );
+}
+
+function isTool(value: string | null): value is Tool {
+  return (
+    value === 'select' ||
+    value === 'point' ||
+    value === 'compass' ||
+    value === 'line'
+  );
+}
+
+function isEditorSettingsState(value: unknown): value is EditorSettingsState {
+  return (
+    isRecord(value) &&
+    isViewSettings(value.viewSettings) &&
+    isGeometryLayer(value.activeLayer)
+  );
+}
+
+function isViewSettings(value: unknown): value is ViewSettings {
+  return (
+    isRecord(value) &&
+    typeof value.showAxes === 'boolean' &&
+    typeof value.showGrid === 'boolean' &&
+    typeof value.showInfiniteLines === 'boolean'
+  );
+}
+
+function isGeometryLayer(value: unknown): value is GeometryLayer {
+  return value === 'construction' || value === 'final';
 }
 
 function isGeometryColors(value: unknown): value is GeometryColors {

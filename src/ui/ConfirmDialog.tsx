@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import './ConfirmDialog.css';
 
 type ConfirmDialogProps = {
@@ -33,7 +34,10 @@ export function ConfirmDialog({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [onCancel]);
 
-  return (
+  const modalRoot =
+    document.querySelector<HTMLElement>('.app') ?? document.body;
+
+  return createPortal(
     <div className="confirm-dialog-backdrop" onClick={onCancel}>
       <div
         className="confirm-dialog"
@@ -69,6 +73,7 @@ export function ConfirmDialog({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    modalRoot,
   );
 }
