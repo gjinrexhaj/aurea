@@ -299,6 +299,7 @@ export function FilePanel({
                         <form
                             className="file-dialog"
                             onClick={(event) => event.stopPropagation()}
+                            onKeyDown={(event) => event.stopPropagation()}
                             onSubmit={(event) => {
                                 event.preventDefault();
                                 handleSave();
