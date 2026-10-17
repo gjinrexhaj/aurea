@@ -3,8 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aurea — CSS Style Guide</title>
+    <title>Aurea — CSS Style Guide & Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      :root {
+        --editor-bg: #ffffff;
+        --editor-bg-raised: #ffffff;
+        --editor-bg-sunken: #ffffff;
+        --editor-border: rgba(58, 58, 58, 0.18);
+        --editor-border-soft: rgba(58, 58, 58, 0.1);
+        --editor-ink: #000000;
+        --editor-ink-dim: #3a3a3a;
+        --editor-ink-faint: #707070;
+        --editor-accent: #017dd3;
+        --editor-accent-soft: #c7e8ff;
+        --editor-tab-selected-bg: #eef6ff;
+
+        --editor-font-display: 'Space Grotesk', sans-serif;
+        --editor-font-body: 'IBM Plex Sans', sans-serif;
+        --editor-font-mono: 'IBM Plex Mono', monospace;
+        --editor-font-button: 'IBM Plex Sans', sans-serif;
+
+        --editor-radius-s: 3px;
+        --editor-radius-m: 5px;
+
+        --sg-page-bg: #fafafa;
+        --sg-card-bg: #ffffff;
+        --sg-header-bg: rgba(255, 255, 255, 0.92);
+      }
+
+      body.app-dark,
+      .dark-theme-preview {
+        --editor-bg: #15181e;
+        --editor-bg-raised: #1d222b;
+        --editor-bg-sunken: #11141a;
+        --editor-border: rgba(208, 216, 233, 0.22);
+        --editor-border-soft: rgba(208, 216, 233, 0.12);
+        --editor-ink: #eef2fb;
+        --editor-ink-dim: #c2cce0;
+        --editor-ink-faint: #92a1bc;
+        --editor-accent: #63b3ff;
+        --editor-accent-soft: rgba(99, 179, 255, 0.25);
+        --editor-tab-selected-bg: rgba(99, 179, 255, 0.16);
+
+        --sg-page-bg: #0f1115;
+        --sg-card-bg: #1d222b;
+        --sg-header-bg: rgba(21, 24, 30, 0.96);
+      }
+
       *,
       *::before,
       *::after {
@@ -12,90 +63,173 @@
         margin: 0;
         padding: 0;
       }
+
       body {
-        font-family: 'IBM Plex Sans', sans-serif;
-        background: #fafafa;
-        color: #3a3a3a;
+        font-family: var(--editor-font-body);
+        background: var(--sg-page-bg);
+        color: var(--editor-ink-dim);
         line-height: 1.55;
         -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
       }
+
       h1,
       h2,
-      h3 {
-        font-family: 'Space Grotesk', sans-serif;
+      h3,
+      h4 {
+        font-family: var(--editor-font-display);
+        color: var(--editor-ink);
       }
 
       h3 {
-        margin-top: 24px;
+        margin-top: 28px;
+        margin-bottom: 12px;
       }
       h3:first-of-type {
         margin-top: 0;
       }
 
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e0;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a0aec0;
+      }
+      body.app-dark ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.04);
+      }
+      body.app-dark ::-webkit-scrollbar-thumb {
+        background: #3a4454;
+      }
+      body.app-dark ::-webkit-scrollbar-thumb:hover {
+        background: #505c70;
+      }
+
+      /* Nav Header */
       .sg-nav {
         position: sticky;
         top: 0;
-        z-index: 100;
-        background: rgba(255, 255, 255, 0.92);
+        z-index: 1000;
+        background: var(--sg-header-bg);
         backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(58, 58, 58, 0.18);
+        border-bottom: 1px solid var(--editor-border);
         padding: 14px 32px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-family: 'IBM Plex Mono', monospace;
+        font-family: var(--editor-font-mono);
         font-size: 12px;
         letter-spacing: 0.06em;
         text-transform: uppercase;
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease;
       }
-      .sg-nav a {
-        color: #3a3a3a;
+
+      .sg-nav-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .sg-logo {
+        font-family: var(--editor-font-display);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--editor-ink);
         text-decoration: none;
-        padding: 8px 14px;
+        letter-spacing: normal;
+      }
+
+      .sg-nav-links {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+
+      .sg-nav a {
+        color: var(--editor-ink-dim);
+        text-decoration: none;
+        padding: 6px 12px;
         border-bottom: 2px solid transparent;
         transition:
           color 0.15s,
           border-color 0.15s;
       }
       .sg-nav a:hover {
-        color: #000;
-        border-color: rgba(58, 58, 58, 0.18);
+        color: var(--editor-ink);
+        border-color: var(--editor-border);
       }
       .sg-nav a.active {
-        color: #017dd3;
-        border-bottom-color: #017dd3;
+        color: var(--editor-accent);
+        border-bottom-color: var(--editor-accent);
         font-weight: 600;
       }
 
+      .sg-theme-switch-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-s);
+        background: var(--editor-bg);
+        color: var(--editor-ink-dim);
+        font-family: var(--editor-font-mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .sg-theme-switch-btn:hover {
+        border-color: var(--editor-accent);
+        color: var(--editor-accent);
+      }
+
+      /* Sections & Layout */
       .sg-section {
         max-width: 1180px;
         margin: 0 auto;
-        padding: 96px 32px;
+        padding: 80px 32px;
       }
       .sg-section + .sg-section {
-        border-top: 1px solid rgba(58, 58, 58, 0.1);
+        border-top: 1px solid var(--editor-border-soft);
       }
       .sg-section h2 {
         font-size: clamp(1.6rem, 3vw, 2.2rem);
         font-weight: 600;
-        margin: 14px 0 14px;
+        margin: 0 0 12px;
         letter-spacing: -0.01em;
       }
       .sg-section h3 {
         font-size: 17px;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
       }
       .sg-section p {
         font-size: 16px;
-        color: #3a3a3a;
-        margin-bottom: 14px;
+        color: var(--editor-ink-dim);
+        margin-bottom: 16px;
       }
       .sg-section .lead {
         font-size: 17px;
-        max-width: 46ch;
-        color: #3a3a3a;
-        margin-bottom: 30px;
+        max-width: 65ch;
+        color: var(--editor-ink-dim);
+        margin-bottom: 32px;
       }
 
       .sg-grid {
@@ -103,1208 +237,1610 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
       }
-      @media (max-width: 860px) {
-        .sg-grid {
-          grid-template-columns: 1fr;
-        }
-      }
       .sg-grid-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 56px;
-        align-items: center;
+        gap: 24px;
       }
-      @media (max-width: 900px) {
-        .sg-grid-2 {
+      .sg-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .sg-grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      @media (max-width: 860px) {
+        .sg-grid,
+        .sg-grid-2,
+        .sg-grid-3,
+        .sg-grid-4 {
           grid-template-columns: 1fr;
         }
       }
 
       .sg-card {
-        padding: 26px 24px 28px;
-        border: 1px solid rgba(58, 58, 58, 0.18);
-        border-radius: 5px;
-        background: #fff;
+        padding: 20px;
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-m);
+        background: var(--sg-card-bg);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease;
       }
       .sg-card + .sg-card {
         margin-top: 20px;
       }
 
-      .sg-divider {
-        border: none;
-        height: 1px;
-        background: rgba(58, 58, 58, 0.1);
-        margin: 0;
-      }
-
-      .sg-swatch {
-        height: 22px;
-        border: 1px solid rgba(58, 58, 58, 0.1);
-        border-radius: 3px;
-        margin-bottom: 8px;
-      }
-      .sg-swatch-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px;
-        border: 1px solid rgba(58, 58, 58, 0.1);
-        border-radius: 3px;
-        background: #fff;
-        cursor: pointer;
-        transition:
-          border-color 0.15s,
-          background 0.15s;
-      }
-      .sg-swatch-row:hover {
-        border-color: #017dd3;
+      .sg-card-highlight {
         background: rgba(1, 125, 211, 0.03);
+        border-color: rgba(1, 125, 211, 0.18);
       }
-      .sg-swatch-label {
-        font-size: 0.82rem;
-        font-weight: 500;
-        color: #3a3a3a;
-      }
-      .sg-swatch-value {
-        font-size: 0.72rem;
-        color: #707070;
-        font-family: 'IBM Plex Mono', monospace;
+      body.app-dark .sg-card-highlight,
+      .dark-theme-preview .sg-card-highlight {
+        background: rgba(99, 179, 255, 0.12);
+        border-color: rgba(99, 179, 255, 0.42);
       }
 
-      .sg-code {
-        font-family: 'IBM Plex Mono', monospace;
-        font-size: 0.85rem;
-        background: rgba(0, 0, 0, 0.05);
-        padding: 10px 14px;
-        border-radius: 3px;
+      .sg-table-wrap {
+        width: 100%;
         overflow-x: auto;
-        white-space: pre;
+        margin: 16px 0;
       }
       .sg-table {
         width: 100%;
         border-collapse: collapse;
-        font-family: 'IBM Plex Mono', monospace;
-        font-size: 0.85rem;
+        font-family: var(--editor-font-mono);
+        font-size: 0.82rem;
       }
       .sg-table th,
       .sg-table td {
-        padding: 8px 14px;
+        padding: 10px 14px;
         text-align: left;
-        border-bottom: 1px solid rgba(58, 58, 58, 0.1);
+        border-bottom: 1px solid var(--editor-border-soft);
       }
       .sg-table th {
         font-weight: 600;
-        color: #707070;
+        color: var(--editor-ink-faint);
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        font-size: 12px;
+        font-size: 11px;
       }
       .sg-table td {
-        color: #3a3a3a;
+        color: var(--editor-ink-dim);
       }
 
-      .sg-demo {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-      .sg-btn {
+      /* Color Indicators for Token Tables */
+      .sg-color-chip {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        font-family: 'IBM Plex Mono', monospace;
+        vertical-align: middle;
+      }
+      .sg-color-indicator {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: var(--editor-radius-s);
+        border: 1px solid var(--editor-border);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        flex-shrink: 0;
+        vertical-align: middle;
+        background-color: var(--color, transparent);
+        background-image:
+          linear-gradient(var(--color, transparent), var(--color, transparent)),
+          repeating-conic-gradient(#e2e8f0 0% 25%, #ffffff 0% 50%);
+        background-size: 100% 100%, 6px 6px;
+      }
+      body.app-dark .sg-color-indicator,
+      .dark-theme-preview .sg-color-indicator {
+        border-color: rgba(208, 216, 233, 0.22);
+        background-image:
+          linear-gradient(var(--color, transparent), var(--color, transparent)),
+          repeating-conic-gradient(#2d333f 0% 25%, #15181e 0% 50%);
+      }
+
+      /* Color Swatches */
+      .sg-swatch-box {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+        border: 1px solid var(--editor-border-soft);
+        border-radius: var(--editor-radius-s);
+        background: var(--editor-bg);
+      }
+      .sg-swatch-preview {
+        height: 32px;
+        border-radius: var(--editor-radius-s);
+        border: 1px solid var(--editor-border-soft);
+      }
+      .sg-swatch-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--editor-ink);
+        font-family: var(--editor-font-mono);
+      }
+      .sg-swatch-hex {
+        font-size: 0.75rem;
+        color: var(--editor-ink-faint);
+        font-family: var(--editor-font-mono);
+      }
+
+      /* Component Specimens */
+      .sg-demo-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+
+      /* Button specimen styles */
+      .btn-cta-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--editor-font-mono);
         font-size: 13px;
+        font-weight: 600;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        text-decoration: none;
         padding: 12px 20px;
-        border-radius: 3px;
-        border: 1px solid rgba(58, 58, 58, 0.18);
-        background: #fff;
-        color: #000;
+        border: 1px solid var(--editor-accent);
+        border-radius: var(--editor-radius-s);
+        background: var(--editor-accent);
+        color: #ffffff;
         cursor: pointer;
-        transition:
-          border-color 0.15s,
-          background 0.15s;
+        text-decoration: none;
       }
-      .sg-btn:hover {
-        border-color: #707070;
+      .btn-cta-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--editor-font-mono);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 12px 20px;
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-s);
+        background: var(--editor-bg);
+        color: var(--editor-ink);
+        cursor: pointer;
       }
-      .sg-btn-primary {
-        background: #017dd3;
-        border-color: #017dd3;
-        color: #fff;
+      .btn-tool {
+        padding: 4px 8px;
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-s);
+        background: var(--editor-bg-raised);
+        color: var(--editor-ink);
+        font-family: var(--editor-font-mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.15s ease;
       }
-      .sg-btn-primary:hover {
-        background: #1a8fe8;
-        border-color: #1a8fe8;
+      .btn-tool:hover {
+        border-color: var(--editor-ink-faint);
       }
-      .sg-btn-ghost {
-        background: transparent;
-      }
-
-      .sg-input {
-        padding: 8px 14px;
-        border: 1px solid rgba(58, 58, 58, 0.18);
-        border-radius: 3px;
-        font-family: 'IBM Plex Sans', sans-serif;
-        font-size: 16px;
-        color: #000;
-        background: #fff;
-      }
-      .sg-input:focus {
-        outline: 2px solid #017dd3;
-        outline-offset: 3px;
-      }
-
-      .sg-box {
-        padding: 20px;
-        border: 1px solid rgba(58, 58, 58, 0.18);
-        border-radius: 5px;
-        background: #fff;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-      }
-      .sg-radius-demo {
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-        background: #fff;
-        border: 1px solid rgba(58, 58, 58, 0.18);
+      .btn-tool.active {
+        background-color: var(--editor-accent);
+        color: #ffffff;
+        border-color: var(--editor-accent);
+        box-shadow: 0 1px 3px rgba(1, 125, 211, 0.18);
       }
 
-      .sg-window {
+      .btn-stepper {
+        padding: 3px 6px;
+        border: none;
+        background: rgba(1, 125, 211, 0.04);
+        cursor: pointer;
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: var(--editor-ink-dim);
+      }
+      .btn-preset {
+        padding: 2px 6px;
+        font-size: 0.75rem;
+        border: 1px solid var(--editor-border-soft);
+        border-radius: var(--editor-radius-s);
+        background: var(--editor-bg);
+        color: var(--editor-ink-dim);
+        font-family: var(--editor-font-mono);
+        cursor: pointer;
+      }
+      .btn-preset.active {
+        background: var(--editor-accent);
+        color: #ffffff;
+        border-color: var(--editor-accent);
+      }
+
+      .badge-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        background-color: var(--editor-accent-soft);
+        border: 1px solid rgba(1, 125, 211, 0.18);
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        font-family: var(--editor-font-mono);
+        color: var(--editor-accent);
+      }
+
+      .input-text-demo {
+        padding: 8px 12px;
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-s);
+        font-family: var(--editor-font-mono);
+        font-size: 0.85rem;
+        color: var(--editor-ink);
+        background-color: var(--editor-bg);
+        outline: none;
+      }
+      .input-text-demo:focus {
+        border-color: var(--editor-accent);
+        outline: 2px solid var(--editor-accent);
+        outline-offset: 2px;
+      }
+
+      /* Callout banner specimens */
+      .callout-info {
+        padding: 14px 16px;
+        background: var(--editor-accent-soft);
+        border-left: 4px solid var(--editor-accent);
+        border-radius: var(--editor-radius-m);
+        color: var(--editor-ink);
+        font-size: 0.9rem;
+      }
+      .callout-warning {
+        padding: 14px 16px;
+        background: #fff3cd;
+        border-left: 4px solid #b7791f;
+        border-radius: var(--editor-radius-m);
+        color: #856404;
+        font-size: 0.9rem;
+      }
+      .callout-danger {
+        padding: 14px 16px;
+        background: rgba(197, 48, 48, 0.1);
+        border-left: 4px solid #c53030;
+        border-radius: var(--editor-radius-m);
+        color: #9b2c2c;
+        font-size: 0.9rem;
+      }
+
+      /* Code container */
+      .code-box {
+        font-family: var(--editor-font-mono);
+        font-size: 0.8rem;
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 14px;
+        border-radius: var(--editor-radius-s);
+        overflow-x: auto;
+      }
+
+      /* Window specimen */
+      .window-demo {
         position: relative;
-        width: 100%;
-        height: 200px;
-        background: rgba(255, 255, 255, 0.96);
-        border: 1px solid rgba(58, 58, 58, 0.18);
-        border-radius: 5px;
+        padding: 12px;
+        background: var(--editor-bg-raised);
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-m);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
+        max-width: 320px;
       }
-      .sg-window-header {
+      .window-header-demo {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 3px 5px;
-        margin: -4px -4px 0;
-        border-radius: 3px;
+        padding: 4px 6px;
         background: rgba(1, 125, 211, 0.06);
-        border-bottom: 1px solid rgba(1, 125, 211, 0.12);
-        font-family: 'Space Grotesk', sans-serif;
+        border: 1px solid rgba(1, 125, 211, 0.12);
+        border-radius: var(--editor-radius-s);
+        margin-bottom: 10px;
+      }
+      .window-header-demo span {
+        font-family: var(--editor-font-display);
         font-size: 13px;
         font-weight: 600;
-        color: #000;
+        color: var(--editor-ink);
       }
-      .sg-window-body {
-        padding: 16px;
-        font-family: 'IBM Plex Mono', monospace;
-        font-size: 0.85rem;
-        color: #707070;
+
+      /* Modal Dialog Demo */
+      .modal-dialog-demo {
+        max-width: 340px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-m);
+        background: var(--editor-bg-raised);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+      }
+      .modal-dialog-header-demo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .modal-dialog-header-demo strong {
+        font-family: var(--editor-font-display);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--editor-ink);
+      }
+
+      /* Tabset specimen */
+      .tabset-demo {
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-m);
+        overflow: hidden;
+        background: var(--editor-bg-raised);
+      }
+      .tabset-header-demo {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        border-bottom: 1px solid var(--editor-border-soft);
+      }
+      body.app-dark .tabset-header-demo {
+        background: rgba(21, 24, 30, 0.96);
+      }
+      .tab-button-demo {
+        padding: 8px 14px;
+        font-family: var(--editor-font-mono);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--editor-ink-dim);
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+      }
+      .tab-button-demo.active {
+        color: var(--editor-accent);
+        border-bottom-color: var(--editor-accent);
+        background: var(--editor-tab-selected-bg);
+        font-weight: 600;
+      }
+
+      /* Document Viewer Demo */
+      .doc-viewer-demo {
+        position: relative;
+        height: 140px;
+        padding: 8px;
+        border: 1px solid var(--editor-border-soft);
+        border-radius: var(--editor-radius-s);
+        background: var(--editor-bg);
+        font-family: var(--editor-font-mono);
+        font-size: 0.72rem;
+        line-height: 1.45;
+        color: var(--editor-ink-dim);
+        overflow-y: auto;
+      }
+      .doc-autoscroll-pill {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        padding: 3px 6px;
+        font-size: 0.65rem;
+        font-family: var(--editor-font-mono);
+        text-transform: uppercase;
+        background: var(--editor-bg-raised);
+        border: 1px solid var(--editor-border);
+        border-radius: var(--editor-radius-s);
+        color: var(--editor-ink-faint);
       }
     </style>
   </head>
   <body>
-    <nav class="sg-nav">
-      <span
-        style="
-          font-family: 'Space Grotesk', sans-serif;
-          font-weight: 700;
-          font-size: 15px;
-        "
-        >Aurea</span
-      >
-      <div>
-        <a href="#typography">Typography</a>
-        <a href="#colors">Colors</a>
-        <a href="#spacing">Spacing</a>
-        <a href="#components">Components</a>
-        <a href="#layout">Layout</a>
+    <!-- Sticky Navigation -->
+    <header class="sg-nav">
+      <div class="sg-nav-left">
+        <a href="#overview" class="sg-logo">AUREA DESIGN SYSTEM</a>
+        <nav class="sg-nav-links">
+          <a href="#typography">Typography</a>
+          <a href="#colors">Colors & Theme</a>
+          <a href="#geometry">Geometry Colors</a>
+          <a href="#spacing">Spacing & Radii</a>
+          <a href="#components">UI Components</a>
+          <a href="#layout">Layout & Grids</a>
+          <a href="#motion-a11y">Motion & A11y</a>
+        </nav>
       </div>
-    </nav>
+      <div>
+        <button
+          id="themeToggleBtn"
+          class="sg-theme-switch-btn"
+          onclick="toggleGuideTheme()"
+        >
+          🌓 Switch Theme
+        </button>
+      </div>
+    </header>
 
-    <section class="sg-section" id="typography">
+    <!-- Section 1: Overview -->
+    <section id="overview" class="sg-section">
+      <h2>CSS Style Guide & Design Tokens</h2>
+      <p class="lead">
+        A unified design system and architectural specification for the Aurea
+        geometric construction editor, documentation, and landing surfaces.
+        Supports full light and dark mode parity.
+      </p>
+
+      <div class="sg-grid-3">
+        <div class="sg-card">
+          <h3 style="font-size: 15px; margin-bottom: 6px">
+            Precision & Geometry
+          </h3>
+          <p style="font-size: 14px; margin: 0">
+            Crisp 1px borders, subtle opacity layering, and consistent 3px/5px
+            border radii calibrated for mathematical CAD clarity.
+          </p>
+        </div>
+        <div class="sg-card">
+          <h3 style="font-size: 15px; margin-bottom: 6px">Dual-Theme Parity</h3>
+          <p style="font-size: 14px; margin: 0">
+            High-contrast, accessible light and dark mode palettes with
+            calibrated luminance elevation for deep canvas viewports.
+          </p>
+        </div>
+        <div class="sg-card">
+          <h3 style="font-size: 15px; margin-bottom: 6px">Triple-Font Stack</h3>
+          <p style="font-size: 14px; margin: 0">
+            Functional division: Space Grotesk display headings, IBM Plex Sans
+            interface body text, and IBM Plex Mono tabular coordinates.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Typography -->
+    <section id="typography" class="sg-section">
       <h2>Typography</h2>
       <p class="lead">
-        Aurea uses three Google Fonts: Space Grotesk for display headings, IBM
-        Plex Sans for body text, and IBM Plex Mono for code and data.
+        Aurea utilizes three primary Google font families across distinct UI
+        roles.
       </p>
 
       <h3>Font Stack</h3>
-      <table class="sg-table">
-        <thead>
-          <tr>
-            <th>Role</th>
-            <th>Font</th>
-            <th>Weights</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Display</td>
-            <td><code>'Space Grotesk', sans-serif</code></td>
-            <td>500, 600, 700</td>
-          </tr>
-          <tr>
-            <td>Body</td>
-            <td><code>'IBM Plex Sans', sans-serif</code></td>
-            <td>400, 500, 600</td>
-          </tr>
-          <tr>
-            <td>Mono</td>
-            <td><code>'IBM Plex Mono', monospace</code></td>
-            <td>400, 500, 600</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Font Family</th>
+              <th>Weights</th>
+              <th>CSS Token</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Display</strong></td>
+              <td>'Space Grotesk', sans-serif</td>
+              <td>500, 600, 700</td>
+              <td><code>--editor-font-display</code></td>
+              <td>
+                Hero titles, section headers, dialog titles, metric numbers
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Body / UI</strong></td>
+              <td>'IBM Plex Sans', sans-serif</td>
+              <td>400, 500, 600</td>
+              <td><code>--editor-font-body</code></td>
+              <td>
+                General copy, dialog messages, form descriptions, tooltips
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Monospace</strong></td>
+              <td>'IBM Plex Mono', monospace</td>
+              <td>400, 500, 600</td>
+              <td><code>--editor-font-mono</code></td>
+              <td>
+                Toolbar buttons, tabs, coordinate inputs, logs, badges, code
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Button</strong></td>
+              <td>'IBM Plex Sans' / 'IBM Plex Mono'</td>
+              <td>500, 600</td>
+              <td><code>--editor-font-button</code></td>
+              <td>UI action buttons and controls</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-      <h3>Heading Styles</h3>
-      <div class="sg-card" style="margin-top: 16px">
+      <h3 style="margin-top: 32px">Font Hierarchy & Scale</h3>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Level / Style</th>
+              <th>Size</th>
+              <th>Weight</th>
+              <th>Line Height</th>
+              <th>Letter Spacing</th>
+              <th>Font Family</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Display Heading (H1)</strong></td>
+              <td>clamp(2.4rem, 5vw, 3.6rem)</td>
+              <td>700</td>
+              <td>1.05</td>
+              <td>-0.01em</td>
+              <td>Space Grotesk</td>
+            </tr>
+            <tr>
+              <td><strong>Section Heading (H2)</strong></td>
+              <td>clamp(1.6rem, 3vw, 2.2rem)</td>
+              <td>600</td>
+              <td>1.10</td>
+              <td>-0.01em</td>
+              <td>Space Grotesk</td>
+            </tr>
+            <tr>
+              <td><strong>Panel / Subsection (H3)</strong></td>
+              <td>17px / 1.1rem</td>
+              <td>600</td>
+              <td>1.25</td>
+              <td>normal</td>
+              <td>Space Grotesk</td>
+            </tr>
+            <tr>
+              <td><strong>Dialog / Card Title</strong></td>
+              <td>14px–15px</td>
+              <td>600</td>
+              <td>1.25</td>
+              <td>normal</td>
+              <td>Space Grotesk</td>
+            </tr>
+            <tr>
+              <td><strong>Lead / Subtitle</strong></td>
+              <td>17px</td>
+              <td>400</td>
+              <td>1.55</td>
+              <td>normal</td>
+              <td>IBM Plex Sans</td>
+            </tr>
+            <tr>
+              <td><strong>Base Body Text</strong></td>
+              <td>16px (1rem)</td>
+              <td>400</td>
+              <td>1.55</td>
+              <td>normal</td>
+              <td>IBM Plex Sans</td>
+            </tr>
+            <tr>
+              <td><strong>Small Body / Description</strong></td>
+              <td>14.5px (0.906rem)</td>
+              <td>400</td>
+              <td>1.50</td>
+              <td>normal</td>
+              <td>IBM Plex Sans</td>
+            </tr>
+            <tr>
+              <td><strong>Navigation / Tab Links</strong></td>
+              <td>12px</td>
+              <td>500 / 600</td>
+              <td>1.00</td>
+              <td>0.06em (UPPER)</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+            <tr>
+              <td><strong>Button (Standard / CTA)</strong></td>
+              <td>13px</td>
+              <td>600</td>
+              <td>1.00</td>
+              <td>0.06em (UPPER)</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+            <tr>
+              <td><strong>Toolbar / Tool Button</strong></td>
+              <td>0.75rem (12px)</td>
+              <td>500</td>
+              <td>1.10</td>
+              <td>0.03em–0.04em</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+            <tr>
+              <td><strong>Console & Code Blocks</strong></td>
+              <td>0.85rem</td>
+              <td>400 / 500</td>
+              <td>1.45</td>
+              <td>normal</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+            <tr>
+              <td><strong>Badge / Radius Pill</strong></td>
+              <td>0.72rem</td>
+              <td>600</td>
+              <td>1.00</td>
+              <td>normal</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+            <tr>
+              <td><strong>Eyebrow / Metadata</strong></td>
+              <td>12px</td>
+              <td>400 / 500</td>
+              <td>1.00</td>
+              <td>0.14em (UPPER)</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sg-card" style="margin-top: 24px">
         <h1
           style="
             font-size: clamp(2.4rem, 5vw, 3.6rem);
             font-weight: 700;
-            letter-spacing: -0.01em;
             line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 12px;
           "
         >
-          Heading 1 — Bold Display
+          Heading 1 Display (clamp 2.4rem–3.6rem)
         </h1>
         <h2
           style="
             font-size: clamp(1.6rem, 3vw, 2.2rem);
             font-weight: 600;
-            margin-top: 14px;
+            line-height: 1.1;
             letter-spacing: -0.01em;
+            margin-bottom: 12px;
           "
         >
-          Heading 2 — Semi Bold
+          Heading 2 Section (clamp 1.6rem–2.2rem)
         </h2>
-        <h3 style="font-size: 17px; font-weight: 600; margin-top: 24px">
-          Heading 3 — Medium
+        <h3 style="font-size: 17px; font-weight: 600; margin-bottom: 8px">
+          Heading 3 Subsection / Panel Title (17px)
         </h3>
+        <p style="font-size: 16px; line-height: 1.55; margin-bottom: 8px">
+          Base body copy: 16px font-size with 1.55 line-height in IBM Plex Sans.
+          Crisp, legible, and balanced.
+        </p>
+        <p
+          style="
+            font-size: 14.5px;
+            line-height: 1.5;
+            color: var(--editor-ink-dim);
+            margin-bottom: 8px;
+          "
+        >
+          Small body description: 14.5px for secondary panel context, helper
+          guidelines, and sidebars.
+        </p>
+        <p
+          style="
+            font-family: var(--editor-font-mono);
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--editor-ink-faint);
+          "
+        >
+          EYEBROW METADATA &bull; IBM PLEX MONO 12PX &bull; 0.14EM LETTER
+          SPACING
+        </p>
       </div>
-
-      <h3>Body Text</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <p style="font-size: 16px; color: #3a3a3a; line-height: 1.55">
-          Body text — The quick brown fox jumps over the lazy dog. Aurea
-          prioritizes legibility with antialiased rendering and
-          optimizeLegibility text rendering.
-        </p>
-        <p style="font-size: 14.5px; color: #3a3a3a; margin-top: 10px">
-          Small body text — Used for descriptions and secondary content in
-          instrument cards and panels.
-        </p>
-        <p style="font-size: 13px; color: #3a3a3a; margin-top: 10px">
-          Caption text — Monospace captions in gallery tiles and figure
-          descriptions.
-        </p>
-        <p style="font-size: 11px; color: #707070; margin-top: 10px">
-          Faint text — Metadata labels and timestamps, set in monospace.
-        </p>
-      </div>
-
-      <h3>Monospace / Code</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <div class="sg-code">
-          font-family: 'IBM Plex Mono', monospace;<br />font-size: 0.75rem;<br />letter-spacing:
-          0.04em;<br />text-transform: uppercase;
-        </div>
-      </div>
-
-      <h3>Font Properties</h3>
-      <table class="sg-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Base font size</td>
-            <td>16px</td>
-          </tr>
-          <tr>
-            <td>Base line height</td>
-            <td>1.55</td>
-          </tr>
-          <tr>
-            <td>Text rendering</td>
-            <td>optimizeLegibility</td>
-          </tr>
-          <tr>
-            <td>Font smoothing</td>
-            <td>-webkit-font-smoothing: antialiased</td>
-          </tr>
-          <tr>
-            <td>Letter spacing (uppercase)</td>
-            <td>0.04em–0.14em</td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
-    <hr class="sg-divider" />
-    <section class="sg-section" id="colors">
-      <h2>Colors</h2>
+    <!-- Section 3: Colors & Dark Mode Tokens -->
+    <section id="colors" class="sg-section">
+      <h2>Colors & Theme Tokens</h2>
       <p class="lead">
-        The Aurea editor palette is built around a minimal dark-on-light system
-        with a single blue accent (#017dd3). All colors are exposed as CSS
-        custom properties.
+        Core design tokens mapped across light and dark theme states. Click the
+        theme switcher in the top right to preview live transitions.
       </p>
 
-      <h3>Editor / App Palette</h3>
-      <div class="sg-grid" style="margin-top: 16px">
-        <div>
-          <h3
-            style="
-              font-size: 13px;
-              text-transform: uppercase;
-              letter-spacing: 0.06em;
-              margin-bottom: 8px;
-              color: #707070;
-            "
-          >
-            Backgrounds
-          </h3>
-          <div class="sg-swatch-row">
-            <div class="sg-swatch" style="background: #ffffff"></div>
-            <div>
-              <div class="sg-swatch-label">--editor-bg</div>
-              <div class="sg-swatch-value">#ffffff</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div
-              class="sg-swatch"
-              style="background: #ffffff; opacity: 0.92"
-            ></div>
-            <div>
-              <div class="sg-swatch-label">--editor-bg-raised</div>
-              <div class="sg-swatch-value">#ffffff</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div
-              class="sg-swatch"
-              style="background: #ffffff; opacity: 0.96"
-            ></div>
-            <div>
-              <div class="sg-swatch-label">--editor-bg-sunken</div>
-              <div class="sg-swatch-value">#ffffff</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div
-              class="sg-swatch"
-              style="background: rgba(1, 125, 211, 0.04)"
-            ></div>
-            <div>
-              <div class="sg-swatch-label">--editor-accent-soft</div>
-              <div class="sg-swatch-value">#c7e8ff</div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h3
-            style="
-              font-size: 13px;
-              text-transform: uppercase;
-              letter-spacing: 0.06em;
-              margin-bottom: 8px;
-              color: #707070;
-            "
-          >
-            Ink / Text
-          </h3>
-          <div class="sg-swatch-row">
-            <div class="sg-swatch" style="background: #000000"></div>
-            <div>
-              <div class="sg-swatch-label">--editor-ink</div>
-              <div class="sg-swatch-value">#000000</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div class="sg-swatch" style="background: #3a3a3a"></div>
-            <div>
-              <div class="sg-swatch-label">--editor-ink-dim</div>
-              <div class="sg-swatch-value">#3a3a3a</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div class="sg-swatch" style="background: #707070"></div>
-            <div>
-              <div class="sg-swatch-label">--editor-ink-faint</div>
-              <div class="sg-swatch-value">#707070</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div class="sg-swatch" style="background: #017dd3"></div>
-            <div>
-              <div class="sg-swatch-label">--editor-accent</div>
-              <div class="sg-swatch-value">#017dd3</div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h3
-            style="
-              font-size: 13px;
-              text-transform: uppercase;
-              letter-spacing: 0.06em;
-              margin-bottom: 8px;
-              color: #707070;
-            "
-          >
-            Borders
-          </h3>
-          <div class="sg-swatch-row">
-            <div
-              class="sg-swatch"
-              style="background: rgba(58, 58, 58, 0.18)"
-            ></div>
-            <div>
-              <div class="sg-swatch-label">--editor-border</div>
-              <div class="sg-swatch-value">rgba(58,58,58,0.18)</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div
-              class="sg-swatch"
-              style="background: rgba(58, 58, 58, 0.1)"
-            ></div>
-            <div>
-              <div class="sg-swatch-label">--editor-border-soft</div>
-              <div class="sg-swatch-value">rgba(58,58,58,0.10)</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div
-              class="sg-swatch"
-              style="background: rgba(1, 125, 211, 0.12)"
-            ></div>
-            <div>
-              <div class="sg-swatch-label">accent border</div>
-              <div class="sg-swatch-value">rgba(1,125,211,0.12)</div>
-            </div>
-          </div>
-          <div class="sg-swatch-row">
-            <div
-              class="sg-swatch"
-              style="background: rgba(1, 125, 211, 0.18)"
-            ></div>
-            <div>
-              <div class="sg-swatch-label">accent border-strong</div>
-              <div class="sg-swatch-value">rgba(1,125,211,0.18)</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <h3>Landing Page Palette</h3>
-      <p style="font-size: 14px; color: #707070; margin: 16px 0 8px">
-        The landing page shares the same base palette with
-        <code>--landing-page-*</code> prefixed custom properties. Key additions
-        include a 28px grid background and the same accent colors.
-      </p>
-      <table class="sg-table">
-        <thead>
-          <tr>
-            <th>Custom Property</th>
-            <th>Hex</th>
-            <th>Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>--landing-page-construction</td>
-            <td>#017DD3</td>
-            <td>Primary accent (CTA, links, highlights)</td>
-          </tr>
-          <tr>
-            <td>--landing-page-construction-soft</td>
-            <td>#C7E8FF</td>
-            <td>Soft accent background (active states)</td>
-          </tr>
-          <tr>
-            <td>--landing-page-grid-line</td>
-            <td>rgba(58,58,58,0.06)</td>
-            <td>Background grid lines</td>
-          </tr>
-          <tr>
-            <td>--landing-page-bg</td>
-            <td>#FFFFFF</td>
-            <td>Page background</td>
-          </tr>
-          <tr>
-            <td>--landing-page-border</td>
-            <td>rgba(58,58,58,0.18)</td>
-            <td>Surface borders</td>
-          </tr>
-          <tr>
-            <td>--landing-page-border-soft</td>
-            <td>rgba(58,58,58,0.10)</td>
-            <td>Subtle borders</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>Log Level Colors</h3>
-      <table class="sg-table">
-        <thead>
-          <tr>
-            <th>Level</th>
-            <th>Color</th>
-            <th>Hex</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Log</td>
-            <td>Default ink-dim</td>
-            <td>#3a3a3a</td>
-          </tr>
-          <tr>
-            <td>Info</td>
-            <td>Accent</td>
-            <td>#017dd3</td>
-          </tr>
-          <tr>
-            <td>Warn</td>
-            <td>Amber</td>
-            <td>#b7791f</td>
-          </tr>
-          <tr>
-            <td>Error</td>
-            <td>Red</td>
-            <td>#c53030</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <hr class="sg-divider" />
-    <section class="sg-section" id="spacing">
-      <h2>Spacing &amp; Radius</h2>
-      <p class="lead">
-        Aurea uses a consistent spacing scale with two border-radius values and
-        8px-based grid spacing.
-      </p>
-
-      <h3>Border Radius</h3>
-      <div class="sg-grid" style="margin-top: 16px">
-        <div class="sg-card">
-          <h3 style="font-size: 14px">Radius S (3px)</h3>
-          <div
-            class="sg-radius-demo"
-            style="border-radius: 3px; margin-bottom: 8px"
-          ></div>
-          <div class="sg-code" style="font-size: 0.75rem">
-            border-radius: var(--editor-radius-s);<br />/* 3px */
-          </div>
-          <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-            Used for buttons, inputs, swatches, and small interactive elements.
-          </p>
-        </div>
-        <div class="sg-card">
-          <h3 style="font-size: 14px">Radius M (5px)</h3>
-          <div
-            class="sg-radius-demo"
-            style="border-radius: 5px; margin-bottom: 8px"
-          ></div>
-          <div class="sg-code" style="font-size: 0.75rem">
-            border-radius: var(--editor-radius-m);<br />/* 5px */
-          </div>
-          <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-            Used for panels, tabs, cards, and modal surfaces.
-          </p>
-        </div>
-      </div>
-
-      <h3>Spacing Scale</h3>
-      <table class="sg-table">
-        <thead>
-          <tr>
-            <th>Token</th>
-            <th>Value</th>
-            <th>Context</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>--editor-radius-s</td>
-            <td>3px</td>
-            <td>Small elements (buttons, inputs)</td>
-          </tr>
-          <tr>
-            <td>--editor-radius-m</td>
-            <td>5px</td>
-            <td>Medium elements (panels, cards)</td>
-          </tr>
-          <tr>
-            <td>8px</td>
-            <td>8px</td>
-            <td>Base grid unit for padding/gaps</td>
-          </tr>
-          <tr>
-            <td>10px</td>
-            <td>10px</td>
-            <td>Panel section gaps, padding</td>
-          </tr>
-          <tr>
-            <td>12px</td>
-            <td>12px</td>
-            <td>Modal gap, icon gaps</td>
-          </tr>
-          <tr>
-            <td>14px</td>
-            <td>14px</td>
-            <td>Nav padding, list margins</td>
-          </tr>
-          <tr>
-            <td>16px</td>
-            <td>16px</td>
-            <td>Grid gaps, footer padding</td>
-          </tr>
-          <tr>
-            <td>20px</td>
-            <td>20px</td>
-            <td>Card padding, gallery gaps</td>
-          </tr>
-          <tr>
-            <td>24px</td>
-            <td>24px</td>
-            <td>Modal padding</td>
-          </tr>
-          <tr>
-            <td>32px</td>
-            <td>32px</td>
-            <td>Section horizontal padding</td>
-          </tr>
-          <tr>
-            <td>56px</td>
-            <td>56px</td>
-            <td>Section grid gaps (hero, history)</td>
-          </tr>
-          <tr>
-            <td>96px</td>
-            <td>96px</td>
-            <td>Section vertical padding</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>Scrollbar</h3>
-      <div class="sg-card" style="margin-top: 16px">
+      <h3>Theme Token Comparison Table</h3>
+      <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
             <tr>
-              <th>Part</th>
-              <th>Width</th>
-              <th>Color</th>
+              <th>Token Name</th>
+              <th>Light Mode</th>
+              <th>Dark Mode (.app-dark)</th>
+              <th>Description & Semantic Role</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Track</td>
-              <td>8px</td>
-              <td>rgba(0,0,0,0.05)</td>
+              <td><code>--editor-bg</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #15181e"></span>#15181e</span></td>
+              <td>Base app background, canvas outer, layout root</td>
             </tr>
             <tr>
-              <td>Thumb</td>
-              <td>8px</td>
-              <td>#cbd5e0</td>
+              <td><code>--editor-bg-raised</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #1d222b"></span>#1d222b</span></td>
+              <td>Raised panel surfaces, cards, tabs, modal surfaces</td>
             </tr>
             <tr>
-              <td>Thumb hover</td>
-              <td>8px</td>
-              <td>#a0aec0</td>
+              <td><code>--editor-bg-sunken</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #11141a"></span>#11141a</span></td>
+              <td>Sunken canvas viewport, deeply recessed wells</td>
             </tr>
             <tr>
-              <td>Border radius</td>
-              <td>4px</td>
-              <td>applies to track &amp; thumb</td>
+              <td><code>--editor-border</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.18)"></span>rgba(58, 58, 58, 0.18)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(208, 216, 233, 0.22)"></span>rgba(208, 216, 233, 0.22)</span></td>
+              <td>Primary component structural borders</td>
+            </tr>
+            <tr>
+              <td><code>--editor-border-soft</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.10)"></span>rgba(58, 58, 58, 0.10)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(208, 216, 233, 0.12)"></span>rgba(208, 216, 233, 0.12)</span></td>
+              <td>Subtle splitters, swatch borders, list dividers</td>
+            </tr>
+            <tr>
+              <td><code>--editor-ink</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #000000"></span>#000000</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #eef2fb"></span>#eef2fb</span></td>
+              <td>Primary high-contrast text, titles, values</td>
+            </tr>
+            <tr>
+              <td><code>--editor-ink-dim</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #3a3a3a"></span>#3a3a3a</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c2cce0"></span>#c2cce0</span></td>
+              <td>Secondary text, descriptions, inactive tab labels</td>
+            </tr>
+            <tr>
+              <td><code>--editor-ink-faint</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #707070"></span>#707070</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #92a1bc"></span>#92a1bc</span></td>
+              <td>Muted metadata, timestamps, placeholders, units</td>
+            </tr>
+            <tr>
+              <td><code>--editor-accent</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #017dd3"></span>#017dd3</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #63b3ff"></span>#63b3ff</span></td>
+              <td>Interactive accent, links, active tool pills, CTAs</td>
+            </tr>
+            <tr>
+              <td><code>--editor-accent-soft</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c7e8ff"></span>#c7e8ff</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(99, 179, 255, 0.25)"></span>rgba(99, 179, 255, 0.25)</span></td>
+              <td>Soft accent highlight fill for active states</td>
+            </tr>
+            <tr>
+              <td><code>--editor-tab-selected-bg</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #eef6ff"></span>#eef6ff</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(99, 179, 255, 0.16)"></span>rgba(99, 179, 255, 0.16)</span></td>
+              <td>Selected tab container background fill</td>
             </tr>
           </tbody>
         </table>
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 12px">
-          Firefox fallback uses <code>scrollbar-width: thin</code> and
-          <code>scrollbar-color: #cbd5e0 rgba(0,0,0,0.05)</code>.
-        </p>
+      </div>
+
+      <h3 style="margin-top: 32px">Live Theme Swatches</h3>
+      <div class="sg-grid-4">
+        <div class="sg-swatch-box">
+          <div
+            class="sg-swatch-preview"
+            style="background: var(--editor-bg)"
+          ></div>
+          <span class="sg-swatch-title">--editor-bg</span>
+          <span class="sg-swatch-hex">Base Canvas</span>
+        </div>
+        <div class="sg-swatch-box">
+          <div
+            class="sg-swatch-preview"
+            style="background: var(--editor-bg-raised)"
+          ></div>
+          <span class="sg-swatch-title">--editor-bg-raised</span>
+          <span class="sg-swatch-hex">Raised Panel</span>
+        </div>
+        <div class="sg-swatch-box">
+          <div
+            class="sg-swatch-preview"
+            style="background: var(--editor-ink)"
+          ></div>
+          <span class="sg-swatch-title">--editor-ink</span>
+          <span class="sg-swatch-hex">Primary Text</span>
+        </div>
+        <div class="sg-swatch-box">
+          <div
+            class="sg-swatch-preview"
+            style="background: var(--editor-accent)"
+          ></div>
+          <span class="sg-swatch-title">--editor-accent</span>
+          <span class="sg-swatch-hex">Accent Blue</span>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 32px">Log Level & Status Colors</h3>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Level / Status</th>
+              <th>Text Color</th>
+              <th>Soft Background</th>
+              <th>Border / Accent</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Log / Default</strong></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-ink-dim)"></span>var(--editor-ink-dim)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: transparent"></span>transparent</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-border-soft)"></span>var(--editor-border-soft)</span></td>
+              <td>Standard diagnostic log messages</td>
+            </tr>
+            <tr>
+              <td><strong>Info</strong></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-accent)"></span>var(--editor-accent) (#017dd3 / #63b3ff)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-accent-soft)"></span>var(--editor-accent-soft)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-accent)"></span>var(--editor-accent)</span></td>
+              <td>Informational logs, info callout banners</td>
+            </tr>
+            <tr>
+              <td><strong>Warn / Warning</strong></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #b7791f"></span>#b7791f (Amber)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #fff3cd"></span>#fff3cd (Amber tint)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #b7791f"></span>#b7791f</span></td>
+              <td>Warnings, non-fatal operational cautions</td>
+            </tr>
+            <tr>
+              <td><strong>Error / Danger</strong></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c53030"></span>#c53030 / message #9b2c2c (Red)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(197, 48, 48, 0.10)"></span>rgba(197, 48, 48, 0.10)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c53030"></span>#c53030</span></td>
+              <td>Execution failures, syntax errors, alerts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 32px">Landing Page Palette (--landing-page-*)</h3>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Custom Property</th>
+              <th>Value</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--landing-page-bg</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td>Background base surface</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-bg-raised</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td>Card & instrument surfaces</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-bg-sunken</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td>Well surfaces</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-ink</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #000000"></span>#000000</span></td>
+              <td>Display headings & primary copy</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-ink-dim</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #3a3a3a"></span>#3a3a3a</span></td>
+              <td>Body copy & section descriptions</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-ink-faint</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #707070"></span>#707070</span></td>
+              <td>Eyebrow labels & captions</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-construction</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #017dd3"></span>#017dd3</span></td>
+              <td>Primary accent, CTAs, focus outlines</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-construction-soft</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c7e8ff"></span>#c7e8ff</span></td>
+              <td>Soft pill backgrounds, active state fills</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-border</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.18)"></span>rgba(58, 58, 58, 0.18)</span></td>
+              <td>Standard card/section borders</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-border-soft</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.10)"></span>rgba(58, 58, 58, 0.10)</span></td>
+              <td>Subtle dividers and grid card borders</td>
+            </tr>
+            <tr>
+              <td><code>--landing-page-grid-line</code></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.06)"></span>rgba(58, 58, 58, 0.06)</span></td>
+              <td>28px background blueprint grid lines</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <hr class="sg-divider" />
-    <section class="sg-section" id="components">
-      <h2>Components</h2>
+    <!-- Section 4: Geometry Colors -->
+    <section id="geometry" class="sg-section">
+      <h2>Canvas Geometry & Layer Colors</h2>
       <p class="lead">
-        Reusable UI components follow consistent styling patterns: 1px borders
-        with soft alpha values, 3px/5px border-radius, and subtle box shadows
-        for depth.
+        Aurea distinguishes between temporary construction geometry (Graphite
+        layer) and final rendered geometry (Ink layer).
       </p>
 
-      <h3>Buttons</h3>
-      <div class="sg-demo" style="margin-top: 16px">
-        <button class="sg-btn">Default</button>
-        <button class="sg-btn sg-btn-primary">Primary</button>
-        <button class="sg-btn sg-btn-ghost">Ghost</button>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Entity</th>
+              <th>Layer</th>
+              <th>Light Mode RGBA / Hex</th>
+              <th>Dark Mode RGBA / Hex</th>
+              <th>Visual Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Point</strong></td>
+              <td>Graphite (Construction)</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(150, 150, 150, 1)"></span>rgba(150, 150, 150, 1) (#969696)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>Auxiliary construction point</td>
+            </tr>
+            <tr>
+              <td><strong>Point</strong></td>
+              <td>Ink (Final)</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(0, 0, 0, 1)"></span>rgba(0, 0, 0, 1) (#000000)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(255, 255, 255, 1)"></span>rgba(255, 255, 255, 1) (#ffffff)</span></td>
+              <td>Primary inked geometric point</td>
+            </tr>
+            <tr>
+              <td><strong>Circle</strong></td>
+              <td>Graphite (Construction)</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(211, 211, 211, 1)"></span>rgba(211, 211, 211, 1) (#d3d3d3)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>Auxiliary construction circle</td>
+            </tr>
+            <tr>
+              <td><strong>Circle</strong></td>
+              <td>Ink (Final)</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(0, 0, 0, 1)"></span>rgba(0, 0, 0, 1) (#000000)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(255, 255, 255, 1)"></span>rgba(255, 255, 255, 1) (#ffffff)</span></td>
+              <td>Primary inked circle stroke</td>
+            </tr>
+            <tr>
+              <td><strong>Line</strong></td>
+              <td>Graphite (Construction)</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(211, 211, 211, 1)"></span>rgba(211, 211, 211, 1) (#d3d3d3)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>Auxiliary construction segment</td>
+            </tr>
+            <tr>
+              <td><strong>Line</strong></td>
+              <td>Ink (Final)</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(0, 0, 0, 1)"></span>rgba(0, 0, 0, 1) (#000000)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(255, 255, 255, 1)"></span>rgba(255, 255, 255, 1) (#ffffff)</span></td>
+              <td>Primary inked line segment</td>
+            </tr>
+            <tr>
+              <td><strong>Axes</strong></td>
+              <td>Canvas Background</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(204, 204, 204, 1)"></span>rgba(204, 204, 204, 1) (#cccccc)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(75, 75, 75, 1)"></span>rgba(75, 75, 75, 1) (#4b4b4b)</span></td>
+              <td>Cartesian plane coordinate reference axes</td>
+            </tr>
+            <tr>
+              <td><strong>Infinite Lines</strong></td>
+              <td>Auxiliary Ray/Line</td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(211, 211, 211, 1)"></span>rgba(211, 211, 211, 1) (#d3d3d3)</span></td>
+              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>Unbounded auxiliary alignment lines</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <table class="sg-table" style="margin-top: 24px">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Padding</td>
-            <td>12px 20px</td>
-          </tr>
-          <tr>
-            <td>Font</td>
-            <td>'IBM Plex Mono', monospace</td>
-          </tr>
-          <tr>
-            <td>Font size</td>
-            <td>13px</td>
-          </tr>
-          <tr>
-            <td>Letter spacing</td>
-            <td>0.06em</td>
-          </tr>
-          <tr>
-            <td>Text transform</td>
-            <td>uppercase</td>
-          </tr>
-          <tr>
-            <td>Border</td>
-            <td>1px solid rgba(58,58,58,0.18)</td>
-          </tr>
-          <tr>
-            <td>Border radius</td>
-            <td>3px</td>
-          </tr>
-          <tr>
-            <td>Transition</td>
-            <td>border-color .15s, background .15s</td>
-          </tr>
-        </tbody>
-      </table>
+    </section>
 
-      <h3>Buttons (Toolbar / Panel)</h3>
-      <div class="sg-demo" style="margin-top: 16px">
-        <button class="sg-btn" style="padding: 4px 8px; font-size: 0.75rem">
-          Small
-        </button>
-        <button
-          class="sg-btn sg-btn-primary"
-          style="padding: 4px 8px; font-size: 0.75rem"
-        >
-          Active
-        </button>
-      </div>
-      <div class="sg-card" style="margin-top: 24px">
-        <p style="font-size: 0.82rem">
-          <strong>Tool button</strong> — Used in toolbars. Padding: 4px 8px,
-          font-size: 0.75rem, uppercase mono. Active state uses accent
-          background with white text and a subtle box shadow.
-        </p>
-        <p style="font-size: 0.82rem; margin-top: 8px">
-          <strong>See-more button</strong> — Panel expansion. Same sizing,
-          accent border on hover.
-        </p>
-        <p style="font-size: 0.82rem; margin-top: 8px">
-          <strong>Reset button</strong> — Width: 100%, uppercase mono, border +
-          accent color on hover.
-        </p>
-      </div>
+    <!-- Section 5: Spacing, Radii & Shadows -->
+    <section id="spacing" class="sg-section">
+      <h2>Spacing, Radii & Shadows</h2>
+      <p class="lead">
+        Consistent spatial rhythm based on an 8px grid scale and crisp,
+        architectural elevation.
+      </p>
 
-      <h3>Input Fields</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <input
-          class="sg-input"
-          type="text"
-          placeholder="Text input..."
-          style="width: 100%; max-width: 300px"
-        />
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          Inputs use border-radius 3px, 1px solid border, and an accent outline
-          on focus.
-        </p>
-      </div>
-
-      <h3>Panel Surface</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <div class="sg-box">Panel Surface</div>
-        <p style="font-size: 0.82rem; margin-top: 8px">
-          Background: #fff · Border: 1px solid rgba(58,58,58,0.18) ·
-          Border-radius: 5px · Box-shadow: 0 1px 3px rgba(0,0,0,0.06)
-        </p>
-      </div>
-
-      <h3>Toggle / Checkbox</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <label
-          style="
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 0.82rem;
-          "
-        >
-          <input type="checkbox" style="accent-color: #017dd3" /> Toggle option
-        </label>
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          Checkboxes use <code>accent-color: var(--editor-accent)</code>. Labels
-          have 8px gap, 1px soft border, and 5px radius with hover highlight.
-        </p>
-      </div>
-
-      <h3>Badge</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <span
-          style="
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: #017dd3;
-            background: #c7e8ff;
-            padding: 2px 8px;
-            border-radius: 999px;
-            border: 1px solid rgba(1, 125, 211, 0.18);
-          "
-          >Radius Badge</span
-        >
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          Used in snap panel to display current radius value. Pill shape with
-          accent colors.
-        </p>
-      </div>
-
-      <h3>Modal</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <div
-          style="
-            width: min(360px, calc(100vw - 48px));
-            padding: 12px;
-            border: 1px solid rgba(58, 58, 58, 0.18);
-            border-radius: 5px;
-            background: #fff;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
-          "
-        >
-          <p
-            style="
-              font-family: 'Space Grotesk', sans-serif;
-              font-size: 15px;
-              font-weight: 600;
-            "
-          >
-            Modal Title
-          </p>
-          <p style="font-size: 0.82rem; color: #707070; margin-top: 4px">
-            Modal content area with actions
-          </p>
-          <div style="display: flex; gap: 8px; margin-top: 12px">
-            <span
-              style="
-                padding: 4px 8px;
-                border: 1px solid rgba(58, 58, 58, 0.18);
-                border-radius: 3px;
-                font-size: 0.75rem;
-                font-family: 'IBM Plex Mono', monospace;
-                cursor: pointer;
-              "
-              >Close</span
-            >
-            <span
-              style="
-                padding: 4px 8px;
-                border: 1px solid rgba(58, 58, 58, 0.1);
-                border-radius: 3px;
-                background: rgba(1, 125, 211, 0.04);
-                color: #017dd3;
-                font-size: 0.75rem;
-                font-family: 'IBM Plex Mono', monospace;
-                cursor: pointer;
-              "
-              >Reset</span
-            >
+      <div class="sg-grid-2">
+        <div class="sg-card">
+          <h3>Border Radius Scale</h3>
+          <div class="sg-table-wrap">
+            <table class="sg-table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Value</th>
+                  <th>Application</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--editor-radius-s</code></td>
+                  <td>3px</td>
+                  <td>Buttons, inputs, swatches, chips, code tags</td>
+                </tr>
+                <tr>
+                  <td><code>--editor-radius-m</code></td>
+                  <td>5px</td>
+                  <td>Panels, cards, modals, tabs, floating windows</td>
+                </tr>
+                <tr>
+                  <td><code>Pill (Full Round)</code></td>
+                  <td>999px</td>
+                  <td>Snap radius counter, status badges</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          Backdrop: rgba(0,0,0,0.18) · z-index: 2000 · Width: min(360px,
-          calc(100vw - 48px))
-        </p>
+
+        <div class="sg-card">
+          <h3>Elevation & Shadows</h3>
+          <div class="sg-table-wrap">
+            <table class="sg-table">
+              <thead>
+                <tr>
+                  <th>Level / Surface</th>
+                  <th>Light Mode Shadow</th>
+                  <th>Dark Mode Shadow</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Panel / Card Surface</strong></td>
+                  <td>0 1px 3px rgba(0,0,0,0.06)</td>
+                  <td>0 1px 4px rgba(0,0,0,0.24)</td>
+                </tr>
+                <tr>
+                  <td><strong>Floating Window</strong></td>
+                  <td>0 2px 10px rgba(0,0,0,0.10)</td>
+                  <td>0 4px 16px rgba(0,0,0,0.40)</td>
+                </tr>
+                <tr>
+                  <td><strong>Canvas Tool Button</strong></td>
+                  <td>0 2px 6px rgba(0,0,0,0.16)</td>
+                  <td>0 2px 8px rgba(0,0,0,0.32)</td>
+                </tr>
+                <tr>
+                  <td><strong>Active Tool Glow</strong></td>
+                  <td>0 1px 3px rgba(1,125,211,0.18)</td>
+                  <td>0 1px 4px rgba(99,179,255,0.30)</td>
+                </tr>
+                <tr>
+                  <td><strong>Modal / Dialog</strong></td>
+                  <td>0 12px 32px rgba(0,0,0,0.16)</td>
+                  <td>0 16px 40px rgba(0,0,0,0.60)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 32px">Spacing Scale Rhythm</h3>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Value</th>
+              <th>Usage Context</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>2px / 3px</strong></td>
+              <td>
+                Inline tag padding, stepper inner button padding, segmented
+                target gap
+              </td>
+            </tr>
+            <tr>
+              <td><strong>4px</strong></td>
+              <td>
+                Button vertical padding (toolbar/footer), history list item
+                vertical spacing, preset gap
+              </td>
+            </tr>
+            <tr>
+              <td><strong>6px / 8px</strong></td>
+              <td>
+                Base grid unit, toolbar button padding (4px 8px), toggle gaps,
+                section inner gaps
+              </td>
+            </tr>
+            <tr>
+              <td><strong>10px</strong></td>
+              <td>
+                Panel section inner padding (10px), layout gap between cards,
+                swatch gap
+              </td>
+            </tr>
+            <tr>
+              <td><strong>12px</strong></td>
+              <td>
+                Window shell padding, modal padding, navigation tab horizontal
+                padding, modal element gap
+              </td>
+            </tr>
+            <tr>
+              <td><strong>14px</strong></td>
+              <td>
+                Sticky navigation vertical padding (14px 32px), card text
+                padding
+              </td>
+            </tr>
+            <tr>
+              <td><strong>16px</strong></td>
+              <td>Code block padding (16px), alert banner padding, grid gap</td>
+            </tr>
+            <tr>
+              <td><strong>20px</strong></td>
+              <td>
+                Card padding, gallery gap, manual container paragraph bottom
+                margin
+              </td>
+            </tr>
+            <tr>
+              <td><strong>24px</strong></td>
+              <td>Modal container backdrop padding, manual sidebar padding</td>
+            </tr>
+            <tr>
+              <td><strong>32px</strong></td>
+              <td>Section horizontal padding, page container wrap margin</td>
+            </tr>
+            <tr>
+              <td><strong>40px / 60px</strong></td>
+              <td>Manual content container padding (40px 60px)</td>
+            </tr>
+            <tr>
+              <td><strong>56px</strong></td>
+              <td>Landing page hero and history two-column grid gaps</td>
+            </tr>
+            <tr>
+              <td><strong>96px</strong></td>
+              <td>Major landing page vertical section padding</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <hr class="sg-divider" />
-    <section class="sg-section" id="layout">
-      <h2>Layout</h2>
+    <!-- Section 6: UI Components -->
+    <section id="components" class="sg-section">
+      <h2>UI Components & Patterns</h2>
       <p class="lead">
-        Aurea uses a 100vw × 100vh editor shell with flexbox-based panel layouts
-        and CSS Grid for responsive landing page sections.
+        Interactive specimens illustrating button variants, form controls,
+        surfaces, floating palettes, and modal dialogs.
       </p>
 
-      <h3>Editor Shell</h3>
-      <div class="sg-window" style="margin-top: 16px">
-        <div class="sg-window-header">
-          <span>Canvas</span>
-          <span
-            style="
-              font-size: 10px;
-              letter-spacing: 0.04em;
-              text-transform: uppercase;
-            "
-            >Panel</span
-          >
+      <!-- Buttons -->
+      <h3>Button Variants</h3>
+      <div class="sg-card">
+        <div class="sg-demo-row">
+          <button class="btn-cta-primary">Primary CTA</button>
+          <button class="btn-cta-secondary">Secondary CTA</button>
+          <button class="btn-tool">Tool Button</button>
+          <button class="btn-tool active">Active Tool</button>
+          <button class="btn-preset active">45°</button>
+          <button class="btn-preset">90°</button>
+          <span class="badge-pill">r = 12px</span>
         </div>
-        <div class="sg-window-body">
-          Editor content area — 100% width and height, overflow hidden
-        </div>
-      </div>
-      <div class="sg-code" style="margin-top: 16px">
-        .app {<br />
-        position: relative;<br />
-        width: 100vw;<br />
-        height: 100vh;<br />
-        overflow: hidden;<br />
-        background: var(--editor-bg);<br />}
       </div>
 
-      <h3>Window Shell</h3>
-      <div class="sg-card" style="margin-top: 24px">
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.96);
-            border: 1px solid rgba(58, 58, 58, 0.18);
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          "
-        >
+      <!-- Form Inputs & Controls -->
+      <h3>Form Controls & Steppers</h3>
+      <div class="sg-card">
+        <div class="sg-demo-row">
+          <input
+            type="text"
+            class="input-text-demo"
+            placeholder="Search manual..."
+            value="Circle tool"
+          />
+
           <div
             style="
               display: flex;
               align-items: center;
-              justify-content: space-between;
-              padding: 3px 5px;
-              margin: -4px -4px 0;
-              border-radius: 3px;
-              background: rgba(1, 125, 211, 0.06);
-              border-bottom: 1px solid rgba(1, 125, 211, 0.12);
+              border: 1px solid var(--editor-border);
+              border-radius: var(--editor-radius-s);
+              overflow: hidden;
+              background: var(--editor-bg);
             "
           >
-            <span
+            <button class="btn-stepper">&minus;</button>
+            <input
+              type="text"
+              value="12"
               style="
-                font-family: 'Space Grotesk', sans-serif;
-                font-size: 13px;
-                font-weight: 600;
+                width: 44px;
+                border: none;
+                text-align: center;
+                font-family: var(--editor-font-mono);
+                font-size: 0.75rem;
+                background: var(--editor-bg);
+                color: var(--editor-ink);
               "
-              >Window Title</span
+            />
+            <button class="btn-stepper">+</button>
+          </div>
+
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              font-size: 0.85rem;
+              font-family: var(--editor-font-mono);
+              cursor: pointer;
+            "
+          >
+            <input
+              type="checkbox"
+              checked
+              style="accent-color: var(--editor-accent)"
+            />
+            Snap to Grid
+          </label>
+        </div>
+      </div>
+
+      <!-- Panels, Floating Windows & Tabsets -->
+      <h3>Surfaces, Docking & Floating Palettes</h3>
+      <div class="sg-grid-2">
+        <div class="sg-card sg-card-highlight">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 8px;
+            "
+          >
+            <strong
+              style="font-family: var(--editor-font-display); font-size: 14px"
+              >Highlighted Master Section</strong
             >
+            <span class="badge-pill">ACTIVE</span>
+          </div>
+          <p style="font-size: 0.85rem; margin-bottom: 0">
+            Highlighted surface card with soft accent background and tinted
+            border for master toggles and active export options.
+          </p>
+        </div>
+
+        <div class="window-demo">
+          <div class="window-header-demo">
+            <span>Guide Palette</span>
             <span
               style="
-                padding: 4px 8px;
-                border: 1px solid rgba(58, 58, 58, 0.18);
-                border-radius: 3px;
+                font-family: var(--editor-font-mono);
                 font-size: 10px;
-                font-family: 'IBM Plex Mono', monospace;
                 text-transform: uppercase;
               "
-              >Toggle</span
+              >&minus;</span
             >
+          </div>
+          <p style="font-size: 0.8rem; margin: 0; color: var(--editor-ink-dim)">
+            Draggable floating tool shell with 1px border and 5px radius.
+          </p>
+        </div>
+      </div>
+
+      <div class="sg-grid-2" style="margin-top: 20px">
+        <div class="tabset-demo">
+          <div class="tabset-header-demo">
+            <div class="tab-button-demo active">CONSTRUCTION</div>
+            <div class="tab-button-demo">CONSOLE</div>
+            <div class="tab-button-demo">HISTORY</div>
           </div>
           <div
-            style="flex: 1; padding: 16px; font-size: 0.85rem; color: #707070"
+            style="
+              padding: 12px;
+              font-size: 0.85rem;
+              color: var(--editor-ink-dim);
+            "
           >
-            Content area
+            Docked FlexLayout panel content area with tab selection indicator.
           </div>
         </div>
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          Window shell: 12px padding, 10px gap, rgba(255,255,255,0.96)
-          background, 1px border, 5px radius, 0 2px 10px shadow, z-index: 1000
-        </p>
+
+        <div class="modal-dialog-demo">
+          <div class="modal-dialog-header-demo">
+            <strong>Confirm Reset</strong>
+            <span
+              style="
+                font-family: var(--editor-font-mono);
+                font-size: 11px;
+                color: var(--editor-ink-faint);
+              "
+              >&times;</span
+            >
+          </div>
+          <p
+            style="font-size: 0.82rem; margin: 0; color: var(--editor-ink-dim)"
+          >
+            Are you sure you want to reset all document geometry?
+          </p>
+          <div style="display: flex; justify-content: flex-end; gap: 8px">
+            <button class="btn-tool">Cancel</button>
+            <button class="btn-tool active">Confirm</button>
+          </div>
+        </div>
       </div>
 
-      <h3>Grid Systems</h3>
-      <table class="sg-table" style="margin-top: 16px">
-        <thead>
-          <tr>
-            <th>Context</th>
-            <th>Template</th>
-            <th>Gap</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Landing hero</td>
-            <td>1.05fr 1fr</td>
-            <td>56px</td>
-          </tr>
-          <tr>
-            <td>Landing instruments</td>
-            <td>repeat(3, 1fr)</td>
-            <td>20px</td>
-          </tr>
-          <tr>
-            <td>Landing gallery</td>
-            <td>repeat(3, 1fr)</td>
-            <td>18px</td>
-          </tr>
-          <tr>
-            <td>Landing history</td>
-            <td>1fr 1fr</td>
-            <td>56px</td>
-          </tr>
-          <tr>
-            <td>Color layer grid</td>
-            <td>1fr 1fr</td>
-            <td>10px</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-        Responsive breakpoints: 540px, 780px, 860px, 900px, 940px collapse grids
-        to fewer columns.
+      <h3 style="margin-top: 28px">Document / Code Viewer</h3>
+      <div class="doc-viewer-demo">
+        <span style="color: var(--editor-ink-faint)"
+          >// Geometry Document JSON</span
+        ><br />
+        {<br />
+        &nbsp;&nbsp;<span style="color: var(--editor-accent)">"version"</span>:
+        1,<br />
+        &nbsp;&nbsp;<span style="color: var(--editor-accent)">"entities"</span>:
+        [<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{
+        <span style="color: var(--editor-ink)">"id"</span>: "P1",
+        <span style="color: var(--editor-ink)">"type"</span>: "point",
+        <span style="color: var(--editor-ink)">"x"</span>: 100,
+        <span style="color: var(--editor-ink)">"y"</span>: 150 }<br />
+        &nbsp;&nbsp;]<br />
+        }
+        <span class="doc-autoscroll-pill">Auto-scroll ON</span>
+      </div>
+
+      <h3 style="margin-top: 28px">Callout Banners</h3>
+      <div class="sg-grid-3">
+        <div class="callout-info">
+          <strong>Information:</strong> Hold Shift while dragging to lock angle
+          snapping to 15° increments.
+        </div>
+        <div class="callout-warning">
+          <strong>Caution:</strong> Deleting parent construction points will
+          cascade to dependent child lines.
+        </div>
+        <div class="callout-danger">
+          <strong>Error:</strong> Tangent constraint cannot be satisfied for the
+          selected circle radius.
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Layout & Blueprint Grid -->
+    <section id="layout" class="sg-section">
+      <h2>Layout & Blueprint Grids</h2>
+      <p class="lead">
+        Aurea utilizes full-viewport docking shells alongside mathematical
+        blueprint grid patterns.
       </p>
 
-      <h3>Navigation</h3>
-      <div class="sg-card" style="margin-top: 16px">
-        <div
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 32px;
-            max-width: 1180px;
-            margin: 0 auto;
-            border-bottom: 1px solid rgba(58, 58, 58, 0.18);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
-          "
-        >
-          <span style="font-weight: 600">Aurea</span>
-          <div style="display: flex; gap: 2px">
-            <span
-              style="
-                padding: 8px 14px;
-                color: #3a3a3a;
-                border-bottom: 2px solid transparent;
-              "
-              >Home</span
-            >
-            <span
-              style="
-                padding: 8px 14px;
-                color: #707070;
-                border-bottom: 2px solid transparent;
-              "
-              >Docs</span
-            >
-            <span
-              style="
-                padding: 8px 14px;
-                color: #707070;
-                border-bottom: 2px solid transparent;
-              "
-              >Gallery</span
-            >
-          </div>
+      <div class="sg-grid-2">
+        <div>
+          <h3>20px Hero / Canvas Grid</h3>
+          <div
+            style="
+              background-image:
+                linear-gradient(rgba(1, 125, 211, 0.12) 1px, transparent 1px),
+                linear-gradient(
+                  90deg,
+                  rgba(1, 125, 211, 0.12) 1px,
+                  transparent 1px
+                );
+              background-size: 20px 20px;
+              height: 140px;
+              border-radius: var(--editor-radius-m);
+              border: 1px solid var(--editor-border);
+              background-color: var(--editor-bg-sunken);
+            "
+          ></div>
         </div>
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          Sticky header with backdrop-filter blur(8px) and
-          rgba(255,255,255,0.88) background. Tabs use mono font, 12px,
-          uppercase, with 2px underline accent on active/hover.
-        </p>
+
+        <div>
+          <h3>28px Background Blueprint Grid</h3>
+          <div
+            style="
+              background-image:
+                linear-gradient(rgba(58, 58, 58, 0.06) 1px, transparent 1px),
+                linear-gradient(
+                  90deg,
+                  rgba(58, 58, 58, 0.06) 1px,
+                  transparent 1px
+                );
+              background-size: 28px 28px;
+              height: 140px;
+              border-radius: var(--editor-radius-m);
+              border: 1px solid var(--editor-border);
+              background-color: var(--editor-bg);
+            "
+          ></div>
+        </div>
       </div>
 
-      <h3>CSS Grid Background</h3>
-      <div style="margin-top: 16px">
-        <div
-          style="
-            background-image:
-              linear-gradient(rgba(1, 125, 211, 0.12) 1px, transparent 1px),
-              linear-gradient(
-                90deg,
-                rgba(1, 125, 211, 0.12) 1px,
-                transparent 1px
-              );
-            background-size: 20px 20px;
-            height: 120px;
-            border-radius: 5px;
-            border: 1px solid rgba(58, 58, 58, 0.1);
-          "
-        ></div>
-        <div
-          style="
-            background-image:
-              linear-gradient(
-                var(--landing-page-grid-line, rgba(58, 58, 58, 0.06)) 1px,
-                transparent 1px
-              ),
-              linear-gradient(
-                90deg,
-                var(--landing-page-grid-line, rgba(58, 58, 58, 0.06)) 1px,
-                transparent 1px
-              );
-            background-size: 28px 28px;
-            height: 120px;
-            margin-top: 8px;
-            border-radius: 5px;
-            border: 1px solid rgba(58, 58, 58, 0.1);
-          "
-        ></div>
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          Two grid patterns are used: 20px grid with accent tint (hero canvas)
-          and 28px grid with subtle lines (landing page background).
-        </p>
-      </div>
-
-      <h3>Animations</h3>
-      <div class="sg-card" style="margin-top: 16px">
+      <h3 style="margin-top: 32px">Responsive Breakpoints</h3>
+      <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
             <tr>
-              <th>Animation</th>
-              <th>Duration</th>
-              <th>Timing</th>
+              <th>Breakpoint</th>
+              <th>Target Screen</th>
+              <th>Adjustments</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>landingPageDraw</td>
-              <td>1.1s</td>
-              <td>ease forwards</td>
+              <td><strong>max-width: 940px</strong></td>
+              <td>Small Desktop / Tablet Landscape</td>
+              <td>Hero columns adjust grid ratio</td>
             </tr>
             <tr>
-              <td>landingPageFadeIn</td>
-              <td>0.6s</td>
-              <td>ease forwards</td>
+              <td><strong>max-width: 860px</strong></td>
+              <td>Tablet Portrait</td>
+              <td>3-column instrument cards stack to single column</td>
             </tr>
             <tr>
-              <td>Component transitions</td>
-              <td>0.15s</td>
-              <td>ease (color, background, border)</td>
+              <td><strong>max-width: 780px</strong></td>
+              <td>Narrow Tablet</td>
+              <td>Gallery grid shifts from 3 columns to 2 columns</td>
+            </tr>
+            <tr>
+              <td><strong>max-width: 640px</strong></td>
+              <td>Mobile Large</td>
+              <td>Wrap padding reduces from 32px to 20px</td>
+            </tr>
+            <tr>
+              <td><strong>max-width: 540px</strong></td>
+              <td>Mobile Portrait</td>
+              <td>Gallery shifts to 1 column, button groups wrap vertically</td>
             </tr>
           </tbody>
         </table>
-        <p style="font-size: 0.82rem; color: #707070; margin-top: 8px">
-          All animations respect <code>prefers-reduced-motion: reduce</code> —
-          drawing animations are disabled, fade-in becomes opacity: 1,
-          scroll-behavior becomes auto.
-        </p>
       </div>
     </section>
+
+    <!-- Section 8: Motion, Accessibility & Dark Mode Guidelines -->
+    <section id="motion-a11y" class="sg-section">
+      <h2>Motion, Accessibility & Dark Mode Guidelines</h2>
+      <p class="lead">
+        Standards for motion performance, contrast ratios, and dark mode depth
+        perception.
+      </p>
+
+      <h3>Motion Scale</h3>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Duration</th>
+              <th>Easing</th>
+              <th>Context</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>landingPageDraw</strong></td>
+              <td>1.1s</td>
+              <td>ease forwards</td>
+              <td>SVG geometry stroke dasharray construction</td>
+            </tr>
+            <tr>
+              <td><strong>landingPageFadeIn</strong></td>
+              <td>0.6s</td>
+              <td>ease forwards</td>
+              <td>Hero content entry</td>
+            </tr>
+            <tr>
+              <td><strong>Component Transitions</strong></td>
+              <td>0.15s</td>
+              <td>ease</td>
+              <td>
+                Button, swatch, link color, background, and border transitions
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Fast Feedback</strong></td>
+              <td>0.10s</td>
+              <td>ease</td>
+              <td>Preset buttons active switch</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 32px">Reduced Motion Support</h3>
+      <pre class="code-box"><code>@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}</code></pre>
+
+      <h3 style="margin-top: 32px">Dark Mode Implementation Principles</h3>
+      <div class="sg-grid-2">
+        <div class="sg-card">
+          <strong
+            style="color: var(--editor-ink); display: block; margin-bottom: 6px"
+            >1. Avoid Pure Black Canvas</strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            Sunken canvas viewport uses <code>#11141a</code>, while raised
+            surfaces use <code>#1d222b</code> to establish true depth and
+            elevation.
+          </p>
+        </div>
+        <div class="sg-card">
+          <strong
+            style="color: var(--editor-ink); display: block; margin-bottom: 6px"
+            >2. Accessible Contrast Ratios</strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            High-contrast text achieves > 14:1 contrast against
+            <code>#15181e</code>. Faint text achieves > 4.5:1 WCAG AA
+            compliance.
+          </p>
+        </div>
+        <div class="sg-card">
+          <strong
+            style="color: var(--editor-ink); display: block; margin-bottom: 6px"
+            >3. Tinted Alpha Borders</strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            Use <code>rgba(208, 216, 233, 0.22)</code> rather than opaque grays,
+            allowing background luminance to naturally soften edges.
+          </p>
+        </div>
+        <div class="sg-card">
+          <strong
+            style="color: var(--editor-ink); display: block; margin-bottom: 6px"
+            >4. Interactive Accents</strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            Active selection and hover fills scale up alpha (from 3–4% to
+            12–16%) to preserve visibility against dark backdrops.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function toggleGuideTheme() {
+        document.body.classList.toggle('app-dark');
+      }
+    </script>
   </body>
 </html>
