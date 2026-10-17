@@ -27,7 +27,7 @@
   overflow: hidden;
   background: var(--editor-bg);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--editor-font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -49,6 +49,21 @@
 .app,
 .app * {
   box-sizing: border-box;
+}
+
+.app ::selection {
+  background: var(--editor-accent);
+  color: #ffffff;
+}
+
+.app.app-dark ::selection {
+  background: var(--editor-accent);
+  color: #11141a;
+}
+
+.app :focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }
 
 .app button,
@@ -91,10 +106,14 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
+.app.app-dark .flexlayout__tab {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
 .flexlayout__tabset_header {
   background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid var(--editor-border-soft);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--editor-font-mono);
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -156,7 +175,7 @@
 }
 
 .flexlayout__tab_button {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--editor-font-mono);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -175,6 +194,10 @@
   background: rgba(1, 125, 211, 0.04);
 }
 
+.app.app-dark .flexlayout__tab_button:hover {
+  background: rgba(99, 179, 255, 0.12);
+}
+
 .flexlayout__tab_button--selected {
   color: var(--editor-accent);
   font-weight: 600;
@@ -189,4 +212,8 @@
 
 .flexlayout__splitter:hover {
   background: var(--editor-accent-soft);
+}
+
+.app.app-dark .flexlayout__splitter:hover {
+  background: rgba(99, 179, 255, 0.25);
 }

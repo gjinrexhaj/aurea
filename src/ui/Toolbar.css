@@ -52,7 +52,7 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg-raised);
   color: var(--editor-ink);
-  font-family: var(--editor-font-button, 'IBM Plex Mono', monospace);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.75rem;
   line-height: 1.1;
   letter-spacing: 0.03em;
@@ -68,13 +68,27 @@
 
 .tool-button:hover {
   border-color: var(--editor-ink-faint);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.app.app-dark .tool-button:hover:not(.active) {
+  background: rgba(99, 179, 255, 0.12);
+}
+
+.tool-button:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }
 
 .tool-button.active {
   background-color: var(--editor-accent);
-  color: white;
+  color: #ffffff;
   border-color: var(--editor-accent);
   box-shadow: 0 1px 3px rgba(1, 125, 211, 0.18);
+}
+
+.app.app-dark .tool-button.active {
+  box-shadow: 0 1px 4px rgba(99, 179, 255, 0.30);
 }
 
 /* view checkboxes */
@@ -82,7 +96,7 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.75rem;
   letter-spacing: 0.03em;
   color: var(--editor-ink-dim);

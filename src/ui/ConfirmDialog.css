@@ -9,6 +9,10 @@
   z-index: 2000;
 }
 
+.app.app-dark .confirm-dialog-backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
 .confirm-dialog {
   width: min(360px, calc(100vw - 48px));
   display: flex;
@@ -19,8 +23,12 @@
   border-radius: var(--editor-radius-m);
   background: var(--editor-bg-raised);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.app.app-dark .confirm-dialog {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
 .confirm-dialog-header {
@@ -31,16 +39,17 @@
 }
 
 .confirm-dialog-header strong {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.95rem;
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: normal;
   text-transform: none;
+  color: var(--editor-ink);
 }
 
 .confirm-dialog-message {
   margin: 0;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   font-size: 0.85rem;
   color: var(--editor-ink-dim);
   line-height: 1.45;
@@ -59,11 +68,15 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.85rem;
-  letter-spacing: normal;
-  text-transform: none;
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .confirm-dialog-confirm {
@@ -72,14 +85,42 @@
   border-radius: var(--editor-radius-s);
   background: rgba(1, 125, 211, 0.04);
   color: var(--editor-accent);
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.85rem;
-  letter-spacing: normal;
-  text-transform: none;
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
-.confirm-dialog-close:hover,
+.confirm-dialog-close:hover {
+  border-color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.app.app-dark .confirm-dialog-close:hover {
+  background: rgba(99, 179, 255, 0.12);
+}
+
 .confirm-dialog-confirm:hover {
   border-color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.08);
+}
+
+.app.app-dark .confirm-dialog-confirm {
+  background: rgba(99, 179, 255, 0.14);
+  border-color: rgba(99, 179, 255, 0.35);
+}
+
+.app.app-dark .confirm-dialog-confirm:hover {
+  background: rgba(99, 179, 255, 0.22);
+}
+
+.confirm-dialog-close:focus-visible,
+.confirm-dialog-confirm:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }

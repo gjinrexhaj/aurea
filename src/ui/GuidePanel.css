@@ -5,7 +5,7 @@
   box-sizing: border-box;
   background: var(--editor-bg);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
 }
 
 .guide-intro {
@@ -26,7 +26,7 @@
 .guide-section {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   padding: 10px;
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
@@ -35,30 +35,57 @@
   transition: opacity 0.15s ease;
 }
 
-.guide-section p {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.85rem;
-  text-align: left;
-}
-
-.guide-header {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+.app.app-dark .guide-section {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 
 .guide-section-header {
-  margin-top: 0.25rem;
-  margin-bottom: 0.1rem;
-  font-size: 1.1rem;
+  margin: 0;
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--editor-ink);
+}
+
+.guide-section p {
+  margin: 0;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--editor-ink-dim);
+  text-align: left;
+}
+
+.guide-section strong {
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-weight: 600;
+  color: var(--editor-ink);
+}
+
+.guide-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.guide-footer-text {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--editor-ink-faint);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+  line-height: 1.4;
 }
 
 .guide-see-more {
+  flex-shrink: 0;
   padding: 4px 8px;
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg-raised);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -75,16 +102,11 @@
   color: var(--editor-accent);
 }
 
-.guide-footer-text {
-  margin-top: 0.1rem;
-  margin-bottom: 0.1rem;
-  font-size: 0.75rem;
-  color: var(--editor-ink-dim);
-  font-family: 'IBM Plex Mono', monospace;
-  margin-right: 1rem;
+.app.app-dark .guide-see-more:hover {
+  background: rgba(99, 179, 255, 0.12);
 }
 
-.guide-footer {
-  display: flex;
-  padding-top: 8px;
+.guide-see-more:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }

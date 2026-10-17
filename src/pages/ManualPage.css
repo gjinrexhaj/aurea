@@ -1,8 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 :root {
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'IBM Plex Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
+  --font-button: 'IBM Plex Mono', monospace;
   --bg: #ffffff;
+  --bg-raised: #ffffff;
+  --bg-sunken: #ffffff;
   --ink: #000000;
   --ink-dim: #3a3a3a;
   --ink-faint: #707070;
@@ -14,6 +19,20 @@
   --radius-m: 5px;
 }
 
+body.app-dark .manual-container,
+.manual-container.app-dark {
+  --bg: #15181e;
+  --bg-raised: #1d222b;
+  --bg-sunken: #11141a;
+  --ink: #eef2fb;
+  --ink-dim: #c2cce0;
+  --ink-faint: #92a1bc;
+  --accent: #63b3ff;
+  --accent-soft: rgba(99, 179, 255, 0.25);
+  --border: rgba(208, 216, 233, 0.22);
+  --border-soft: rgba(208, 216, 233, 0.12);
+}
+
 .manual-container {
   display: flex;
   min-height: 100vh;
@@ -21,10 +40,23 @@
   color: var(--ink-dim);
   background-color: var(--bg);
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .manual-container * {
   box-sizing: border-box;
+}
+
+.manual-container ::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+body.app-dark .manual-container ::selection,
+.manual-container.app-dark ::selection {
+  background: var(--accent);
+  color: #11141a;
 }
 
 /* Scrollbar */
@@ -34,6 +66,7 @@
 }
 .manual-container::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
 }
 .manual-container::-webkit-scrollbar-thumb {
   background: #cbd5e0;
@@ -41,6 +74,19 @@
 }
 .manual-container::-webkit-scrollbar-thumb:hover {
   background: #a0aec0;
+}
+
+body.app-dark .manual-container::-webkit-scrollbar-track,
+.manual-container.app-dark::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+body.app-dark .manual-container::-webkit-scrollbar-thumb,
+.manual-container.app-dark::-webkit-scrollbar-thumb {
+  background: #3a4454;
+}
+body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
+.manual-container.app-dark::-webkit-scrollbar-thumb:hover {
+  background: #505c70;
 }
 
 /* Sidebar Styling */
@@ -83,6 +129,12 @@
 
 .manual-search-input::placeholder {
   color: var(--ink-faint);
+}
+
+.manual-search-input:focus {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .sidebar-nav ul {
@@ -223,7 +275,7 @@
 .manual-alert.warning {
   background-color: #fff3cd;
   border-left: 4px solid #b7791f;
-  color: #856404;
+  color: #b7791f;
 }
 
 .manual-code {
@@ -234,7 +286,7 @@
   overflow-x: auto;
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 20px 0;
 }
 
@@ -258,7 +310,7 @@
   padding: 12px 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius-s);
-  background: none;
+  background: var(--bg);
   color: var(--ink);
   cursor: pointer;
   transition:
@@ -268,11 +320,13 @@
 
 .btn-primary {
   background-color: var(--accent);
+  border-color: var(--accent);
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: var(--accent);
+  background-color: #1a8fe8;
+  border-color: #1a8fe8;
 }
 
 .btn:hover {
@@ -315,17 +369,21 @@
 
 .input-field:focus {
   border-color: var(--accent);
-  outline: 3px solid var(--accent-soft);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
 /* Panel Surface */
 .panel {
-  background-color: #fff;
+  background-color: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-m);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   padding: 20px;
+}
+
+body.app-dark .panel {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 
 /* Badge */
