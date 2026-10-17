@@ -138,6 +138,14 @@
   padding: 4px 2px;
   color: var(--editor-ink);
   background: var(--editor-bg);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.snap-radius-number::-webkit-inner-spin-button,
+.snap-radius-number::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
 }
 
 .snap-radius-number:focus {
