@@ -57,13 +57,13 @@
 .history-item {
   display: block;
   width: 100%;
-  padding: 4px 6px;
+  padding: 5px 7px;
   border: 1px solid var(--editor-border-soft);
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg-raised);
   color: var(--editor-ink-dim);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   letter-spacing: 0.02em;
   text-align: left;
   white-space: nowrap;
@@ -85,6 +85,25 @@
   border-color: rgba(99, 179, 255, 0.28);
   background: rgba(99, 179, 255, 0.1);
   color: var(--editor-ink);
+}
+
+.history-item-badge {
+  float: right;
+  margin-left: 8px;
+  padding: 0 5px;
+  border: 1px solid rgba(163, 58, 50, 0.35);
+  border-radius: var(--editor-radius-s);
+  background: rgba(163, 58, 50, 0.08);
+  color: #a33a32;
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.app.app-dark .history-item-badge {
+  border-color: rgba(226, 131, 122, 0.4);
+  background: rgba(226, 131, 122, 0.1);
+  color: #e2837a;
 }
 
 .history-item:hover {

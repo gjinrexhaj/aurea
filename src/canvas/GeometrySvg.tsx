@@ -14,6 +14,8 @@ import type { HistoryHighlight } from '../construction/historyUtils.ts';
 import type { GeometryColors } from '../ui/GeometryColors.ts';
 import { colorForLayeredValue, rgbaToCss } from '../ui/GeometryColors.ts';
 
+const HISTORY_DELETED_COLOR = 'red';
+
 type GeometrySvgProps = {
   document: GeometryDocument;
   compass: CompassState;
@@ -30,6 +32,7 @@ type GeometrySvgProps = {
   viewSettings: ViewSettings;
   colors: GeometryColors;
   historyHighlight: HistoryHighlight | null;
+  deletedGhosts: GeometryDocument | null;
 };
 
 export default function GeometrySvg({
@@ -44,6 +47,7 @@ export default function GeometrySvg({
   viewSettings,
   colors,
   historyHighlight,
+  deletedGhosts,
 }: GeometrySvgProps) {
   // console.log(document.circles)
   //useRenderCount("GeometrySvg");
@@ -63,6 +67,11 @@ export default function GeometrySvg({
   const linePreviewStart = lineState.firstPointId
     ? getPointById(lineState.firstPointId, document.points)
     : undefined;
+
+  // deleted geometry can reference points that survived the deletion
+  const ghostLookupPoints = deletedGhosts
+    ? [...document.points, ...deletedGhosts.points]
+    : document.points;
 
   return (
     <svg width="100%" height="100%">
@@ -322,6 +331,66 @@ export default function GeometrySvg({
             />
           );
         })}
+
+        {/* ghost of geometry that a later step deleted */}
+        {deletedGhosts && (
+          <g
+            data-export-kind="deletedGhosts"
+            className="history-deleted-ghosts"
+            fill="none"
+            stroke={HISTORY_DELETED_COLOR}
+            strokeWidth={1}
+            strokeDasharray="1 4"
+            strokeLinecap="round"
+          >
+            {deletedGhosts.circles.map((circle) => {
+              const centerPoint = getPointById(
+                circle.centerPointId,
+                ghostLookupPoints,
+              );
+              const radiusPoint = getPointById(
+                circle.radiusPointId,
+                ghostLookupPoints,
+              );
+
+              if (!centerPoint || !radiusPoint) {
+                return null;
+              }
+
+              return (
+                <circle
+                  key={circle.id}
+                  cx={centerPoint.x}
+                  cy={centerPoint.y}
+                  r={distance(centerPoint, radiusPoint)}
+                />
+              );
+            })}
+
+            {deletedGhosts.lines.map((line) => {
+              const pointA = getPointById(line.pointAId, ghostLookupPoints);
+              const pointB = getPointById(line.pointBId, ghostLookupPoints);
+
+              if (!pointA || !pointB) {
+                return null;
+              }
+
+              return (
+                <line
+                  key={line.id}
+                  x1={pointA.x}
+                  y1={pointA.y}
+                  x2={pointB.x}
+                  y2={pointB.y}
+                />
+              );
+            })}
+
+            {deletedGhosts.points.map((point) => (
+              <circle key={point.id} cx={point.x} cy={point.y} r={4} />
+            ))}
+          </g>
+        )}
       </g>
     </svg>
   );

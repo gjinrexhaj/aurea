@@ -1,4 +1,7 @@
 import type { GeometryDocument } from '../geometry/GeometryDocument.ts';
+import type { Point } from '../geometry/Point.ts';
+import type { Circle } from '../geometry/Circle.ts';
+import type { Line } from '../geometry/Line.ts';
 import type { HistoryStep } from './HistoryStep.ts';
 import { logger } from '../util/Logger.ts';
 
@@ -107,14 +110,54 @@ export function getEntityIdsUpToStep(
   return ids;
 }
 
-export function filterDocumentByEntityIds(
+export function buildDocumentUpToStep(
   document: GeometryDocument,
-  ids: EntityIds,
+  history: HistoryStep[],
+  stepIndex: number,
 ): GeometryDocument {
+  const visibleIds = getEntityIdsUpToStep(history, stepIndex);
+
+  const restoredPoints: Point[] = [];
+  const restoredCircles: Circle[] = [];
+  const restoredLines: Line[] = [];
+
+  for (const step of history.slice(stepIndex + 1)) {
+    if (step.type !== 'delete') {
+      continue;
+    }
+
+    for (const point of step.deleted.points) {
+      if (visibleIds.pointIds.has(point.id)) {
+        restoredPoints.push(point);
+      }
+    }
+    for (const circle of step.deleted.circles) {
+      if (visibleIds.circleIds.has(circle.id)) {
+        restoredCircles.push(circle);
+      }
+    }
+    for (const line of step.deleted.lines) {
+      if (visibleIds.lineIds.has(line.id)) {
+        restoredLines.push(line);
+      }
+    }
+  }
+
   return {
-    points: document.points.filter((point) => ids.pointIds.has(point.id)),
-    circles: document.circles.filter((circle) => ids.circleIds.has(circle.id)),
-    lines: document.lines.filter((line) => ids.lineIds.has(line.id)),
+    points: [
+      ...document.points.filter((point) => visibleIds.pointIds.has(point.id)),
+      ...restoredPoints,
+    ],
+    circles: [
+      ...document.circles.filter((circle) =>
+        visibleIds.circleIds.has(circle.id),
+      ),
+      ...restoredCircles,
+    ],
+    lines: [
+      ...document.lines.filter((line) => visibleIds.lineIds.has(line.id)),
+      ...restoredLines,
+    ],
   };
 }
 

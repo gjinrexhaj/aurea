@@ -1,7 +1,7 @@
 import type { HistoryStep } from '../construction/HistoryStep.ts';
 import { describeHistoryStep } from '../construction/historyUtils.ts';
 import './HistoryPanel.css';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 type HistoryPanelProps = {
   history: HistoryStep[];
@@ -27,6 +27,41 @@ export function HistoryPanel({
     (step) => step.id === selectedHistoryId,
   );
   const isPreviewing = hideSubsequentSteps && selectedIndex >= 0;
+
+  const deleteStepIndexById = useMemo(() => {
+    const indexById = new Map<string, number>();
+
+    history.forEach((step, index) => {
+      if (step.type !== 'delete') {
+        return;
+      }
+
+      for (const point of step.deleted.points) {
+        indexById.set(point.id, index);
+      }
+      for (const circle of step.deleted.circles) {
+        indexById.set(circle.id, index);
+      }
+      for (const line of step.deleted.lines) {
+        indexById.set(line.id, index);
+      }
+    });
+
+    return indexById;
+  }, [history]);
+
+  function getDeletedBadge(step: HistoryStep): string | null {
+    if (step.type !== 'create') {
+      return null;
+    }
+
+    const deleteIndex = deleteStepIndexById.get(step.step.id);
+    if (deleteIndex === undefined) {
+      return null;
+    }
+
+    return `deleted by step ${deleteIndex + 1}`;
+  }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
@@ -93,24 +128,33 @@ export function HistoryPanel({
             {history.length === 0 ? (
               <li className="history-empty">No construction steps yet</li>
             ) : (
-              history.map((step, index) => (
-                <li
-                  key={step.id}
-                  ref={index === history.length - 1 ? bottomRef : undefined}
-                >
-                  <button
-                    type="button"
-                    className={getItemClassName(step, index)}
-                    onClick={() =>
-                      onSelectHistoryId(
-                        selectedHistoryId === step.id ? null : step.id,
-                      )
-                    }
+              history.map((step, index) => {
+                const deletedBadge = getDeletedBadge(step);
+
+                return (
+                  <li
+                    key={step.id}
+                    ref={index === history.length - 1 ? bottomRef : undefined}
                   >
-                    {describeHistoryStep(step)}
-                  </button>
-                </li>
-              ))
+                    <button
+                      type="button"
+                      className={getItemClassName(step, index)}
+                      onClick={() =>
+                        onSelectHistoryId(
+                          selectedHistoryId === step.id ? null : step.id,
+                        )
+                      }
+                    >
+                      {describeHistoryStep(step)}
+                      {deletedBadge && (
+                        <span className="history-item-badge">
+                          {deletedBadge}
+                        </span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })
             )}
           </ol>
         </div>

@@ -1,1 +1,0 @@
-TODO: make playback mode support rendering pre-deleted geometry

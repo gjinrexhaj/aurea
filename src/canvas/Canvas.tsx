@@ -10,6 +10,7 @@ import type { LineState } from '../geometry/state/LineState.ts';
 import type { Line } from '../geometry/Line.ts';
 import { getPointById } from '../geometry/utils/GetPointById.ts';
 import type { Selection } from '../geometry/state/Selection.ts';
+import type { GeometryDocument } from '../geometry/GeometryDocument.ts';
 import type { Hover } from '../geometry/state/Hover.ts';
 import { snapAt } from '../geometry/snap/SnapEngine.ts';
 import type { SnapResult } from '../geometry/snap/SnapResult.ts';
@@ -21,8 +22,7 @@ import type { ViewSettings } from '../ui/ViewSettings.ts';
 import type { GeometryLayer } from '../geometry/GeometryLayer.ts';
 import type { HistoryStep } from '../construction/HistoryStep.ts';
 import {
-  filterDocumentByEntityIds,
-  getEntityIdsUpToStep,
+  buildDocumentUpToStep,
   getHistoryHighlight,
   undoHistoryStep,
 } from '../construction/historyUtils.ts';
@@ -156,13 +156,45 @@ export default function Canvas({
   const visibleDocument = useMemo(
     () =>
       isHistoryPreviewActive
-        ? filterDocumentByEntityIds(
-            document,
-            getEntityIdsUpToStep(history, selectedHistoryIndex),
-          )
+        ? buildDocumentUpToStep(document, history, selectedHistoryIndex)
         : document,
     [document, history, isHistoryPreviewActive, selectedHistoryIndex],
   );
+
+  const deletedGhosts = useMemo(() => {
+    if (isHistoryPreviewActive) {
+      return null;
+    }
+
+    if (!selectedHistoryStep || selectedHistoryStep.type !== 'create') {
+      return null;
+    }
+
+    const entityId = selectedHistoryStep.step.id;
+
+    for (const step of history) {
+      if (step.type !== 'delete') {
+        continue;
+      }
+
+      const point = step.deleted.points.find((item) => item.id === entityId);
+      if (point) {
+        return { points: [point], circles: [], lines: [] };
+      }
+
+      const circle = step.deleted.circles.find((item) => item.id === entityId);
+      if (circle) {
+        return { points: [], circles: [circle], lines: [] };
+      }
+
+      const line = step.deleted.lines.find((item) => item.id === entityId);
+      if (line) {
+        return { points: [], circles: [], lines: [line] };
+      }
+    }
+
+    return null;
+  }, [isHistoryPreviewActive, selectedHistoryStep, history]);
 
   useEffect(() => {
     const updateCamera = () => {
@@ -199,6 +231,11 @@ export default function Canvas({
 
   const handleDeleteSelection = useCallback(() => {
     if (!selection) {
+      return;
+    }
+
+    if (!hasEntity(document, selection)) {
+      setSelection(null);
       return;
     }
 
@@ -301,9 +338,7 @@ export default function Canvas({
 
     setSelection(null);
   }, [
-    document.circles,
-    document.lines,
-    document.points,
+    document,
     selection,
     clearHistoryInspection,
     setHistory,
@@ -470,13 +505,13 @@ export default function Canvas({
   }
 
   function handleCompassClick(x: number, y: number) {
-    const snap = snapAt(x, y, visibleDocument, snapSettings);
+    const snap = snapAt(x, y, document, snapSettings);
     let point: Point | undefined;
     if (snap?.type === 'point') {
-      point = getPointById(snap.pointId, visibleDocument.points);
+      point = getPointById(snap.pointId, document.points);
     } else {
       const clickRadius = snapSettings.enabled ? snapSettings.snapRadius : 10;
-      point = findPointAt(x, y, visibleDocument.points, clickRadius);
+      point = findPointAt(x, y, document.points, clickRadius);
     }
 
     if (!point) {
@@ -489,10 +524,7 @@ export default function Canvas({
     }
 
     if (compass.stage === 'anchor' && compass.centerPointId) {
-      const centerPoint = getPointById(
-        compass.centerPointId,
-        visibleDocument.points,
-      );
+      const centerPoint = getPointById(compass.centerPointId, document.points);
       if (!centerPoint || point.id === compass.centerPointId) {
         return;
       }
@@ -533,13 +565,13 @@ export default function Canvas({
   }
 
   function handleLineTool(x: number, y: number) {
-    const snap = snapAt(x, y, visibleDocument, snapSettings);
+    const snap = snapAt(x, y, document, snapSettings);
     let point: Point | undefined;
     if (snap?.type === 'point') {
-      point = getPointById(snap.pointId, visibleDocument.points);
+      point = getPointById(snap.pointId, document.points);
     } else {
       const clickRadius = snapSettings.enabled ? snapSettings.snapRadius : 10;
-      point = findPointAt(x, y, visibleDocument.points, clickRadius);
+      point = findPointAt(x, y, document.points, clickRadius);
     }
 
     if (!point) {
@@ -665,6 +697,7 @@ export default function Canvas({
         viewSettings={viewSettings}
         colors={colors}
         historyHighlight={historyHighlight}
+        deletedGhosts={deletedGhosts}
       />
       <button
         type="button"
@@ -677,4 +710,19 @@ export default function Canvas({
       </button>
     </div>
   );
+}
+
+function hasEntity(
+  document: GeometryDocument,
+  selection: NonNullable<Selection>,
+): boolean {
+  if (selection.type === 'point') {
+    return document.points.some((point) => point.id === selection.id);
+  }
+
+  if (selection.type === 'line') {
+    return document.lines.some((line) => line.id === selection.id);
+  }
+
+  return document.circles.some((circle) => circle.id === selection.id);
 }
