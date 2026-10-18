@@ -23,6 +23,16 @@
   flex: 1;
   min-height: 0;
   overflow: auto;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black calc(100% - 28px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black calc(100% - 28px),
+    transparent 100%
+  );
 }
 
 .history-empty {

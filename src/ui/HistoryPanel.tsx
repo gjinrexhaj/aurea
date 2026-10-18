@@ -71,7 +71,7 @@ export function HistoryPanel({
 
       <label className="history-floating-toggle" title="test">
         <input type="checkbox" />
-        <span>test</span>
+        <span>Hide subsequent steps</span>
       </label>
     </div>
   );
