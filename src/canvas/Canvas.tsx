@@ -196,6 +196,18 @@ export default function Canvas({
     return null;
   }, [isHistoryPreviewActive, selectedHistoryStep, history]);
 
+  const deletedPointLookup = useMemo(() => {
+    const points: Point[] = [];
+
+    for (const step of history) {
+      if (step.type === 'delete') {
+        points.push(...step.deleted.points);
+      }
+    }
+
+    return points;
+  }, [history]);
+
   useEffect(() => {
     const updateCamera = () => {
       if (canvasRef.current) {
@@ -698,6 +710,7 @@ export default function Canvas({
         colors={colors}
         historyHighlight={historyHighlight}
         deletedGhosts={deletedGhosts}
+        ghostPoints={deletedPointLookup}
       />
       <button
         type="button"

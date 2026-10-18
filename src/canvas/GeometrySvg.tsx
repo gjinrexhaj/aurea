@@ -1,4 +1,5 @@
 import type { GeometryDocument } from '../geometry/GeometryDocument.ts';
+import type { Point } from '../geometry/Point.ts';
 import type { CompassState } from '../geometry/state/CompassState.ts';
 import type { CursorPos } from '../geometry/utils/CursorPos.ts';
 import { getPointById } from '../geometry/utils/GetPointById.ts';
@@ -33,6 +34,7 @@ type GeometrySvgProps = {
   colors: GeometryColors;
   historyHighlight: HistoryHighlight | null;
   deletedGhosts: GeometryDocument | null;
+  ghostPoints: Point[];
 };
 
 export default function GeometrySvg({
@@ -48,6 +50,7 @@ export default function GeometrySvg({
   colors,
   historyHighlight,
   deletedGhosts,
+  ghostPoints,
 }: GeometrySvgProps) {
   // console.log(document.circles)
   //useRenderCount("GeometrySvg");
@@ -68,9 +71,9 @@ export default function GeometrySvg({
     ? getPointById(lineState.firstPointId, document.points)
     : undefined;
 
-  // deleted geometry can reference points that survived the deletion
+  // ghost geometry can reference points removed by any delete step
   const ghostLookupPoints = deletedGhosts
-    ? [...document.points, ...deletedGhosts.points]
+    ? [...document.points, ...ghostPoints]
     : document.points;
 
   return (
