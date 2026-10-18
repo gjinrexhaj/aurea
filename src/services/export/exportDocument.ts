@@ -112,19 +112,17 @@ function prepareSvg(
     const kind = element.dataset.exportKind;
     const layer = element.dataset.exportLayer;
     const shouldIncludeKind =
-      kind === 'deletedGhosts'
-        ? false
-        : kind === 'points'
-          ? options.elements.points
-          : kind === 'circles'
-            ? options.elements.circles
-            : kind === 'lines'
-              ? options.elements.lines
-              : kind === 'axes'
-                ? options.elements.axes
-                : kind === 'infiniteLines'
-                  ? options.elements.infiniteLines
-                  : true;
+      kind === 'points'
+        ? options.elements.points
+        : kind === 'circles'
+          ? options.elements.circles
+          : kind === 'lines'
+            ? options.elements.lines
+            : kind === 'axes'
+              ? options.elements.axes
+              : kind === 'infiniteLines'
+                ? options.elements.infiniteLines
+                : true;
     const shouldIncludeLayer =
       layer === 'graphite'
         ? options.elements.graphite

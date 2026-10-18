@@ -45,8 +45,6 @@ type CanvasProps = {
   onHistoryChange?: React.Dispatch<React.SetStateAction<HistoryStep[]>>;
   selectedHistoryId?: string | null;
   onSelectHistoryId?: (id: string | null) => void;
-  hideSubsequentSteps?: boolean;
-  onHideSubsequentStepsChange?: (hide: boolean) => void;
   onRegisterUndo?: (undoFn: () => void) => void;
 };
 
@@ -60,8 +58,6 @@ export default function Canvas({
   onHistoryChange,
   selectedHistoryId: externalSelectedHistoryId,
   onSelectHistoryId,
-  hideSubsequentSteps: externalHideSubsequentSteps,
-  onHideSubsequentStepsChange,
   onRegisterUndo,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -91,8 +87,6 @@ export default function Canvas({
   const [internalSelectedHistoryId, setInternalSelectedHistoryId] = useState<
     string | null
   >(null);
-  const [internalHideSubsequentSteps, setInternalHideSubsequentSteps] =
-    useState(false);
 
   const history =
     externalHistory !== undefined ? externalHistory : internalHistory;
@@ -100,10 +94,6 @@ export default function Canvas({
     externalSelectedHistoryId !== undefined
       ? externalSelectedHistoryId
       : internalSelectedHistoryId;
-  const hideSubsequentSteps =
-    externalHideSubsequentSteps !== undefined
-      ? externalHideSubsequentSteps
-      : internalHideSubsequentSteps;
 
   const setHistory = useCallback(
     (action: React.SetStateAction<HistoryStep[]>) => {
@@ -131,82 +121,21 @@ export default function Canvas({
     history.find((step) => step.id === selectedHistoryId) ?? null;
   const historyHighlight = getHistoryHighlight(selectedHistoryStep);
 
-  const setHideSubsequentSteps = useCallback(
-    (hide: boolean) => {
-      if (onHideSubsequentStepsChange) {
-        onHideSubsequentStepsChange(hide);
-      } else {
-        setInternalHideSubsequentSteps(hide);
-      }
-    },
-    [onHideSubsequentStepsChange],
-  );
-
   const clearHistoryInspection = useCallback(() => {
-    setHideSubsequentSteps(false);
     setSelectedHistoryId(null);
-  }, [setHideSubsequentSteps, setSelectedHistoryId]);
+  }, [setSelectedHistoryId]);
 
   const selectedHistoryIndex = history.findIndex(
     (step) => step.id === selectedHistoryId,
   );
-  const isHistoryPreviewActive =
-    hideSubsequentSteps && selectedHistoryIndex >= 0;
 
   const visibleDocument = useMemo(
     () =>
-      isHistoryPreviewActive
+      selectedHistoryIndex >= 0
         ? buildDocumentUpToStep(document, history, selectedHistoryIndex)
         : document,
-    [document, history, isHistoryPreviewActive, selectedHistoryIndex],
+    [document, history, selectedHistoryIndex],
   );
-
-  const deletedGhosts = useMemo(() => {
-    if (isHistoryPreviewActive) {
-      return null;
-    }
-
-    if (!selectedHistoryStep || selectedHistoryStep.type !== 'create') {
-      return null;
-    }
-
-    const entityId = selectedHistoryStep.step.id;
-
-    for (const step of history) {
-      if (step.type !== 'delete') {
-        continue;
-      }
-
-      const point = step.deleted.points.find((item) => item.id === entityId);
-      if (point) {
-        return { points: [point], circles: [], lines: [] };
-      }
-
-      const circle = step.deleted.circles.find((item) => item.id === entityId);
-      if (circle) {
-        return { points: [], circles: [circle], lines: [] };
-      }
-
-      const line = step.deleted.lines.find((item) => item.id === entityId);
-      if (line) {
-        return { points: [], circles: [], lines: [line] };
-      }
-    }
-
-    return null;
-  }, [isHistoryPreviewActive, selectedHistoryStep, history]);
-
-  const deletedPointLookup = useMemo(() => {
-    const points: Point[] = [];
-
-    for (const step of history) {
-      if (step.type === 'delete') {
-        points.push(...step.deleted.points);
-      }
-    }
-
-    return points;
-  }, [history]);
 
   useEffect(() => {
     const updateCamera = () => {
@@ -709,9 +638,10 @@ export default function Canvas({
         viewSettings={viewSettings}
         colors={colors}
         historyHighlight={historyHighlight}
-        deletedGhosts={deletedGhosts}
-        ghostPoints={deletedPointLookup}
       />
+      {selectedHistoryIndex >= 0 && (
+        <div className="canvas-history-indicator">test</div>
+      )}
       <button
         type="button"
         className="canvas-reset-camera"

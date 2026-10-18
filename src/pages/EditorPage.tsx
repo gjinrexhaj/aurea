@@ -228,7 +228,6 @@ export default function EditorPage() {
   const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(
     null,
   );
-  const [hideSubsequentSteps, setHideSubsequentSteps] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return loadAppearanceFromLocalStorage()?.isDarkMode ?? false;
   });
@@ -295,8 +294,6 @@ export default function EditorPage() {
                 onHistoryChange={setHistory}
                 selectedHistoryId={selectedHistoryId}
                 onSelectHistoryId={setSelectedHistoryId}
-                hideSubsequentSteps={hideSubsequentSteps}
-                onHideSubsequentStepsChange={setHideSubsequentSteps}
                 onRegisterUndo={handleRegisterUndo}
               />
             </div>
@@ -337,8 +334,6 @@ export default function EditorPage() {
               selectedHistoryId={selectedHistoryId}
               onSelectHistoryId={setSelectedHistoryId}
               onUndo={handleUndo}
-              hideSubsequentSteps={hideSubsequentSteps}
-              onHideSubsequentStepsChange={setHideSubsequentSteps}
             />
           );
         case 'console':
@@ -351,7 +346,6 @@ export default function EditorPage() {
               history={history}
               onHistoryChange={setHistory}
               onHistorySelectionChange={setSelectedHistoryId}
-              onDocumentReplaced={() => setHideSubsequentSteps(false)}
             />
           );
         default:
@@ -366,7 +360,6 @@ export default function EditorPage() {
       snapSettings,
       history,
       selectedHistoryId,
-      hideSubsequentSteps,
       isDarkMode,
       handleRegisterUndo,
       handleUndo,

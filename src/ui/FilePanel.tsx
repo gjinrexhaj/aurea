@@ -19,14 +19,12 @@ type FilePanelProps = {
     history: HistoryStep[];
     onHistoryChange: (history: HistoryStep[]) => void;
     onHistorySelectionChange: (historyId: string | null) => void;
-    onDocumentReplaced?: () => void;
 };
 
 export function FilePanel({
     history,
     onHistoryChange,
     onHistorySelectionChange,
-    onDocumentReplaced,
 }: FilePanelProps) {
     const { document: geomDocument, setDocument } = useDocument();
     const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
@@ -141,7 +139,6 @@ export function FilePanel({
                 setDocument(loadedDocument.document);
                 onHistoryChange(loadedDocument.history);
                 onHistorySelectionChange(null);
-                onDocumentReplaced?.();
             }
         } catch (error) {
             console.error('Unable to load document', error);
@@ -349,7 +346,6 @@ export function FilePanel({
                         setDocument({ points: [], lines: [], circles: [] });
                         onHistoryChange([]);
                         onHistorySelectionChange(null);
-                        onDocumentReplaced?.();
                         setShowNewConfirm(false);
                     }}
                 />

@@ -8,8 +8,6 @@ type HistoryPanelProps = {
   selectedHistoryId: string | null;
   onSelectHistoryId: (historyId: string | null) => void;
   onUndo: () => void;
-  hideSubsequentSteps: boolean;
-  onHideSubsequentStepsChange: (hide: boolean) => void;
 };
 
 export function HistoryPanel({
@@ -17,8 +15,6 @@ export function HistoryPanel({
   selectedHistoryId,
   onSelectHistoryId,
   onUndo,
-  hideSubsequentSteps,
-  onHideSubsequentStepsChange,
 }: HistoryPanelProps) {
   const bottomRef = useRef<HTMLLIElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -26,7 +22,6 @@ export function HistoryPanel({
   const selectedIndex = history.findIndex(
     (step) => step.id === selectedHistoryId,
   );
-  const isPreviewing = hideSubsequentSteps && selectedIndex >= 0;
 
   const deleteStepIndexById = useMemo(() => {
     const indexById = new Map<string, number>();
@@ -109,7 +104,7 @@ export function HistoryPanel({
       return 'history-item active';
     }
 
-    if (isPreviewing && index < selectedIndex) {
+    if (selectedIndex >= 0 && index < selectedIndex) {
       return 'history-item prior';
     }
 
@@ -168,22 +163,6 @@ export function HistoryPanel({
           Undo
         </button>
       </div>
-
-      <label
-        className={`history-floating-toggle${
-          selectedHistoryId === null ? ' disabled' : ''
-        }`}
-      >
-        <input
-          type="checkbox"
-          checked={hideSubsequentSteps}
-          disabled={selectedHistoryId === null}
-          onChange={(event) =>
-            onHideSubsequentStepsChange(event.target.checked)
-          }
-        />
-        <span>Playback mode</span>
-      </label>
     </div>
   );
 }
