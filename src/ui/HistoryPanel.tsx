@@ -68,6 +68,11 @@ export function HistoryPanel({
           Undo
         </button>
       </div>
+
+      <label className="history-floating-toggle" title="test">
+        <input type="checkbox" />
+        <span>test</span>
+      </label>
     </div>
   );
 }
