@@ -165,6 +165,7 @@ export default function Canvas({
     const timeoutId = window.setTimeout(() => {
       setCompass({ stage: 'idle' });
       setLineState({});
+      setSnapResult(null);
     }, 0);
 
     return () => window.clearTimeout(timeoutId);
