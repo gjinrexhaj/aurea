@@ -23,6 +23,11 @@ export function HistoryPanel({
   const bottomRef = useRef<HTMLLIElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
+  const selectedIndex = history.findIndex(
+    (step) => step.id === selectedHistoryId,
+  );
+  const isPreviewing = hideSubsequentSteps && selectedIndex >= 0;
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
       behavior: 'smooth',
@@ -50,10 +55,6 @@ export function HistoryPanel({
 
     event.preventDefault();
 
-    const selectedIndex = history.findIndex(
-      (step) => step.id === selectedHistoryId,
-    );
-
     const nextIndex = isPrevious
       ? selectedIndex < 0
         ? history.length - 1
@@ -66,6 +67,18 @@ export function HistoryPanel({
     if (nextStep) {
       onSelectHistoryId(nextStep.id);
     }
+  }
+
+  function getItemClassName(step: HistoryStep, index: number) {
+    if (step.id === selectedHistoryId) {
+      return 'history-item active';
+    }
+
+    if (isPreviewing && index < selectedIndex) {
+      return 'history-item prior';
+    }
+
+    return 'history-item';
   }
 
   return (
@@ -87,11 +100,7 @@ export function HistoryPanel({
                 >
                   <button
                     type="button"
-                    className={
-                      selectedHistoryId === step.id
-                        ? 'history-item active'
-                        : 'history-item'
-                    }
+                    className={getItemClassName(step, index)}
                     onClick={() =>
                       onSelectHistoryId(
                         selectedHistoryId === step.id ? null : step.id,
@@ -129,7 +138,7 @@ export function HistoryPanel({
             onHideSubsequentStepsChange(event.target.checked)
           }
         />
-        <span>Hide subsequent steps</span>
+        <span>Playback mode</span>
       </label>
     </div>
   );

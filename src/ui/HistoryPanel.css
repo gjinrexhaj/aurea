@@ -75,6 +75,18 @@
     color 0.15s ease;
 }
 
+.history-item.prior {
+  border-color: rgba(1, 125, 211, 0.22);
+  background: rgba(1, 125, 211, 0.06);
+  color: var(--editor-ink);
+}
+
+.app.app-dark .history-item.prior {
+  border-color: rgba(99, 179, 255, 0.28);
+  background: rgba(99, 179, 255, 0.1);
+  color: var(--editor-ink);
+}
+
 .history-item:hover {
   border-color: var(--editor-ink-faint);
   background: rgba(1, 125, 211, 0.03);
