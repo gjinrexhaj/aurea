@@ -212,7 +212,7 @@ export function FilePanel({
                     </div>
                     <div className="file-actions">
                         <button className="file-button" type="button" onClick={() => setShowNewConfirm(true)}>
-                            New Document
+                            New
                         </button>
                         <button className="file-button" type="button" onClick={() => setShowSaveDialog(true)}>
                             Save
