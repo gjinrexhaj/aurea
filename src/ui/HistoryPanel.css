@@ -6,7 +6,7 @@
   box-sizing: border-box;
   background: var(--editor-bg);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   overflow: hidden;
 }
 
@@ -26,10 +26,11 @@
 
 .history-empty {
   color: var(--editor-ink-faint);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-style: italic;
   list-style: none;
   margin-left: 0;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
 }
 
 .history-list {
@@ -50,7 +51,7 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg-raised);
   color: var(--editor-ink-dim);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.75rem;
   letter-spacing: 0.02em;
   text-align: left;
@@ -69,10 +70,26 @@
   color: var(--editor-ink);
 }
 
+.app.app-dark .history-item:hover {
+  border-color: var(--editor-ink-faint);
+  background: rgba(99, 179, 255, 0.12);
+}
+
 .history-item.active {
   border-color: var(--editor-accent);
   background: var(--editor-accent-soft);
   color: var(--editor-ink);
+}
+
+.app.app-dark .history-item.active {
+  border-color: var(--editor-accent);
+  background: rgba(99, 179, 255, 0.25);
+  color: var(--editor-ink);
+}
+
+.history-item:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }
 
 .history-undo-button-footer {
@@ -83,7 +100,7 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg-raised);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.75rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -100,7 +117,16 @@
   color: var(--editor-accent);
 }
 
+.app.app-dark .history-undo-button-footer:hover:not(:disabled) {
+  background: rgba(99, 179, 255, 0.12);
+}
+
 .history-undo-button-footer:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.history-undo-button-footer:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }

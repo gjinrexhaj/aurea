@@ -5,7 +5,7 @@
   box-sizing: border-box;
   background: var(--editor-bg);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
 }
 
 .colors-panel {
@@ -27,7 +27,7 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg);
   color: var(--editor-ink-dim);
-  font-family: var(--editor-font-mono);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -45,10 +45,23 @@
   background: rgba(1, 125, 211, 0.04);
 }
 
+.app.app-dark .colors-theme-toggle-button:hover {
+  background: rgba(99, 179, 255, 0.12);
+}
+
 .colors-theme-toggle-button.is-active {
   color: var(--editor-accent);
   border-color: var(--editor-accent);
   background: rgba(1, 125, 211, 0.08);
+}
+
+.app.app-dark .colors-theme-toggle-button.is-active {
+  background: rgba(99, 179, 255, 0.16);
+}
+
+.colors-theme-toggle-button:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }
 
 .colors-section {
@@ -62,8 +75,12 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
+.app.app-dark .colors-section {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
 .colors-section strong {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
   font-size: 14px;
   font-weight: 600;
   color: var(--editor-ink);
@@ -97,13 +114,24 @@
   background: rgba(1, 125, 211, 0.03);
 }
 
+.app.app-dark .color-swatch:hover {
+  background: rgba(99, 179, 255, 0.12);
+}
+
+.color-swatch:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
+}
+
 .color-swatch-label {
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   font-size: 0.82rem;
   font-weight: 500;
   color: var(--editor-ink);
 }
 
 .color-swatch-value {
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.72rem;
   color: var(--editor-ink-faint);
 }
@@ -128,6 +156,7 @@
 }
 
 .color-field-value {
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.8rem;
   color: var(--editor-ink-faint);
 }
@@ -143,6 +172,10 @@
   z-index: 2000;
 }
 
+.app.app-dark .color-modal-backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
 .color-modal {
   width: min(360px, calc(100vw - 48px));
   display: flex;
@@ -153,13 +186,19 @@
   border-radius: var(--editor-radius-m);
   background: var(--editor-bg-raised);
   color: var(--editor-ink);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
 }
 
+.app.app-dark .color-modal {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
 .color-modal strong {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
   font-size: 15px;
   font-weight: 600;
+  color: var(--editor-ink);
 }
 
 .color-modal-header {
@@ -181,6 +220,7 @@
 
 .theme-change-message {
   margin: 0;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   font-size: 0.85rem;
   color: var(--editor-ink-dim);
   line-height: 1.45;
@@ -192,7 +232,15 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg);
   color: var(--editor-ink);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .color-modal-reset {
@@ -201,12 +249,44 @@
   border-radius: var(--editor-radius-s);
   background: rgba(1, 125, 211, 0.04);
   color: var(--editor-accent);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
-.color-modal-close:hover,
+.color-modal-close:hover {
+  border-color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.app.app-dark .color-modal-close:hover {
+  background: rgba(99, 179, 255, 0.12);
+}
+
 .color-modal-reset:hover {
   border-color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.08);
+}
+
+.app.app-dark .color-modal-reset {
+  background: rgba(99, 179, 255, 0.14);
+  border-color: rgba(99, 179, 255, 0.35);
+}
+
+.app.app-dark .color-modal-reset:hover {
+  background: rgba(99, 179, 255, 0.22);
+}
+
+.color-modal-close:focus-visible,
+.color-modal-reset:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }
 
 .color-modal-preview {

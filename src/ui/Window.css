@@ -12,6 +12,11 @@
   overflow: hidden;
 }
 
+.app.app-dark .window-shell {
+  background: rgba(29, 34, 43, 0.96);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
 .window-shell.collapsed {
   gap: 0;
 }
@@ -31,10 +36,15 @@
   border: 1px solid rgba(1, 125, 211, 0.12);
 }
 
+.app.app-dark .window-header {
+  background: rgba(99, 179, 255, 0.14);
+  border-color: rgba(99, 179, 255, 0.28);
+}
+
 .window-title {
   flex: 1;
   min-width: 0;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
   font-size: 13px;
   font-weight: 600;
   color: var(--editor-ink);
@@ -46,16 +56,30 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg);
   color: var(--editor-ink);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 10px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
 .window-toggle-button:hover {
   border-color: var(--editor-accent);
   color: var(--editor-accent);
+  background: rgba(1, 125, 211, 0.04);
+}
+
+.app.app-dark .window-toggle-button:hover {
+  background: rgba(99, 179, 255, 0.12);
+}
+
+.window-toggle-button:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
 }
 
 .window-content {
@@ -73,6 +97,11 @@
   border: 1px solid rgba(1, 125, 211, 0.28);
   border-radius: var(--editor-radius-s);
   touch-action: none;
+}
+
+.app.app-dark .window-resize-handle {
+  background: rgba(99, 179, 255, 0.35);
+  border-color: rgba(99, 179, 255, 0.55);
 }
 
 .window-resize-handle-top-left {
