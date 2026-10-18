@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Point } from '../geometry/Point.ts';
 import './Canvas.css';
 import GeometrySvg from './GeometrySvg.tsx';
@@ -21,6 +21,8 @@ import type { ViewSettings } from '../ui/ViewSettings.ts';
 import type { GeometryLayer } from '../geometry/GeometryLayer.ts';
 import type { HistoryStep } from '../construction/HistoryStep.ts';
 import {
+  filterDocumentByEntityIds,
+  getEntityIdsUpToStep,
   getHistoryHighlight,
   undoHistoryStep,
 } from '../construction/historyUtils.ts';
@@ -43,6 +45,8 @@ type CanvasProps = {
   onHistoryChange?: React.Dispatch<React.SetStateAction<HistoryStep[]>>;
   selectedHistoryId?: string | null;
   onSelectHistoryId?: (id: string | null) => void;
+  hideSubsequentSteps?: boolean;
+  onHideSubsequentStepsChange?: (hide: boolean) => void;
   onRegisterUndo?: (undoFn: () => void) => void;
 };
 
@@ -56,6 +60,8 @@ export default function Canvas({
   onHistoryChange,
   selectedHistoryId: externalSelectedHistoryId,
   onSelectHistoryId,
+  hideSubsequentSteps: externalHideSubsequentSteps,
+  onHideSubsequentStepsChange,
   onRegisterUndo,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -85,6 +91,8 @@ export default function Canvas({
   const [internalSelectedHistoryId, setInternalSelectedHistoryId] = useState<
     string | null
   >(null);
+  const [internalHideSubsequentSteps, setInternalHideSubsequentSteps] =
+    useState(false);
 
   const history =
     externalHistory !== undefined ? externalHistory : internalHistory;
@@ -92,6 +100,10 @@ export default function Canvas({
     externalSelectedHistoryId !== undefined
       ? externalSelectedHistoryId
       : internalSelectedHistoryId;
+  const hideSubsequentSteps =
+    externalHideSubsequentSteps !== undefined
+      ? externalHideSubsequentSteps
+      : internalHideSubsequentSteps;
 
   const setHistory = useCallback(
     (action: React.SetStateAction<HistoryStep[]>) => {
@@ -118,6 +130,38 @@ export default function Canvas({
   const selectedHistoryStep =
     history.find((step) => step.id === selectedHistoryId) ?? null;
   const historyHighlight = getHistoryHighlight(selectedHistoryStep);
+
+  const setHideSubsequentSteps = useCallback(
+    (hide: boolean) => {
+      if (onHideSubsequentStepsChange) {
+        onHideSubsequentStepsChange(hide);
+      } else {
+        setInternalHideSubsequentSteps(hide);
+      }
+    },
+    [onHideSubsequentStepsChange],
+  );
+
+  const exitHistoryPreview = useCallback(() => {
+    setHideSubsequentSteps(false);
+  }, [setHideSubsequentSteps]);
+
+  const selectedHistoryIndex = history.findIndex(
+    (step) => step.id === selectedHistoryId,
+  );
+  const isHistoryPreviewActive =
+    hideSubsequentSteps && selectedHistoryIndex >= 0;
+
+  const visibleDocument = useMemo(
+    () =>
+      isHistoryPreviewActive
+        ? filterDocumentByEntityIds(
+            document,
+            getEntityIdsUpToStep(history, selectedHistoryIndex),
+          )
+        : document,
+    [document, history, isHistoryPreviewActive, selectedHistoryIndex],
+  );
 
   useEffect(() => {
     const updateCamera = () => {
@@ -156,6 +200,8 @@ export default function Canvas({
     if (!selection) {
       return;
     }
+
+    exitHistoryPreview();
 
     if (selection.type === 'point') {
       const pointId = selection.id;
@@ -258,6 +304,7 @@ export default function Canvas({
     document.lines,
     document.points,
     selection,
+    exitHistoryPreview,
     setHistory,
   ]);
 
@@ -267,6 +314,7 @@ export default function Canvas({
       return;
     }
 
+    exitHistoryPreview();
     setDocument((prev) => undoHistoryStep(prev, lastStep));
     setHistory((prev) => prev.slice(0, -1));
     setSelection(null);
@@ -274,7 +322,13 @@ export default function Canvas({
     if (selectedHistoryId === lastStep.id) {
       setSelectedHistoryId(null);
     }
-  }, [history, selectedHistoryId, setHistory, setSelectedHistoryId]);
+  }, [
+    history,
+    selectedHistoryId,
+    exitHistoryPreview,
+    setHistory,
+    setSelectedHistoryId,
+  ]);
 
   useEffect(() => {
     onRegisterUndo?.(handleUndo);
@@ -328,14 +382,14 @@ export default function Canvas({
     const screenY = event.clientY - rect.top;
     const { x, y } = screenToWorld(screenX, screenY, camera);
 
-    const snap = snapAt(x, y, document, snapSettings);
+    const snap = snapAt(x, y, visibleDocument, snapSettings);
 
     // disable snapping on selection tool
     if (activeTool !== 'select') {
       setSnapResult(snap);
     }
     setMousePos(snap ? { x: snap.x, y: snap.y } : { x, y });
-    setHovered(activeTool === 'select' ? pickAt(x, y, document) : null);
+    setHovered(activeTool === 'select' ? pickAt(x, y, visibleDocument) : null);
   }
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
@@ -376,14 +430,14 @@ export default function Canvas({
   }
 
   function handleSelectTool(x: number, y: number) {
-    setSelection(pickAt(x, y, document));
+    setSelection(pickAt(x, y, visibleDocument));
   }
 
   function handlePointTool(x: number, y: number) {
-    const snap = snapAt(x, y, document, snapSettings);
+    const snap = snapAt(x, y, visibleDocument, snapSettings);
     if (snap?.type === 'point') {
       logger.geometry(
-        `Point already exists at: (${Math.round(snap.x as number)}, ${Math.round(snap.y as number) * -1}) on layer: ${getPointById(snap.pointId, document.points)?.layer}`,
+        `Point already exists at: (${Math.round(snap.x as number)}, ${Math.round(snap.y as number) * -1}) on layer: ${getPointById(snap.pointId, visibleDocument.points)?.layer}`,
       );
       return;
     }
@@ -399,6 +453,7 @@ export default function Canvas({
       layer: activeLayer,
     };
 
+    exitHistoryPreview();
     setDocument((prev) => ({
       ...prev,
       points: [...prev.points, point],
@@ -424,13 +479,13 @@ export default function Canvas({
   }
 
   function handleCompassClick(x: number, y: number) {
-    const snap = snapAt(x, y, document, snapSettings);
+    const snap = snapAt(x, y, visibleDocument, snapSettings);
     let point: Point | undefined;
     if (snap?.type === 'point') {
-      point = getPointById(snap.pointId, document.points);
+      point = getPointById(snap.pointId, visibleDocument.points);
     } else {
       const clickRadius = snapSettings.enabled ? snapSettings.snapRadius : 10;
-      point = findPointAt(x, y, document.points, clickRadius);
+      point = findPointAt(x, y, visibleDocument.points, clickRadius);
     }
 
     if (!point) {
@@ -443,7 +498,10 @@ export default function Canvas({
     }
 
     if (compass.stage === 'anchor' && compass.centerPointId) {
-      const centerPoint = getPointById(compass.centerPointId, document.points);
+      const centerPoint = getPointById(
+        compass.centerPointId,
+        visibleDocument.points,
+      );
       if (!centerPoint || point.id === compass.centerPointId) {
         return;
       }
@@ -455,6 +513,7 @@ export default function Canvas({
         layer: activeLayer,
       };
 
+      exitHistoryPreview();
       setDocument((prev) => ({
         ...prev,
         circles: [...prev.circles, circle],
@@ -483,13 +542,13 @@ export default function Canvas({
   }
 
   function handleLineTool(x: number, y: number) {
-    const snap = snapAt(x, y, document, snapSettings);
+    const snap = snapAt(x, y, visibleDocument, snapSettings);
     let point: Point | undefined;
     if (snap?.type === 'point') {
-      point = getPointById(snap.pointId, document.points);
+      point = getPointById(snap.pointId, visibleDocument.points);
     } else {
       const clickRadius = snapSettings.enabled ? snapSettings.snapRadius : 10;
-      point = findPointAt(x, y, document.points, clickRadius);
+      point = findPointAt(x, y, visibleDocument.points, clickRadius);
     }
 
     if (!point) {
@@ -514,6 +573,7 @@ export default function Canvas({
       layer: activeLayer,
     };
 
+    exitHistoryPreview();
     setDocument((prev) => ({
       ...prev,
       lines: [...prev.lines, line],
@@ -603,7 +663,7 @@ export default function Canvas({
       onContextMenu={handleContextMenu}
     >
       <GeometrySvg
-        document={document}
+        document={visibleDocument}
         compass={compass}
         lineState={lineState}
         mousePos={mousePos}

@@ -61,6 +61,63 @@ export function getHistoryHighlight(
   }
 }
 
+export type EntityIds = {
+  pointIds: Set<string>;
+  circleIds: Set<string>;
+  lineIds: Set<string>;
+};
+
+export function getEntityIdsUpToStep(
+  history: HistoryStep[],
+  stepIndex: number,
+): EntityIds {
+  const ids: EntityIds = {
+    pointIds: new Set(),
+    circleIds: new Set(),
+    lineIds: new Set(),
+  };
+
+  for (const step of history.slice(0, stepIndex + 1)) {
+    if (step.type === 'create') {
+      switch (step.step.type) {
+        case 'point':
+          ids.pointIds.add(step.step.id);
+          break;
+        case 'circle':
+          ids.circleIds.add(step.step.id);
+          break;
+        case 'line':
+          ids.lineIds.add(step.step.id);
+          break;
+      }
+      continue;
+    }
+
+    for (const point of step.deleted.points) {
+      ids.pointIds.delete(point.id);
+    }
+    for (const circle of step.deleted.circles) {
+      ids.circleIds.delete(circle.id);
+    }
+    for (const line of step.deleted.lines) {
+      ids.lineIds.delete(line.id);
+    }
+  }
+
+  return ids;
+}
+
+export function filterDocumentByEntityIds(
+  document: GeometryDocument,
+  ids: EntityIds,
+): GeometryDocument {
+  return {
+    points: document.points.filter((point) => ids.pointIds.has(point.id)),
+    circles: document.circles.filter((circle) => ids.circleIds.has(circle.id)),
+    lines: document.lines.filter((line) => ids.lineIds.has(line.id)),
+  };
+}
+
 export function undoHistoryStep(
   document: GeometryDocument,
   step: HistoryStep,
