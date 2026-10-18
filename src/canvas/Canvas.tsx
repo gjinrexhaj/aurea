@@ -641,7 +641,7 @@ export default function Canvas({
         historyHighlight={historyHighlight}
       />
       {selectedHistoryIndex >= 0 && (
-        <div className="canvas-history-indicator">You are currently viewing construction history</div>
+        <div className="canvas-history-indicator">You are viewing construction history</div>
       )}
       <button
         type="button"
