@@ -142,9 +142,10 @@ export default function Canvas({
     [onHideSubsequentStepsChange],
   );
 
-  const exitHistoryPreview = useCallback(() => {
+  const clearHistoryInspection = useCallback(() => {
     setHideSubsequentSteps(false);
-  }, [setHideSubsequentSteps]);
+    setSelectedHistoryId(null);
+  }, [setHideSubsequentSteps, setSelectedHistoryId]);
 
   const selectedHistoryIndex = history.findIndex(
     (step) => step.id === selectedHistoryId,
@@ -201,7 +202,7 @@ export default function Canvas({
       return;
     }
 
-    exitHistoryPreview();
+    clearHistoryInspection();
 
     if (selection.type === 'point') {
       const pointId = selection.id;
@@ -304,7 +305,7 @@ export default function Canvas({
     document.lines,
     document.points,
     selection,
-    exitHistoryPreview,
+    clearHistoryInspection,
     setHistory,
   ]);
 
@@ -314,21 +315,11 @@ export default function Canvas({
       return;
     }
 
-    exitHistoryPreview();
+    clearHistoryInspection();
     setDocument((prev) => undoHistoryStep(prev, lastStep));
     setHistory((prev) => prev.slice(0, -1));
     setSelection(null);
-
-    if (selectedHistoryId === lastStep.id) {
-      setSelectedHistoryId(null);
-    }
-  }, [
-    history,
-    selectedHistoryId,
-    exitHistoryPreview,
-    setHistory,
-    setSelectedHistoryId,
-  ]);
+  }, [history, clearHistoryInspection, setHistory]);
 
   useEffect(() => {
     onRegisterUndo?.(handleUndo);
@@ -453,7 +444,7 @@ export default function Canvas({
       layer: activeLayer,
     };
 
-    exitHistoryPreview();
+    clearHistoryInspection();
     setDocument((prev) => ({
       ...prev,
       points: [...prev.points, point],
@@ -513,7 +504,7 @@ export default function Canvas({
         layer: activeLayer,
       };
 
-      exitHistoryPreview();
+      clearHistoryInspection();
       setDocument((prev) => ({
         ...prev,
         circles: [...prev.circles, circle],
@@ -573,7 +564,7 @@ export default function Canvas({
       layer: activeLayer,
     };
 
-    exitHistoryPreview();
+    clearHistoryInspection();
     setDocument((prev) => ({
       ...prev,
       lines: [...prev.lines, line],
