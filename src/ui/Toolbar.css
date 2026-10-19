@@ -68,11 +68,7 @@
 
 .tool-button:hover {
   border-color: var(--editor-ink-faint);
-  background: rgba(1, 125, 211, 0.04);
-}
-
-.app.app-dark .tool-button:hover:not(.active) {
-  background: rgba(99, 179, 255, 0.12);
+  background: var(--ui-hover-tint);
 }
 
 .tool-button:focus-visible {
@@ -80,15 +76,13 @@
   outline-offset: 3px;
 }
 
+/* `--ui-on-accent` flips to near-black in dark mode; hard-coding #ffffff
+   here would put white on #63b3ff (2.2:1). */
 .tool-button.active {
   background-color: var(--editor-accent);
-  color: #ffffff;
+  color: var(--ui-on-accent);
   border-color: var(--editor-accent);
-  box-shadow: 0 1px 3px rgba(1, 125, 211, 0.18);
-}
-
-.app.app-dark .tool-button.active {
-  box-shadow: 0 1px 4px rgba(99, 179, 255, 0.30);
+  box-shadow: var(--ui-shadow-glow);
 }
 
 /* view checkboxes */

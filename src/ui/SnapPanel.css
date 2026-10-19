@@ -22,12 +22,8 @@
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
   background: var(--editor-bg-raised);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--ui-shadow-panel);
   transition: opacity 0.15s ease;
-}
-
-.app.app-dark .snap-section {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 
 .snap-section.disabled {
@@ -36,13 +32,8 @@
 }
 
 .snap-master-section {
-  background: rgba(1, 125, 211, 0.03);
-  border-color: rgba(1, 125, 211, 0.18);
-}
-
-.app.app-dark .snap-master-section {
-  background: rgba(99, 179, 255, 0.12);
-  border-color: rgba(99, 179, 255, 0.42);
+  background: var(--ui-card-tint);
+  border-color: var(--ui-card-border);
 }
 
 .snap-section-header {
@@ -67,11 +58,7 @@
   background: var(--editor-accent-soft);
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(1, 125, 211, 0.18);
-}
-
-.app.app-dark .snap-radius-badge {
-  border-color: rgba(99, 179, 255, 0.35);
+  border: 1px solid var(--ui-card-border);
 }
 
 .snap-radius-slider-row {
@@ -98,29 +85,21 @@
 .snap-stepper-btn {
   padding: 3px 6px;
   border: none;
-  background: rgba(1, 125, 211, 0.04);
+  background: var(--ui-accent-fill);
   cursor: pointer;
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.75rem;
-  font-weight: bold;
+  /* `bold` is 700, but IBM Plex Mono is only loaded at 400/500/600 — the
+     browser would faux-bold it. Use the real 600. */
+  font-weight: 600;
   color: var(--editor-ink-dim);
   transition:
     background 0.15s ease,
     color 0.15s ease;
 }
 
-.app.app-dark .snap-stepper-btn {
-  background: rgba(99, 179, 255, 0.1);
-  color: var(--editor-ink);
-}
-
 .snap-stepper-btn:hover:not(:disabled) {
-  background: rgba(1, 125, 211, 0.08);
-  color: var(--editor-accent);
-}
-
-.app.app-dark .snap-stepper-btn:hover:not(:disabled) {
-  background: rgba(99, 179, 255, 0.2);
+  background: var(--ui-accent-fill-hover);
   color: var(--editor-accent);
 }
 
@@ -148,13 +127,13 @@
   -webkit-appearance: none;
 }
 
-.snap-radius-number:focus {
-  outline: none;
-  background: rgba(1, 125, 211, 0.04);
-}
-
-.app.app-dark .snap-radius-number:focus {
-  background: rgba(99, 179, 255, 0.12);
+/* Do not remove the focus ring here. The tinted background alone is not a
+   sufficient focus indicator (WCAG 2.4.7) and was invisible on the sunken
+   input background. */
+.snap-radius-number:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: -2px;
+  background: var(--ui-hover-tint);
 }
 
 .snap-presets-row {
@@ -166,7 +145,7 @@
 
 .snap-presets-label {
   font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--editor-ink-faint);
 }
 
@@ -177,7 +156,7 @@
 }
 
 .snap-preset-btn {
-  padding: 1px 5px;
+  padding: 2px 8px;
   font-size: 0.75rem;
   border: 1px solid var(--editor-border-soft);
   border-radius: var(--editor-radius-s);
@@ -185,34 +164,25 @@
   color: var(--editor-ink-dim);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   cursor: pointer;
-  transition: all 0.1s ease;
+  /* Never `transition: all` — it animates layout-affecting properties and
+     properties you never intended to touch. */
+  transition:
+    background 0.1s ease,
+    border-color 0.1s ease,
+    color 0.1s ease;
 }
 
 .snap-preset-btn:hover:not(:disabled) {
-  background: rgba(1, 125, 211, 0.04);
+  background: var(--ui-hover-tint);
   border-color: var(--editor-accent);
 }
 
-.app.app-dark .snap-preset-btn:hover:not(:disabled) {
-  background: rgba(99, 179, 255, 0.12);
-  border-color: var(--editor-accent);
-}
-
-.snap-preset-btn.active {
-  background: var(--editor-accent);
-  color: #ffffff;
-  border-color: var(--editor-accent);
-}
-
-.app.app-dark .snap-preset-btn.active {
-  background: var(--editor-accent);
-  color: #11141a;
-  border-color: var(--editor-accent);
-}
-
+.snap-preset-btn.active,
 .snap-preset-btn.active:hover {
   background: var(--editor-accent);
-  color: #ffffff;
+  /* Flips to near-black in dark mode so white-on-light-blue (2.2:1) is
+     never rendered. */
+  color: var(--ui-on-accent);
   border-color: var(--editor-accent);
 }
 
@@ -243,12 +213,8 @@
 }
 
 .snap-toggle-label:hover {
-  background: rgba(1, 125, 211, 0.03);
+  background: var(--ui-hover-tint-soft);
   border-color: var(--editor-accent-soft);
-}
-
-.app.app-dark .snap-toggle-label:hover {
-  background: rgba(99, 179, 255, 0.12);
 }
 
 .snap-toggle-label input[type='checkbox'] {
@@ -259,12 +225,8 @@
 
 .snap-toggle-label.master-label {
   padding: 8px 10px;
-  border-color: rgba(1, 125, 211, 0.18);
+  border-color: var(--ui-card-border);
   align-items: center;
-}
-
-.app.app-dark .snap-toggle-label.master-label {
-  border-color: rgba(99, 179, 255, 0.42);
 }
 
 .snap-toggle-label.master-label input[type='checkbox'] {
@@ -280,14 +242,14 @@
 
 .snap-toggle-title {
   font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--editor-ink);
 }
 
 .snap-toggle-desc {
   font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   color: var(--editor-ink-faint);
 }
 
@@ -316,13 +278,7 @@
 }
 
 .snap-reset-button:hover {
-  background: rgba(1, 125, 211, 0.04);
-  border-color: var(--editor-accent);
-  color: var(--editor-accent);
-}
-
-.app.app-dark .snap-reset-button:hover {
-  background: rgba(99, 179, 255, 0.12);
+  background: var(--ui-hover-tint);
   border-color: var(--editor-accent);
   color: var(--editor-accent);
 }

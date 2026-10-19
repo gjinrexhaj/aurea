@@ -12,10 +12,10 @@
   top: 12px;
   z-index: 2;
   padding: 4px 8px;
-  background: rgba(0, 0, 0, 0.55);
-  color: #ffffff;
+  background: var(--ui-overlay-fill);
+  color: var(--ui-overlay-ink);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   pointer-events: none;
@@ -32,9 +32,9 @@
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg-raised);
   color: var(--editor-ink-dim);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--ui-shadow-float);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
@@ -46,10 +46,9 @@
 }
 
 .app.app-dark .canvas-reset-camera {
-  border-color: rgba(99, 179, 255, 0.42);
+  border-color: var(--ui-card-border);
   background: var(--editor-bg-raised);
   color: var(--editor-ink);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.32);
 }
 
 .canvas-reset-camera:hover {
@@ -60,7 +59,7 @@
 
 .app.app-dark .canvas-reset-camera:hover {
   border-color: var(--editor-accent);
-  background: rgba(99, 179, 255, 0.12);
+  background: var(--ui-hover-tint);
   color: var(--editor-accent);
 }
 

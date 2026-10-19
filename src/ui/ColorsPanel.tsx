@@ -9,6 +9,7 @@ import {
   type RgbaColor,
 } from './GeometryColors.ts';
 import { ConfirmDialog } from './ConfirmDialog.tsx';
+import './Dialog.css';
 import './ColorsPanel.css';
 
 type ColorsPanelProps = {

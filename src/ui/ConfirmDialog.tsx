@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import './ConfirmDialog.css';
+import './Dialog.css';
 
 type ConfirmDialogProps = {
   title: string;

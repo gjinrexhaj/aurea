@@ -4,17 +4,15 @@
   flex-direction: column;
   gap: 10px;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--ui-surface-glass);
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--ui-shadow-window);
   z-index: 1000;
-  overflow: hidden;
-}
-
-.app.app-dark .window-shell {
-  background: rgba(29, 34, 43, 0.96);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  /* NB: deliberately NOT `overflow: hidden`. The four resize handles are
+     positioned at -7px on each edge to overhang the shell by half their
+     14px box; `overflow: hidden` clips them and makes the window unresizable.
+     Corner rounding is handled by the child border-radius instead. */
 }
 
 .window-shell.collapsed {
@@ -32,13 +30,8 @@
   cursor: move;
   user-select: none;
   touch-action: none;
-  background: rgba(1, 125, 211, 0.06);
-  border: 1px solid rgba(1, 125, 211, 0.12);
-}
-
-.app.app-dark .window-header {
-  background: rgba(99, 179, 255, 0.14);
-  border-color: rgba(99, 179, 255, 0.28);
+  background: var(--ui-header-tint);
+  border: 1px solid var(--ui-header-border);
 }
 
 .window-title {
@@ -57,7 +50,9 @@
   background: var(--editor-bg);
   color: var(--editor-ink);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
-  font-size: 10px;
+  /* 11px is the documented micro-text floor; the previous 10px fell below
+     the scale and was hard to read. */
+  font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
@@ -70,11 +65,7 @@
 .window-toggle-button:hover {
   border-color: var(--editor-accent);
   color: var(--editor-accent);
-  background: rgba(1, 125, 211, 0.04);
-}
-
-.app.app-dark .window-toggle-button:hover {
-  background: rgba(99, 179, 255, 0.12);
+  background: var(--ui-hover-tint);
 }
 
 .window-toggle-button:focus-visible {
@@ -93,15 +84,10 @@
   position: absolute;
   width: 14px;
   height: 14px;
-  background: rgba(1, 125, 211, 0.16);
-  border: 1px solid rgba(1, 125, 211, 0.28);
+  background: var(--ui-grip-fill);
+  border: 1px solid var(--ui-grip-border);
   border-radius: var(--editor-radius-s);
   touch-action: none;
-}
-
-.app.app-dark .window-resize-handle {
-  background: rgba(99, 179, 255, 0.35);
-  border-color: rgba(99, 179, 255, 0.55);
 }
 
 .window-resize-handle-top-left {

@@ -12,7 +12,11 @@
 
 .console-content {
   width: 100%;
-  height: 100%;
+  /* `height: 100%` inside a flex column that also renders .console-controls
+     forced the content box to the full panel height and pushed the controls
+     out of view. Let flex distribute the space instead. */
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: auto;
   padding: 8px 10px;
@@ -28,15 +32,15 @@
   min-height: 18px;
   line-height: 1.45;
   white-space: pre;
-  text-wrap: nowrap;
 }
 
 .console-line.is-wrapped {
   display: block;
   white-space: pre-wrap;
-  text-wrap: wrap;
-  word-break: break-all;
-  flex-wrap: wrap;
+  /* break-all chops identifiers and numbers mid-token; break on word
+     boundaries instead and let overflow handle the rest. */
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .console-line.is-wrapped span {
@@ -112,13 +116,9 @@
 }
 
 .console-field-toggle:hover {
-  background: rgba(1, 125, 211, 0.03);
+  background: var(--ui-hover-tint-soft);
   border-color: var(--editor-accent-soft);
   color: var(--editor-ink);
-}
-
-.app.app-dark .console-field-toggle:hover {
-  background: rgba(99, 179, 255, 0.12);
 }
 
 .control-item input[type='checkbox'] {
@@ -149,12 +149,8 @@
 
 .console-controls button:hover {
   border-color: var(--editor-accent);
-  background: rgba(1, 125, 211, 0.04);
+  background: var(--ui-hover-tint);
   color: var(--editor-accent);
-}
-
-.app.app-dark .console-controls button:hover {
-  background: rgba(99, 179, 255, 0.12);
 }
 
 .console-controls button:focus-visible {
@@ -172,20 +168,19 @@
   color: var(--editor-accent);
 }
 
+/* `--ui-warn-text` (#856404 light / #e3b341 dark) is the ACCESSIBLE amber for
+   text. The pure hue `--ui-warn-border` (#b7791f) only measured 3.6:1 on a
+   white panel and failed WCAG AA. */
 .console-warn .console-level {
-  color: #b7791f;
+  color: var(--ui-warn-text);
 }
 
 .console-error .console-level {
-  color: #c53030;
+  color: var(--ui-danger-text);
 }
 
 .console-error .console-message {
-  color: #9b2c2c;
-}
-
-.app.app-dark .console-error .console-message {
-  color: #fc8181;
+  color: var(--ui-danger-message);
 }
 
 .console-empty {
@@ -193,35 +188,6 @@
   font-style: italic;
 }
 
-/* Scrollbar */
-
-.console-content::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.console-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-
-.console-content::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
-  border-radius: 4px;
-}
-
-.console-content::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
-}
-
-.app.app-dark .console-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.app.app-dark .console-content::-webkit-scrollbar-thumb {
-  background: #3a4454;
-}
-
-.app.app-dark .console-content::-webkit-scrollbar-thumb:hover {
-  background: #505c70;
-}
+/* Scrollbar: global.css already styles ::-webkit-scrollbar document-wide via
+   the --ui-scrollbar-* tokens (including dark mode and the Firefox
+   scrollbar-color fallback). Do not re-declare it here. */
