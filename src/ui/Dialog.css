@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Aurea — Shared Dialog System
+   --------------------------------------------------------------------------
+   `.confirm-dialog`, `.color-modal` and `.file-dialog` were three verbatim
+   copies of the same backdrop / shell / header / message / actions / button
+   rules. They are grouped here so a fix lands in all three at once.
+
+   Components keep their own class names (no TSX churn); this file only owns
+   the parts they had in common. Component-specific rules stay in the
+   component's own CSS file.
+   ========================================================================== */
+
+/* ---------- Backdrop ---------- */
+.confirm-dialog-backdrop,
+.color-modal-backdrop,
+.file-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--ui-backdrop);
+  z-index: 2000;
+}
+
+/* ---------- Shell ---------- */
+.confirm-dialog,
+.color-modal,
+.file-dialog {
+  width: min(360px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-m);
+  background: var(--editor-bg-raised);
+  color: var(--editor-ink);
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+  box-shadow: var(--ui-shadow-modal);
+}
+
+/* ---------- Header ---------- */
+.confirm-dialog-header,
+.color-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* ---------- Title ---------- */
+.confirm-dialog-header strong,
+.color-modal strong,
+.file-dialog-header strong {
+  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--editor-ink);
+}
+
+/* ---------- Message ---------- */
+.confirm-dialog-message,
+.theme-change-message {
+  margin: 0;
+  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
+  font-size: 0.85rem;
+  color: var(--editor-ink-dim);
+  line-height: 1.45;
+}
+
+/* ---------- Actions ---------- */
+.confirm-dialog-actions,
+.color-modal-actions,
+.file-dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.file-dialog-actions {
+  align-items: stretch;
+}
+
+/* ---------- Neutral button (close / cancel) ---------- */
+.confirm-dialog-close,
+.color-modal-close,
+.file-dialog-cancel {
+  padding: 4px 8px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-s);
+  background: var(--editor-bg);
+  color: var(--editor-ink);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.confirm-dialog-close:hover,
+.color-modal-close:hover {
+  border-color: var(--editor-accent);
+  background: var(--ui-hover-tint);
+}
+
+.file-dialog-cancel:hover,
+.file-dialog-save:hover {
+  border-color: var(--editor-accent);
+}
+
+/* ---------- Accent button (confirm / reset / save) ---------- */
+.confirm-dialog-confirm,
+.color-modal-reset,
+.file-dialog-save {
+  padding: 4px 8px;
+  border: 1px solid var(--editor-border-soft);
+  border-radius: var(--editor-radius-s);
+  background: var(--ui-accent-fill);
+  color: var(--editor-accent);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.confirm-dialog-confirm:hover,
+.color-modal-reset:hover {
+  border-color: var(--editor-accent);
+  background: var(--ui-accent-fill-hover);
+}
+
+.file-dialog-save:hover {
+  background: var(--ui-accent-fill-hover);
+}
+
+/* ---------- Focus ---------- */
+.confirm-dialog-close:focus-visible,
+.confirm-dialog-confirm:focus-visible,
+.color-modal-close:focus-visible,
+.color-modal-reset:focus-visible,
+.file-dialog-cancel:focus-visible,
+.file-dialog-save:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
+}

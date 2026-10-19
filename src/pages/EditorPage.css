@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+/* Fonts come from index.html <link> — never @import them here. */
 
 .app {
   --editor-bg: #ffffff;
@@ -22,12 +22,15 @@
   --editor-radius-m: 5px;
 
   position: relative;
-  width: 100vw;
+  /* 100vw includes the classic scrollbar width and causes a horizontal
+     overflow of exactly that many pixels. Use the parent's box instead. */
+  width: 100%;
   height: 100vh;
   overflow: hidden;
   background: var(--editor-bg);
   color: var(--editor-ink);
   font-family: var(--editor-font-body);
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -46,25 +49,8 @@
   --editor-tab-selected-bg: rgba(99, 179, 255, 0.16);
 }
 
-.app,
-.app * {
-  box-sizing: border-box;
-}
-
-.app ::selection {
-  background: var(--editor-accent);
-  color: #ffffff;
-}
-
-.app.app-dark ::selection {
-  background: var(--editor-accent);
-  color: #11141a;
-}
-
-.app :focus-visible {
-  outline: 2px solid var(--editor-accent);
-  outline-offset: 3px;
-}
+/* Selection + focus-visible for the editor come from global.css via the
+   --ui-selection-* / --editor-accent tokens; no per-page overrides needed. */
 
 .app button,
 .app input,
@@ -90,28 +76,27 @@
   background: var(--editor-bg);
 }
 
-/* FlexLayout clean styling adjustments */
-.flexlayout__layout {
+/* FlexLayout clean styling adjustments.
+   Every rule is scoped under `.app` — flexlayout ships global class names, so
+   unscoped overrides leak into any other consumer of the library and cannot
+   see the `--editor-*` tokens. */
+.app .flexlayout__layout {
   position: absolute;
   inset: 0;
   background: var(--editor-bg);
   color: var(--editor-ink);
 }
 
-.flexlayout__tab {
+.app .flexlayout__tab {
   overflow: hidden;
   background: var(--editor-bg-raised);
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--ui-shadow-panel);
 }
 
-.app.app-dark .flexlayout__tab {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
-}
-
-.flexlayout__tabset_header {
-  background: rgba(255, 255, 255, 0.92);
+.app .flexlayout__tabset_header {
+  background: var(--ui-header-glass);
   border-bottom: 1px solid var(--editor-border-soft);
   font-family: var(--editor-font-mono);
   font-size: 12px;
@@ -119,62 +104,60 @@
   text-transform: uppercase;
 }
 
-.app.app-dark .flexlayout__tabset_header {
-  background: rgba(21, 24, 30, 0.96);
-}
-
-.flexlayout__tabset {
+.app .flexlayout__tabset {
   background: var(--editor-bg-raised);
   border: 1px solid var(--editor-border);
 }
 
-.flexlayout__tabset_tabbar_outer {
+.app .flexlayout__tabset_tabbar_outer {
   background: var(--editor-bg-raised);
   border-bottom: 1px solid var(--editor-border-soft);
 }
 
-.flexlayout__tabset_tabbar_inner {
+.app .flexlayout__tabset_tabbar_inner {
   background: transparent;
 }
 
-.flexlayout__tabset_content {
+.app .flexlayout__tabset_content {
   background: var(--editor-bg-raised);
 }
 
-.flexlayout__tab_button--unselected {
+.app .flexlayout__tab_button--unselected {
   color: var(--editor-ink-dim);
 }
 
-.flexlayout__tabset-selected {
+.app .flexlayout__tabset-selected {
   background: var(--editor-tab-selected-bg);
 }
 
-.flexlayout__tabset_tabbar_inner_tab_container_top.flexlayout__tabset-selected {
+.app
+  .flexlayout__tabset_tabbar_inner_tab_container_top.flexlayout__tabset-selected {
   border-top-color: var(--editor-accent);
 }
 
-.flexlayout__tabset_tabbar_inner_tab_container_bottom.flexlayout__tabset-selected {
+.app
+  .flexlayout__tabset_tabbar_inner_tab_container_bottom.flexlayout__tabset-selected {
   border-bottom-color: var(--editor-accent);
 }
 
-.flexlayout__float_window {
+.app .flexlayout__float_window {
   background: var(--editor-bg-raised);
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
   color: var(--editor-ink);
 }
 
-.flexlayout__float_window_header {
+.app .flexlayout__float_window_header {
   background: var(--editor-bg-raised);
   border-bottom: 1px solid var(--editor-border-soft);
   color: var(--editor-ink);
 }
 
-.flexlayout__float_window_content {
+.app .flexlayout__float_window_content {
   background: var(--editor-bg-raised);
 }
 
-.flexlayout__tab_button {
+.app .flexlayout__tab_button {
   font-family: var(--editor-font-mono);
   font-size: 12px;
   font-weight: 500;
@@ -189,31 +172,23 @@
     border-color 0.15s ease;
 }
 
-.flexlayout__tab_button:hover {
+.app .flexlayout__tab_button:hover {
   color: var(--editor-ink);
-  background: rgba(1, 125, 211, 0.04);
+  background: var(--ui-hover-tint);
 }
 
-.app.app-dark .flexlayout__tab_button:hover {
-  background: rgba(99, 179, 255, 0.12);
-}
-
-.flexlayout__tab_button--selected {
+.app .flexlayout__tab_button--selected {
   color: var(--editor-accent);
   font-weight: 600;
   border-bottom-color: var(--editor-accent);
   background: var(--editor-tab-selected-bg);
 }
 
-.flexlayout__splitter {
+.app .flexlayout__splitter {
   background: var(--editor-border-soft);
   transition: background 0.15s ease;
 }
 
-.flexlayout__splitter:hover {
+.app .flexlayout__splitter:hover {
   background: var(--editor-accent-soft);
-}
-
-.app.app-dark .flexlayout__splitter:hover {
-  background: rgba(99, 179, 255, 0.25);
 }

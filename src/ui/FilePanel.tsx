@@ -1,3 +1,4 @@
+import './Dialog.css'
 import './FilePanel.css'
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';

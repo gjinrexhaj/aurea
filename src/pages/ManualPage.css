@@ -1,6 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+/* Fonts come from index.html <link> — never @import them here. */
 
-:root {
+/* --------------------------------------------------------------------------
+   Documentation surface tokens.
+
+   Declared on `.manual-container`, NOT on `:root`. The previous version wrote
+   generic names (--bg, --ink, --accent, --border, --radius-s, --font-body)
+   onto the document root, which is a namespace collision waiting to happen
+   with any other stylesheet or component using the same names.
+
+   Dark values come from the shared `--ui-*` token set in global.css, so the
+   manual page themes off exactly the same contract as the editor. To activate
+   dark mode, put `.app-dark` on <body> or on `.manual-container` itself.
+   -------------------------------------------------------------------------- */
+.manual-container {
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'IBM Plex Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
@@ -17,9 +29,34 @@
   --border-soft: rgba(58, 58, 58, 0.1);
   --radius-s: 3px;
   --radius-m: 5px;
+
+  display: flex;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--ink-dim);
+  background-color: var(--bg);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-body.app-dark .manual-container,
+/* The manual reuses the `--ui-*` semantic tokens from global.css for status
+   colours, elevation and focus, so it needs no second dark-mode copy of those
+   rules. Only the theme aliases above differ between themes. */
+
+body.app-dark .manual-container {
+  --bg: #15181e;
+  --bg-raised: #1d222b;
+  --bg-sunken: #11141a;
+  --ink: #eef2fb;
+  --ink-dim: #c2cce0;
+  --ink-faint: #92a1bc;
+  --accent: #63b3ff;
+  --accent-soft: rgba(99, 179, 255, 0.25);
+  --border: rgba(208, 216, 233, 0.22);
+  --border-soft: rgba(208, 216, 233, 0.12);
+}
+
 .manual-container.app-dark {
   --bg: #15181e;
   --bg-raised: #1d222b;
@@ -33,65 +70,16 @@ body.app-dark .manual-container,
   --border-soft: rgba(208, 216, 233, 0.12);
 }
 
-.manual-container {
-  display: flex;
-  min-height: 100vh;
-  font-family: var(--font-body);
-  color: var(--ink-dim);
-  background-color: var(--bg);
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-.manual-container * {
-  box-sizing: border-box;
-}
-
-.manual-container ::selection {
-  background: var(--accent);
-  color: #ffffff;
-}
-
-body.app-dark .manual-container ::selection,
-.manual-container.app-dark ::selection {
-  background: var(--accent);
-  color: #11141a;
-}
-
-/* Scrollbar */
-.manual-container::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-.manual-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-.manual-container::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
-  border-radius: 4px;
-}
-.manual-container::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
-}
-
-body.app-dark .manual-container::-webkit-scrollbar-track,
-.manual-container.app-dark::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-}
-body.app-dark .manual-container::-webkit-scrollbar-thumb,
-.manual-container.app-dark::-webkit-scrollbar-thumb {
-  background: #3a4454;
-}
-body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
-.manual-container.app-dark::-webkit-scrollbar-thumb:hover {
-  background: #505c70;
-}
+/* Scrollbar: styled globally in global.css via the --ui-scrollbar-* tokens
+   (webkit + Firefox `scrollbar-color` fallback, light and dark). Re-declaring
+   it here previously left the Firefox fallback missing in dark mode. */
 
 /* Sidebar Styling */
 .manual-sidebar {
-  width: 280px;
+  /* `flex-shrink: 0` stops the sidebar collapsing to zero when the content
+     column is wide, and `width: 280px` becomes a preferred rather than fixed
+     basis on narrow screens (see the media query below). */
+  flex: 0 0 280px;
   background-color: var(--bg);
   border-right: 1px solid var(--border);
   padding: 24px;
@@ -131,7 +119,7 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
   color: var(--ink-faint);
 }
 
-.manual-search-input:focus {
+.manual-search-input:focus-visible {
   border-color: var(--accent);
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -169,7 +157,9 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
 
 .nav-link.active {
   background-color: var(--accent);
-  color: #ffffff;
+  /* Not #ffffff: in dark mode the accent is a light blue (#63b3ff) and white
+     text on it measures only 2.2:1. `--ui-on-accent` flips to near-black. */
+  color: var(--ui-on-accent);
   font-weight: 600;
 }
 
@@ -237,13 +227,19 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
   letter-spacing: 0.04em;
 }
 
-.content-body pre {
+/* Code blocks keep a dark surface in BOTH themes (syntax-highlight
+   convention) and use the larger radius reserved for block surfaces —
+   the same rule `.manual-code` followed. They previously disagreed
+   (3px vs 5px) and `.code` defined a *second*, conflicting inline style. */
+.content-body pre,
+.manual-code {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  background-color: #1e1e1e;
-  color: #d4d4d4;
+  line-height: 1.45;
+  background-color: var(--ui-code-bg);
+  color: var(--ui-code-fg);
   padding: 16px;
-  border-radius: var(--radius-s);
+  border-radius: var(--radius-m);
   overflow-x: auto;
   margin: 20px 0;
 }
@@ -258,6 +254,28 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
   margin-bottom: 8px;
 }
 
+/* Responsive — the manual had no breakpoints at all, so the fixed 280px
+   sidebar plus 40px/60px content padding collapsed the reading column to
+   nothing on phones and tablets. */
+@media (max-width: 860px) {
+  .manual-container {
+    flex-direction: column;
+  }
+
+  .manual-sidebar {
+    flex: 0 0 auto;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .manual-content {
+    padding: 24px 20px;
+    max-width: none;
+  }
+}
+
 /* Reusable Documentation Elements */
 .manual-alert {
   padding: 16px;
@@ -266,35 +284,34 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
   font-size: 0.95rem;
 }
 
+/* Text uses the ACCESSIBLE `--ui-*-text` value, not the pure hue.
+   `--accent` on `--accent-soft` measured 3.4:1 and `#b7791f` on `#fff3cd`
+   measured 3.3:1 — both failed WCAG AA. */
 .manual-alert.info {
   background-color: var(--accent-soft);
   border-left: 4px solid var(--accent);
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .manual-alert.warning {
-  background-color: #fff3cd;
-  border-left: 4px solid #b7791f;
-  color: #b7791f;
+  background-color: var(--ui-warn-fill);
+  border-left: 4px solid var(--ui-warn-border);
+  color: var(--ui-warn-text);
 }
 
-.manual-code {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  padding: 16px;
-  border-radius: var(--radius-m);
-  overflow-x: auto;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  line-height: 1.45;
-  margin: 20px 0;
+.manual-alert.danger {
+  background-color: var(--ui-danger-fill);
+  border-left: 4px solid var(--ui-danger-border);
+  color: var(--ui-danger-message);
 }
 
+/* Inline code variant for use outside `.content-body`; matches
+   `.content-body code` exactly. */
 .code {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: #d4d4d4;
-  background-color: #1e1e1e;
+  color: var(--accent);
+  background-color: var(--accent-soft);
   padding: 2px 6px;
   border-radius: var(--radius-s);
   letter-spacing: 0.04em;
@@ -321,12 +338,13 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
 .btn-primary {
   background-color: var(--accent);
   border-color: var(--accent);
-  color: #ffffff;
+  /* See `.nav-link.active` — white on the dark-mode accent is 2.2:1. */
+  color: var(--ui-on-accent);
 }
 
 .btn-primary:hover {
-  background-color: #1a8fe8;
-  border-color: #1a8fe8;
+  background-color: var(--ui-accent-hover);
+  border-color: var(--ui-accent-hover);
 }
 
 .btn:hover {
@@ -343,7 +361,6 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
 .btn-tertiary {
   padding: 4px 8px;
   font-size: 0.75rem;
-  font-family: var(--font-mono);
   background: none;
   border: none;
   color: var(--ink-dim);
@@ -367,7 +384,7 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
   transition: border-color 0.15s;
 }
 
-.input-field:focus {
+.input-field:focus-visible {
   border-color: var(--accent);
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -378,12 +395,8 @@ body.app-dark .manual-container::-webkit-scrollbar-thumb:hover,
   background-color: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-m);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--ui-shadow-panel);
   padding: 20px;
-}
-
-body.app-dark .panel {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 
 /* Badge */
@@ -392,7 +405,7 @@ body.app-dark .panel {
   align-items: center;
   padding: 2px 8px;
   background-color: var(--accent-soft);
-  border: 1px solid rgba(1, 125, 211, 0.18);
+  border: 1px solid var(--ui-card-border);
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 600;
@@ -400,7 +413,8 @@ body.app-dark .panel {
   color: var(--accent);
 }
 
-/* Focus Styles */
+/* Focus Styles — declared globally in global.css; re-declared here so this
+   file stays self-contained if it is ever extracted. Never `outline: none`. */
 .manual-container :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;

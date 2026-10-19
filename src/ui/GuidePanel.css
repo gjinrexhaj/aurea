@@ -31,12 +31,8 @@
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
   background: var(--editor-bg-raised);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--ui-shadow-panel);
   transition: opacity 0.15s ease;
-}
-
-.app.app-dark .guide-section {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 
 .guide-section-header {
@@ -98,12 +94,8 @@
 
 .guide-see-more:hover {
   border-color: var(--editor-accent);
-  background: rgba(1, 125, 211, 0.04);
+  background: var(--ui-hover-tint);
   color: var(--editor-accent);
-}
-
-.app.app-dark .guide-see-more:hover {
-  background: rgba(99, 179, 255, 0.12);
 }
 
 .guide-see-more:focus-visible {

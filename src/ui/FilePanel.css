@@ -22,21 +22,12 @@
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-m);
   background: var(--editor-bg-raised);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-}
-
-.app.app-dark .file-section {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+  box-shadow: var(--ui-shadow-panel);
 }
 
 .file-export-card {
-  background: rgba(1, 125, 211, 0.03);
-  border-color: rgba(1, 125, 211, 0.18);
-}
-
-.app.app-dark .file-export-card {
-  background: rgba(99, 179, 255, 0.12);
-  border-color: rgba(99, 179, 255, 0.42);
+  background: var(--ui-card-tint);
+  border-color: var(--ui-card-border);
 }
 
 .file-section-header {
@@ -54,13 +45,13 @@
 }
 
 .file-view-content-button {
-  padding: 4px 7px;
+  padding: 4px 8px;
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg);
   color: var(--editor-ink-dim);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
@@ -73,11 +64,7 @@
 .file-view-content-button:hover {
   border-color: var(--editor-accent);
   color: var(--editor-accent);
-  background: rgba(1, 125, 211, 0.04);
-}
-
-.app.app-dark .file-view-content-button:hover {
-  background: rgba(99, 179, 255, 0.12);
+  background: var(--ui-hover-tint);
 }
 
 .file-view-content-button:focus-visible {
@@ -93,16 +80,18 @@
   min-height: 120px;
   height: 220px;
   margin: 0;
-  padding: 8px;
+  padding: 10px;
   overflow: auto;
   resize: vertical;
   border: 1px solid var(--editor-border-soft);
-  border-radius: var(--editor-radius-s);
+  border-radius: var(--editor-radius-m);
   background: var(--editor-bg);
   color: var(--editor-ink-dim);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.7rem;
   line-height: 1.45;
+  /* pre-wrap + overflow-wrap, NOT break-all: breaking mid-token makes
+     coordinates and ids unreadable. */
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -117,17 +106,17 @@
 
 .file-document-autoscroll {
   position: absolute;
-  right: 8px;
-  bottom: 8px;
+  right: 10px;
+  bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 7px;
+  gap: 6px;
+  padding: 4px 8px;
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg-raised);
   color: var(--editor-ink-dim);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--ui-shadow-pill);
   font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   font-size: 0.7rem;
   cursor: pointer;
@@ -200,11 +189,7 @@
 .file-button:hover:not(:disabled) {
   border-color: var(--editor-accent);
   color: var(--editor-accent);
-  background: rgba(1, 125, 211, 0.04);
-}
-
-.app.app-dark .file-button:hover:not(:disabled) {
-  background: rgba(99, 179, 255, 0.12);
+  background: var(--ui-hover-tint);
 }
 
 .file-button:focus-visible {
@@ -221,7 +206,7 @@
 .file-field-label {
   font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
   color: var(--editor-ink-dim);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .file-target-switch {
@@ -252,23 +237,14 @@
 
 .file-target-option:hover {
   color: var(--editor-ink);
-  background: rgba(1, 125, 211, 0.04);
-}
-
-.app.app-dark .file-target-option:hover {
-  background: rgba(99, 179, 255, 0.12);
+  background: var(--ui-hover-tint);
 }
 
 .file-target-option.is-active {
-  border-color: rgba(1, 125, 211, 0.22);
+  border-color: var(--ui-accent-border);
   background: var(--editor-accent-soft);
   color: var(--editor-accent);
   font-weight: 600;
-}
-
-.app.app-dark .file-target-option.is-active {
-  background: rgba(99, 179, 255, 0.25);
-  border-color: rgba(99, 179, 255, 0.45);
 }
 
 .file-format-switch {
@@ -292,7 +268,7 @@
   background: var(--editor-bg);
   color: var(--editor-ink-dim);
   font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   cursor: pointer;
   user-select: none;
   transition:
@@ -301,12 +277,8 @@
 }
 
 .file-checkbox-label:hover {
-  background: rgba(1, 125, 211, 0.03);
+  background: var(--ui-hover-tint-soft);
   border-color: var(--editor-accent-soft);
-}
-
-.app.app-dark .file-checkbox-label:hover {
-  background: rgba(99, 179, 255, 0.12);
 }
 
 .file-checkbox-label input {
@@ -318,7 +290,7 @@
 .file-export-button {
   width: 100%;
   color: var(--editor-accent);
-  border-color: rgba(1, 125, 211, 0.24);
+  border-color: var(--ui-accent-border);
   background: var(--editor-bg);
   font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.75rem;
@@ -333,16 +305,8 @@
     color 0.15s ease;
 }
 
-.app.app-dark .file-export-button {
-  border-color: rgba(99, 179, 255, 0.42);
-}
-
 .file-export-button:hover:not(:disabled) {
-  background: rgba(1, 125, 211, 0.04);
-}
-
-.app.app-dark .file-export-button:hover:not(:disabled) {
-  background: rgba(99, 179, 255, 0.16);
+  background: var(--ui-hover-tint);
 }
 
 .file-export-button:disabled {
@@ -355,56 +319,18 @@
   outline-offset: 3px;
 }
 
-.file-dialog-backdrop {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: rgba(0, 0, 0, 0.18);
-  z-index: 2000;
-}
-
-.app.app-dark .file-dialog-backdrop {
-  background: rgba(0, 0, 0, 0.55);
-}
-
-.file-dialog {
-  width: min(360px, calc(100vw - 48px));
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid var(--editor-border);
-  border-radius: var(--editor-radius-m);
-  background: var(--editor-bg-raised);
-  color: var(--editor-ink);
-  font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
-}
-
-.app.app-dark .file-dialog {
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-}
-
-.file-dialog-header strong {
-  font-family: var(--editor-font-display, 'Space Grotesk', sans-serif);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--editor-ink);
-}
+/* Dialog backdrop / shell / buttons live in Dialog.css. */
 
 .file-dialog-field {
   display: flex;
   flex-direction: column;
   gap: 6px;
   color: var(--editor-ink-dim);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .file-dialog-field input {
-  padding: 7px 8px;
+  padding: 8px 10px;
   border: 1px solid var(--editor-border);
   border-radius: var(--editor-radius-s);
   background: var(--editor-bg);
@@ -412,62 +338,8 @@
   font-family: var(--editor-font-body, 'IBM Plex Sans', sans-serif);
 }
 
-.file-dialog-field input:focus {
+.file-dialog-field input:focus-visible {
   outline: 2px solid var(--editor-accent);
   outline-offset: 3px;
   border-color: var(--editor-accent);
-}
-
-.file-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.file-dialog-cancel,
-.file-dialog-save {
-  padding: 5px 9px;
-  border: 1px solid var(--editor-border);
-  border-radius: var(--editor-radius-s);
-  background: var(--editor-bg);
-  color: var(--editor-ink);
-  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    color 0.15s ease;
-}
-
-.app.app-dark .file-dialog-cancel:hover {
-  background: rgba(99, 179, 255, 0.12);
-}
-
-.file-dialog-save {
-  border-color: var(--editor-border-soft);
-  background: rgba(1, 125, 211, 0.04);
-  color: var(--editor-accent);
-}
-
-.app.app-dark .file-dialog-save {
-  background: rgba(99, 179, 255, 0.14);
-  border-color: rgba(99, 179, 255, 0.35);
-}
-
-.file-dialog-cancel:hover,
-.file-dialog-save:hover {
-  border-color: var(--editor-accent);
-}
-
-.app.app-dark .file-dialog-save:hover {
-  background: rgba(99, 179, 255, 0.22);
-}
-
-.file-dialog-cancel:focus-visible,
-.file-dialog-save:focus-visible {
-  outline: 2px solid var(--editor-accent);
-  outline-offset: 3px;
 }

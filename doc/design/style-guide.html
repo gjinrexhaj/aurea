@@ -11,6 +11,19 @@
       rel="stylesheet"
     />
     <style>
+      /* ================================================================
+         PAGE CHROME TOKENS (style-guide only)
+         ================================================================ */
+      :root {
+        --sg-page-bg: #fafafa;
+        --sg-card-bg: #ffffff;
+        --sg-header-bg: rgba(255, 255, 255, 0.92);
+      }
+
+      /* ================================================================
+         1. EDITOR PALETTE — declared on .app in src/pages/EditorPage.css
+         Declared on :root here so this standalone page can render them.
+         ================================================================ */
       :root {
         --editor-bg: #ffffff;
         --editor-bg-raised: #ffffff;
@@ -32,11 +45,81 @@
         --editor-radius-s: 3px;
         --editor-radius-m: 5px;
 
-        --sg-page-bg: #fafafa;
-        --sg-card-bg: #ffffff;
-        --sg-header-bg: rgba(255, 255, 255, 0.92);
+        color-scheme: light;
       }
 
+      /* ================================================================
+         2. SHARED SEMANTIC TOKENS (--ui-*) — src/global.css
+         Theme-aware on purpose, so components never need a
+         `.app-dark` twin rule for colour.
+         ================================================================ */
+      :root {
+        /* scrollbars */
+        --ui-scrollbar-track: rgba(0, 0, 0, 0.05);
+        --ui-scrollbar-thumb: #cbd5e0;
+        --ui-scrollbar-thumb-hover: #a0aec0;
+
+        /* interaction & surface tints */
+        --ui-hover-tint: rgba(1, 125, 211, 0.04);
+        --ui-hover-tint-soft: rgba(1, 125, 211, 0.03);
+        --ui-hover-tint-strong: rgba(1, 125, 211, 0.08);
+        --ui-accent-fill: rgba(1, 125, 211, 0.04);
+        --ui-accent-fill-hover: rgba(1, 125, 211, 0.08);
+        --ui-accent-border: rgba(1, 125, 211, 0.22);
+        --ui-card-tint: rgba(1, 125, 211, 0.03);
+        --ui-card-border: rgba(1, 125, 211, 0.18);
+        --ui-header-tint: rgba(1, 125, 211, 0.06);
+        --ui-header-border: rgba(1, 125, 211, 0.12);
+        --ui-grip-fill: rgba(1, 125, 211, 0.16);
+        --ui-grip-border: rgba(1, 125, 211, 0.28);
+        --ui-grid-line: rgba(1, 125, 211, 0.12);
+
+        --ui-accent-hover: #1a8fe8;
+        /* Text placed ON a solid accent fill. The accent inverts luminance
+           between themes, so this must flip too — see the guardrails. */
+        --ui-on-accent: #ffffff;
+
+        /* overlay / glass chrome */
+        --ui-header-glass: rgba(255, 255, 255, 0.92);
+        --ui-surface-glass: rgba(255, 255, 255, 0.96);
+        --ui-backdrop: rgba(0, 0, 0, 0.18);
+        --ui-overlay-fill: rgba(0, 0, 0, 0.55);
+        --ui-overlay-ink: #ffffff;
+
+        /* status: -text is the ACCESSIBLE colour, -border is the pure hue */
+        --ui-warn-text: #856404;
+        --ui-warn-fill: #fff3cd;
+        --ui-warn-border: #b7791f;
+        --ui-danger-text: #c53030;
+        --ui-danger-message: #9b2c2c;
+        --ui-danger-fill: rgba(197, 48, 48, 0.1);
+        --ui-danger-border: #c53030;
+        --ui-badge-text: #a33a32;
+        --ui-badge-border: rgba(163, 58, 50, 0.35);
+        --ui-badge-fill: rgba(163, 58, 50, 0.08);
+
+        /* elevation */
+        --ui-shadow-panel: 0 1px 3px rgba(0, 0, 0, 0.06);
+        --ui-shadow-float: 0 2px 6px rgba(0, 0, 0, 0.16);
+        --ui-shadow-window: 0 2px 10px rgba(0, 0, 0, 0.1);
+        --ui-shadow-pill: 0 1px 4px rgba(0, 0, 0, 0.12);
+        --ui-shadow-modal: 0 12px 32px rgba(0, 0, 0, 0.16);
+        --ui-shadow-glow: 0 1px 3px rgba(1, 125, 211, 0.18);
+
+        /* code surfaces: dark in BOTH themes (syntax-highlight convention) */
+        --ui-code-bg: #1e1e1e;
+        --ui-code-fg: #d4d4d4;
+
+        /* selection */
+        --ui-selection-bg: #017dd3;
+        --ui-selection-fg: #ffffff;
+      }
+
+      /* ================================================================
+         3. DARK TOKEN SET
+         Any of these activators flips the whole --ui-* set and
+         `color-scheme`. Identical list to src/global.css.
+         ================================================================ */
       body.app-dark,
       .dark-theme-preview {
         --editor-bg: #15181e;
@@ -50,6 +133,56 @@
         --editor-accent: #63b3ff;
         --editor-accent-soft: rgba(99, 179, 255, 0.25);
         --editor-tab-selected-bg: rgba(99, 179, 255, 0.16);
+
+        --ui-scrollbar-track: rgba(255, 255, 255, 0.04);
+        --ui-scrollbar-thumb: #3a4454;
+        --ui-scrollbar-thumb-hover: #505c70;
+
+        --ui-hover-tint: rgba(99, 179, 255, 0.12);
+        --ui-hover-tint-soft: rgba(99, 179, 255, 0.12);
+        --ui-hover-tint-strong: rgba(99, 179, 255, 0.16);
+        --ui-accent-fill: rgba(99, 179, 255, 0.14);
+        --ui-accent-fill-hover: rgba(99, 179, 255, 0.22);
+        --ui-accent-border: rgba(99, 179, 255, 0.35);
+        --ui-card-tint: rgba(99, 179, 255, 0.12);
+        --ui-card-border: rgba(99, 179, 255, 0.42);
+        --ui-header-tint: rgba(99, 179, 255, 0.14);
+        --ui-header-border: rgba(99, 179, 255, 0.28);
+        --ui-grip-fill: rgba(99, 179, 255, 0.35);
+        --ui-grip-border: rgba(99, 179, 255, 0.55);
+        --ui-grid-line: rgba(99, 179, 255, 0.18);
+
+        --ui-accent-hover: #7cc0ff;
+        --ui-on-accent: #11141a;
+
+        --ui-header-glass: rgba(21, 24, 30, 0.96);
+        --ui-surface-glass: rgba(29, 34, 43, 0.96);
+        --ui-backdrop: rgba(0, 0, 0, 0.55);
+
+        --ui-warn-text: #e3b341;
+        --ui-warn-fill: rgba(227, 179, 65, 0.16);
+        --ui-warn-border: #e3b341;
+
+        --ui-danger-text: #fc8181;
+        --ui-danger-message: #fc8181;
+        --ui-danger-fill: rgba(197, 48, 48, 0.18);
+        --ui-danger-border: #fc8181;
+
+        --ui-badge-text: #e2837a;
+        --ui-badge-border: rgba(226, 131, 122, 0.4);
+        --ui-badge-fill: rgba(226, 131, 122, 0.1);
+
+        --ui-shadow-panel: 0 1px 4px rgba(0, 0, 0, 0.24);
+        --ui-shadow-float: 0 2px 8px rgba(0, 0, 0, 0.32);
+        --ui-shadow-window: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --ui-shadow-pill: 0 1px 4px rgba(0, 0, 0, 0.12);
+        --ui-shadow-modal: 0 16px 40px rgba(0, 0, 0, 0.6);
+        --ui-shadow-glow: 0 1px 4px rgba(99, 179, 255, 0.3);
+
+        --ui-selection-bg: #63b3ff;
+        --ui-selection-fg: #11141a;
+
+        color-scheme: dark;
 
         --sg-page-bg: #0f1115;
         --sg-card-bg: #1d222b;
@@ -92,30 +225,51 @@
         margin-top: 0;
       }
 
-      /* Scrollbar */
+      /* Scrollbar — token driven, single definition (mirrors global.css) */
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.05);
+        background: var(--ui-scrollbar-track);
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e0;
+        background: var(--ui-scrollbar-thumb);
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #a0aec0;
+        background: var(--ui-scrollbar-thumb-hover);
       }
-      body.app-dark ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.04);
+      @supports not selector(::-webkit-scrollbar) {
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: var(--ui-scrollbar-thumb) var(--ui-scrollbar-track);
+        }
       }
-      body.app-dark ::-webkit-scrollbar-thumb {
-        background: #3a4454;
+
+      /* Selection + focus ring — declared globally so no surface can ship
+         without one. Components may re-declare but never remove it. */
+      ::selection {
+        background: var(--ui-selection-bg);
+        color: var(--ui-selection-fg);
       }
-      body.app-dark ::-webkit-scrollbar-thumb:hover {
-        background: #505c70;
+      :focus-visible {
+        outline: 2px solid var(--editor-accent);
+        outline-offset: 3px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
       }
 
       /* Nav Header */
@@ -193,7 +347,11 @@
         letter-spacing: 0.06em;
         text-transform: uppercase;
         cursor: pointer;
-        transition: all 0.15s ease;
+        /* Never `transition: all` */
+        transition:
+          border-color 0.15s ease,
+          color 0.15s ease,
+          background 0.15s ease;
       }
       .sg-theme-switch-btn:hover {
         border-color: var(--editor-accent);
@@ -204,7 +362,7 @@
       .sg-section {
         max-width: 1180px;
         margin: 0 auto;
-        padding: 80px 32px;
+        padding: 48px 32px;
       }
       .sg-section + .sg-section {
         border-top: 1px solid var(--editor-border-soft);
@@ -266,7 +424,7 @@
         border: 1px solid var(--editor-border);
         border-radius: var(--editor-radius-m);
         background: var(--sg-card-bg);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        box-shadow: var(--ui-shadow-panel);
         transition:
           background 0.2s ease,
           border-color 0.2s ease;
@@ -276,13 +434,8 @@
       }
 
       .sg-card-highlight {
-        background: rgba(1, 125, 211, 0.03);
-        border-color: rgba(1, 125, 211, 0.18);
-      }
-      body.app-dark .sg-card-highlight,
-      .dark-theme-preview .sg-card-highlight {
-        background: rgba(99, 179, 255, 0.12);
-        border-color: rgba(99, 179, 255, 0.42);
+        background: var(--ui-card-tint);
+        border-color: var(--ui-card-border);
       }
 
       .sg-table-wrap {
@@ -312,6 +465,18 @@
       .sg-table td {
         color: var(--editor-ink-dim);
       }
+      .sg-table small {
+        display: block;
+        margin-top: 4px;
+        font-size: 0.85em;
+        color: var(--editor-ink-faint);
+      }
+      .sg-table code {
+        font-family: var(--editor-font-mono);
+        font-size: 0.92em;
+        color: var(--editor-accent);
+        white-space: nowrap;
+      }
 
       /* Color Indicators for Token Tables */
       .sg-color-chip {
@@ -333,7 +498,9 @@
         background-image:
           linear-gradient(var(--color, transparent), var(--color, transparent)),
           repeating-conic-gradient(#e2e8f0 0% 25%, #ffffff 0% 50%);
-        background-size: 100% 100%, 6px 6px;
+        background-size:
+          100% 100%,
+          6px 6px;
       }
       body.app-dark .sg-color-indicator,
       .dark-theme-preview .sg-color-indicator {
@@ -354,7 +521,7 @@
         background: var(--editor-bg);
       }
       .sg-swatch-preview {
-        height: 32px;
+        height: 22px;
         border-radius: var(--editor-radius-s);
         border: 1px solid var(--editor-border-soft);
       }
@@ -379,7 +546,9 @@
         margin: 12px 0;
       }
 
-      /* Button specimen styles */
+      /* Button specimen styles.
+         NOTE: every solid-accent fill uses `var(--ui-on-accent)` for its ink.
+         Hard-coding #ffffff drops to 2.2:1 in dark mode. */
       .btn-cta-primary {
         display: inline-flex;
         align-items: center;
@@ -393,9 +562,13 @@
         border: 1px solid var(--editor-accent);
         border-radius: var(--editor-radius-s);
         background: var(--editor-accent);
-        color: #ffffff;
+        color: var(--ui-on-accent);
         cursor: pointer;
         text-decoration: none;
+      }
+      .btn-cta-primary:hover {
+        background: var(--ui-accent-hover);
+        border-color: var(--ui-accent-hover);
       }
       .btn-cta-secondary {
         display: inline-flex;
@@ -412,6 +585,12 @@
         background: var(--editor-bg);
         color: var(--editor-ink);
         cursor: pointer;
+        transition:
+          border-color 0.15s ease,
+          background 0.15s ease;
+      }
+      .btn-cta-secondary:hover {
+        border-color: var(--editor-accent);
       }
       .btn-tool {
         padding: 4px 8px;
@@ -424,29 +603,35 @@
         letter-spacing: 0.03em;
         text-transform: uppercase;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition:
+          border-color 0.15s ease,
+          background 0.15s ease,
+          color 0.15s ease,
+          box-shadow 0.15s ease;
       }
       .btn-tool:hover {
         border-color: var(--editor-ink-faint);
+        background: var(--ui-hover-tint);
       }
       .btn-tool.active {
         background-color: var(--editor-accent);
-        color: #ffffff;
+        color: var(--ui-on-accent);
         border-color: var(--editor-accent);
-        box-shadow: 0 1px 3px rgba(1, 125, 211, 0.18);
+        box-shadow: var(--ui-shadow-glow);
       }
 
       .btn-stepper {
         padding: 3px 6px;
         border: none;
-        background: rgba(1, 125, 211, 0.04);
+        background: var(--ui-accent-fill);
         cursor: pointer;
         font-size: 0.75rem;
-        font-weight: bold;
+        /* 700 is not loaded for IBM Plex Mono — use 600, not `bold` */
+        font-weight: 600;
         color: var(--editor-ink-dim);
       }
       .btn-preset {
-        padding: 2px 6px;
+        padding: 2px 8px;
         font-size: 0.75rem;
         border: 1px solid var(--editor-border-soft);
         border-radius: var(--editor-radius-s);
@@ -454,10 +639,14 @@
         color: var(--editor-ink-dim);
         font-family: var(--editor-font-mono);
         cursor: pointer;
+        transition:
+          background 0.1s ease,
+          border-color 0.1s ease,
+          color 0.1s ease;
       }
       .btn-preset.active {
         background: var(--editor-accent);
-        color: #ffffff;
+        color: var(--ui-on-accent);
         border-color: var(--editor-accent);
       }
 
@@ -466,7 +655,7 @@
         align-items: center;
         padding: 2px 8px;
         background-color: var(--editor-accent-soft);
-        border: 1px solid rgba(1, 125, 211, 0.18);
+        border: 1px solid var(--ui-card-border);
         border-radius: 999px;
         font-size: 0.72rem;
         font-weight: 600;
@@ -475,7 +664,7 @@
       }
 
       .input-text-demo {
-        padding: 8px 12px;
+        padding: 10px 12px;
         border: 1px solid var(--editor-border);
         border-radius: var(--editor-radius-s);
         font-family: var(--editor-font-mono);
@@ -484,13 +673,17 @@
         background-color: var(--editor-bg);
         outline: none;
       }
-      .input-text-demo:focus {
+      /* :focus-visible, not :focus — a mouse press must not raise the ring */
+      .input-text-demo:focus-visible {
         border-color: var(--editor-accent);
         outline: 2px solid var(--editor-accent);
-        outline-offset: 2px;
+        outline-offset: 3px;
       }
 
-      /* Callout banner specimens */
+      /* Callout banner specimens.
+         Text uses the ACCESSIBLE --ui-*-text value; the left bar keeps the
+         pure hue. `--ui-warn-border` (#b7791f) measures only 3.3:1 on
+         #fff3cd and fails WCAG AA as body text. */
       .callout-info {
         padding: 14px 16px;
         background: var(--editor-accent-soft);
@@ -501,51 +694,55 @@
       }
       .callout-warning {
         padding: 14px 16px;
-        background: #fff3cd;
-        border-left: 4px solid #b7791f;
+        background: var(--ui-warn-fill);
+        border-left: 4px solid var(--ui-warn-border);
         border-radius: var(--editor-radius-m);
-        color: #856404;
+        color: var(--ui-warn-text);
         font-size: 0.9rem;
       }
       .callout-danger {
         padding: 14px 16px;
-        background: rgba(197, 48, 48, 0.1);
-        border-left: 4px solid #c53030;
+        background: var(--ui-danger-fill);
+        border-left: 4px solid var(--ui-danger-border);
         border-radius: var(--editor-radius-m);
-        color: #9b2c2c;
+        color: var(--ui-danger-message);
         font-size: 0.9rem;
       }
 
-      /* Code container */
+      /* Code container — block surfaces use radius-m and 0.85rem.
+         Inline `code` uses radius-s and the soft accent tint. */
       .code-box {
         font-family: var(--editor-font-mono);
-        font-size: 0.8rem;
-        background: #1e1e1e;
-        color: #d4d4d4;
-        padding: 14px;
-        border-radius: var(--editor-radius-s);
+        font-size: 0.85rem;
+        line-height: 1.45;
+        background: var(--ui-code-bg);
+        color: var(--ui-code-fg);
+        padding: 16px;
+        border-radius: var(--editor-radius-m);
         overflow-x: auto;
       }
 
-      /* Window specimen */
+      /* Window specimen.
+         NB: a real `.window-shell` must NOT set `overflow: hidden` — its four
+         resize handles overhang by -7px and would be clipped. */
       .window-demo {
         position: relative;
         padding: 12px;
-        background: var(--editor-bg-raised);
+        background: var(--ui-surface-glass);
         border: 1px solid var(--editor-border);
         border-radius: var(--editor-radius-m);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--ui-shadow-window);
         max-width: 320px;
       }
       .window-header-demo {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 4px 6px;
-        background: rgba(1, 125, 211, 0.06);
-        border: 1px solid rgba(1, 125, 211, 0.12);
+        padding: 3px 5px;
+        background: var(--ui-header-tint);
+        border: 1px solid var(--ui-header-border);
         border-radius: var(--editor-radius-s);
-        margin-bottom: 10px;
+        margin: -4px -4px 10px;
       }
       .window-header-demo span {
         font-family: var(--editor-font-display);
@@ -564,7 +761,7 @@
         border: 1px solid var(--editor-border);
         border-radius: var(--editor-radius-m);
         background: var(--editor-bg-raised);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+        box-shadow: var(--ui-shadow-modal);
       }
       .modal-dialog-header-demo {
         display: flex;
@@ -588,11 +785,8 @@
       .tabset-header-demo {
         display: flex;
         align-items: center;
-        background: rgba(255, 255, 255, 0.92);
+        background: var(--ui-header-glass);
         border-bottom: 1px solid var(--editor-border-soft);
-      }
-      body.app-dark .tabset-header-demo {
-        background: rgba(21, 24, 30, 0.96);
       }
       .tab-button-demo {
         padding: 8px 14px;
@@ -615,28 +809,31 @@
       .doc-viewer-demo {
         position: relative;
         height: 140px;
-        padding: 8px;
+        padding: 10px;
         border: 1px solid var(--editor-border-soft);
-        border-radius: var(--editor-radius-s);
+        border-radius: var(--editor-radius-m);
         background: var(--editor-bg);
         font-family: var(--editor-font-mono);
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         line-height: 1.45;
         color: var(--editor-ink-dim);
         overflow-y: auto;
+        /* data text: break on token boundaries, never word-break: break-all */
+        overflow-wrap: anywhere;
       }
       .doc-autoscroll-pill {
         position: absolute;
-        right: 8px;
-        bottom: 8px;
-        padding: 3px 6px;
-        font-size: 0.65rem;
+        right: 10px;
+        bottom: 10px;
+        padding: 4px 8px;
+        font-size: 0.7rem;
         font-family: var(--editor-font-mono);
         text-transform: uppercase;
         background: var(--editor-bg-raised);
         border: 1px solid var(--editor-border);
         border-radius: var(--editor-radius-s);
-        color: var(--editor-ink-faint);
+        color: var(--editor-ink-dim);
+        box-shadow: var(--ui-shadow-pill);
       }
     </style>
   </head>
@@ -647,12 +844,14 @@
         <a href="#overview" class="sg-logo">AUREA DESIGN SYSTEM</a>
         <nav class="sg-nav-links">
           <a href="#typography">Typography</a>
-          <a href="#colors">Colors & Theme</a>
+          <a href="#colors">Colors &amp; Theme</a>
+          <a href="#tokens">Shared Tokens</a>
           <a href="#geometry">Geometry Colors</a>
-          <a href="#spacing">Spacing & Radii</a>
+          <a href="#spacing">Spacing &amp; Radii</a>
           <a href="#components">UI Components</a>
-          <a href="#layout">Layout & Grids</a>
-          <a href="#motion-a11y">Motion & A11y</a>
+          <a href="#layout">Layout &amp; Grids</a>
+          <a href="#motion-a11y">Motion &amp; A11y</a>
+          <a href="#guardrails">⚠ Guardrails</a>
         </nav>
       </div>
       <div>
@@ -672,8 +871,69 @@
       <p class="lead">
         A unified design system and architectural specification for the Aurea
         geometric construction editor, documentation, and landing surfaces.
-        Supports full light and dark mode parity.
+        Supports full light and dark mode parity. Toggle the theme with the
+        button above to preview every token flipping live.
       </p>
+
+      <div class="sg-card sg-card-highlight">
+        <h3 style="margin-bottom: 8px">Source of truth</h3>
+        <p style="font-size: 14px; margin: 0 0 10px">
+          If the code and this page disagree,
+          <strong>the code is the bug</strong>. Every value documented here is
+          verified against <code>src/</code>.
+        </p>
+        <div class="sg-table-wrap" style="margin: 0">
+          <table class="sg-table">
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>File(s)</th>
+                <th>Owns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Tokens + base</strong></td>
+                <td><code>src/global.css</code></td>
+                <td>
+                  <code>--ui-*</code> tokens, reset, selection, focus ring,
+                  scrollbars, reduced motion
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Page shell</strong></td>
+                <td>
+                  <code>EditorPage.css</code>, <code>ManualPage.css</code>,
+                  <code>LandingPage.css</code>
+                </td>
+                <td>
+                  Page-scoped palettes (<code>--editor-*</code>,
+                  <code>--landing-page-*</code>) and page layout
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Component</strong></td>
+                <td><code>src/ui/*.css</code></td>
+                <td>One stylesheet per component, consuming tokens</td>
+              </tr>
+              <tr>
+                <td><strong>Shared set</strong></td>
+                <td><code>src/ui/Dialog.css</code></td>
+                <td>
+                  The one chrome shared by ≥2 components (dialog backdrop,
+                  shell, actions, buttons)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 14px; margin: 10px 0 0">
+          Fonts load <strong>once</strong> from <code>index.html</code> via
+          <code>&lt;link&gt;</code> + <code>preconnect</code>. No CSS file may
+          <code>@import</code> a webfont — see
+          <a href="#guardrails">Guardrails §1</a>.
+        </p>
+      </div>
 
       <div class="sg-grid-3">
         <div class="sg-card">
@@ -710,7 +970,55 @@
         roles.
       </p>
 
-      <h3>Font Stack</h3>
+      <h3>Loaded Weights — the hard ceiling</h3>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Family</th>
+              <th>Loaded weights</th>
+              <th>Max usable</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Space Grotesk</td>
+              <td>500, 600, 700</td>
+              <td><strong>700</strong></td>
+              <td>Display headings only</td>
+            </tr>
+            <tr style="background: rgba(197, 48, 48, 0.08)">
+              <td>IBM Plex Sans</td>
+              <td>400, 500, 600</td>
+              <td><strong>600</strong></td>
+              <td>
+                <code>font-weight: bold</code> (700) is
+                <strong>not available</strong>
+              </td>
+            </tr>
+            <tr style="background: rgba(197, 48, 48, 0.08)">
+              <td>IBM Plex Mono</td>
+              <td>400, 500, 600</td>
+              <td><strong>600</strong></td>
+              <td>
+                <code>font-weight: bold</code> (700) is
+                <strong>not available</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 14px; margin-top: 12px">
+        Requesting 700 from a Plex family makes the browser
+        <strong>synthetically faux-bold</strong> the 600 face, which renders
+        heavier and blurrier than a real 700. Use <code>600</code>. This is why
+        the radius stepper button — which previously declared
+        <code>font-weight: bold</code> on IBM Plex Mono — now declares
+        <code>600</code>.
+      </p>
+
+      <h3 style="margin-top: 32px">Font Stack</h3>
       <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
@@ -761,13 +1069,20 @@
         </table>
       </div>
 
-      <h3 style="margin-top: 32px">Font Hierarchy & Scale</h3>
+      <h3 style="margin-top: 32px">Font Hierarchy &amp; Scale</h3>
+      <p style="font-size: 14px">
+        Sizes are <strong>exact</strong>. The ≈px column is authoritative —
+        <code>1rem = 16px</code>, so <code>0.68rem</code> is 10.9px, not the
+        &ldquo;11px&rdquo; an earlier revision of this table claimed.
+        <strong>11px is the floor</strong>; nothing ships below it.
+      </p>
       <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
             <tr>
               <th>Level / Style</th>
-              <th>Size</th>
+              <th>CSS Value</th>
+              <th>≈ px</th>
               <th>Weight</th>
               <th>Line Height</th>
               <th>Letter Spacing</th>
@@ -778,6 +1093,7 @@
             <tr>
               <td><strong>Display Heading (H1)</strong></td>
               <td>clamp(2.4rem, 5vw, 3.6rem)</td>
+              <td>38.4–57.6</td>
               <td>700</td>
               <td>1.05</td>
               <td>-0.01em</td>
@@ -786,6 +1102,16 @@
             <tr>
               <td><strong>Section Heading (H2)</strong></td>
               <td>clamp(1.6rem, 3vw, 2.2rem)</td>
+              <td>25.6–35.2</td>
+              <td>600</td>
+              <td>1.10</td>
+              <td>-0.01em</td>
+              <td>Space Grotesk</td>
+            </tr>
+            <tr>
+              <td><strong>Landing Final-CTA (H2)</strong></td>
+              <td>clamp(1.8rem, 4vw, 2.6rem)</td>
+              <td>28.8–41.6</td>
               <td>600</td>
               <td>1.10</td>
               <td>-0.01em</td>
@@ -793,7 +1119,8 @@
             </tr>
             <tr>
               <td><strong>Panel / Subsection (H3)</strong></td>
-              <td>17px / 1.1rem</td>
+              <td>17px / 1.0625rem</td>
+              <td>17</td>
               <td>600</td>
               <td>1.25</td>
               <td>normal</td>
@@ -801,15 +1128,35 @@
             </tr>
             <tr>
               <td><strong>Dialog / Card Title</strong></td>
-              <td>14px–15px</td>
+              <td>15px / 0.9375rem</td>
+              <td>15</td>
               <td>600</td>
               <td>1.25</td>
               <td>normal</td>
               <td>Space Grotesk</td>
             </tr>
             <tr>
+              <td><strong>Section Card Header</strong></td>
+              <td>14px / 0.875rem</td>
+              <td>14</td>
+              <td>600</td>
+              <td>1.25</td>
+              <td>normal</td>
+              <td>Space Grotesk</td>
+            </tr>
+            <tr>
+              <td><strong>Small Display (window/panel title)</strong></td>
+              <td>13px / 0.8125rem</td>
+              <td>13</td>
+              <td>600</td>
+              <td>1.25</td>
+              <td>normal</td>
+              <td>Space Grotesk / Mono</td>
+            </tr>
+            <tr>
               <td><strong>Lead / Subtitle</strong></td>
-              <td>17px</td>
+              <td>17px / 1.0625rem</td>
+              <td>17</td>
               <td>400</td>
               <td>1.55</td>
               <td>normal</td>
@@ -817,7 +1164,8 @@
             </tr>
             <tr>
               <td><strong>Base Body Text</strong></td>
-              <td>16px (1rem)</td>
+              <td>16px / 1rem</td>
+              <td>16</td>
               <td>400</td>
               <td>1.55</td>
               <td>normal</td>
@@ -825,15 +1173,56 @@
             </tr>
             <tr>
               <td><strong>Small Body / Description</strong></td>
-              <td>14.5px (0.906rem)</td>
+              <td>0.90625rem</td>
+              <td>14.5</td>
               <td>400</td>
               <td>1.50</td>
               <td>normal</td>
               <td>IBM Plex Sans</td>
             </tr>
             <tr>
+              <td><strong>Manual Nav Link / Alert Body</strong></td>
+              <td>0.95rem</td>
+              <td>15.2</td>
+              <td>400/500</td>
+              <td>1.50</td>
+              <td>normal</td>
+              <td>IBM Plex Sans / Mono</td>
+            </tr>
+            <tr>
+              <td><strong>Manual Sidebar / Input</strong></td>
+              <td>0.9rem</td>
+              <td>14.4</td>
+              <td>400/500</td>
+              <td>1.50</td>
+              <td>normal</td>
+              <td>IBM Plex Sans / Mono</td>
+            </tr>
+            <tr>
+              <td><strong>Panel Body / Console / Code Blocks</strong></td>
+              <td>0.85rem</td>
+              <td>13.6</td>
+              <td>400/500</td>
+              <td>1.45</td>
+              <td>normal</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Compact UI</strong>
+                <small>buttons, tabs, inline code, list rows</small>
+              </td>
+              <td>0.75rem / 12px</td>
+              <td>12</td>
+              <td>500/600</td>
+              <td>1.10/1.00</td>
+              <td>0.02em–0.06em (UPPER)</td>
+              <td>IBM Plex Mono</td>
+            </tr>
+            <tr>
               <td><strong>Navigation / Tab Links</strong></td>
               <td>12px</td>
+              <td>12</td>
               <td>500 / 600</td>
               <td>1.00</td>
               <td>0.06em (UPPER)</td>
@@ -842,30 +1231,25 @@
             <tr>
               <td><strong>Button (Standard / CTA)</strong></td>
               <td>13px</td>
+              <td>13</td>
               <td>600</td>
               <td>1.00</td>
               <td>0.06em (UPPER)</td>
               <td>IBM Plex Mono</td>
             </tr>
             <tr>
-              <td><strong>Toolbar / Tool Button</strong></td>
-              <td>0.75rem (12px)</td>
-              <td>500</td>
-              <td>1.10</td>
-              <td>0.03em–0.04em</td>
-              <td>IBM Plex Mono</td>
-            </tr>
-            <tr>
-              <td><strong>Console & Code Blocks</strong></td>
-              <td>0.85rem</td>
+              <td><strong>Inline Code</strong></td>
+              <td>0.75rem</td>
+              <td>12</td>
               <td>400 / 500</td>
-              <td>1.45</td>
-              <td>normal</td>
+              <td>1.00</td>
+              <td>0.04em</td>
               <td>IBM Plex Mono</td>
             </tr>
             <tr>
-              <td><strong>Badge / Radius Pill</strong></td>
+              <td><strong>Badge / Pill / Stat Label</strong></td>
               <td>0.72rem</td>
+              <td>11.5</td>
               <td>600</td>
               <td>1.00</td>
               <td>normal</td>
@@ -874,14 +1258,33 @@
             <tr>
               <td><strong>Eyebrow / Metadata</strong></td>
               <td>12px</td>
+              <td>12</td>
               <td>400 / 500</td>
               <td>1.00</td>
               <td>0.14em (UPPER)</td>
               <td>IBM Plex Mono</td>
             </tr>
+            <tr>
+              <td><strong>Micro Text / Timestamp</strong></td>
+              <td>11px / 0.7rem</td>
+              <td>11</td>
+              <td>400</td>
+              <td>1.20</td>
+              <td>normal / 0.04em (UPPER)</td>
+              <td>IBM Plex Mono</td>
+            </tr>
           </tbody>
         </table>
       </div>
+      <p style="font-size: 14px; margin-top: 12px">
+        <strong>Retired off-scale sizes:</strong> <code>10px</code> window
+        collapse label, <code>0.64rem</code> history badge,
+        <code>0.65rem</code> view-document button, <code>0.68rem</code> toggle
+        description &amp; canvas overlays, <code>0.78rem</code> panel labels,
+        <code>0.8rem</code> field labels, <code>0.82rem</code> swatch label,
+        <code>9px</code> gallery guide label — all mapped to the nearest
+        documented step above.
+      </p>
 
       <div class="sg-card" style="margin-top: 24px">
         <h1
@@ -961,68 +1364,244 @@
           <tbody>
             <tr>
               <td><code>--editor-bg</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #15181e"></span>#15181e</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #ffffff"
+                  ></span
+                  >#ffffff</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #15181e"
+                  ></span
+                  >#15181e</span
+                >
+              </td>
               <td>Base app background, canvas outer, layout root</td>
             </tr>
             <tr>
               <td><code>--editor-bg-raised</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #1d222b"></span>#1d222b</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #ffffff"
+                  ></span
+                  >#ffffff</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #1d222b"
+                  ></span
+                  >#1d222b</span
+                >
+              </td>
               <td>Raised panel surfaces, cards, tabs, modal surfaces</td>
             </tr>
             <tr>
               <td><code>--editor-bg-sunken</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #11141a"></span>#11141a</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #ffffff"
+                  ></span
+                  >#ffffff</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #11141a"
+                  ></span
+                  >#11141a</span
+                >
+              </td>
               <td>Sunken canvas viewport, deeply recessed wells</td>
             </tr>
             <tr>
               <td><code>--editor-border</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.18)"></span>rgba(58, 58, 58, 0.18)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(208, 216, 233, 0.22)"></span>rgba(208, 216, 233, 0.22)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(58, 58, 58, 0.18)"
+                  ></span
+                  >rgba(58, 58, 58, 0.18)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(208, 216, 233, 0.22)"
+                  ></span
+                  >rgba(208, 216, 233, 0.22)</span
+                >
+              </td>
               <td>Primary component structural borders</td>
             </tr>
             <tr>
               <td><code>--editor-border-soft</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.10)"></span>rgba(58, 58, 58, 0.10)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(208, 216, 233, 0.12)"></span>rgba(208, 216, 233, 0.12)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(58, 58, 58, 0.1)"
+                  ></span
+                  >rgba(58, 58, 58, 0.10)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(208, 216, 233, 0.12)"
+                  ></span
+                  >rgba(208, 216, 233, 0.12)</span
+                >
+              </td>
               <td>Subtle splitters, swatch borders, list dividers</td>
             </tr>
             <tr>
               <td><code>--editor-ink</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #000000"></span>#000000</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #eef2fb"></span>#eef2fb</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #000000"
+                  ></span
+                  >#000000</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #eef2fb"
+                  ></span
+                  >#eef2fb</span
+                >
+              </td>
               <td>Primary high-contrast text, titles, values</td>
             </tr>
             <tr>
               <td><code>--editor-ink-dim</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #3a3a3a"></span>#3a3a3a</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c2cce0"></span>#c2cce0</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #3a3a3a"
+                  ></span
+                  >#3a3a3a</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #c2cce0"
+                  ></span
+                  >#c2cce0</span
+                >
+              </td>
               <td>Secondary text, descriptions, inactive tab labels</td>
             </tr>
             <tr>
               <td><code>--editor-ink-faint</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #707070"></span>#707070</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #92a1bc"></span>#92a1bc</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #707070"
+                  ></span
+                  >#707070</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #92a1bc"
+                  ></span
+                  >#92a1bc</span
+                >
+              </td>
               <td>Muted metadata, timestamps, placeholders, units</td>
             </tr>
             <tr>
               <td><code>--editor-accent</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #017dd3"></span>#017dd3</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #63b3ff"></span>#63b3ff</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #017dd3"
+                  ></span
+                  >#017dd3</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #63b3ff"
+                  ></span
+                  >#63b3ff</span
+                >
+              </td>
               <td>Interactive accent, links, active tool pills, CTAs</td>
             </tr>
             <tr>
               <td><code>--editor-accent-soft</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c7e8ff"></span>#c7e8ff</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(99, 179, 255, 0.25)"></span>rgba(99, 179, 255, 0.25)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #c7e8ff"
+                  ></span
+                  >#c7e8ff</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(99, 179, 255, 0.25)"
+                  ></span
+                  >rgba(99, 179, 255, 0.25)</span
+                >
+              </td>
               <td>Soft accent highlight fill for active states</td>
             </tr>
             <tr>
               <td><code>--editor-tab-selected-bg</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #eef6ff"></span>#eef6ff</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(99, 179, 255, 0.16)"></span>rgba(99, 179, 255, 0.16)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #eef6ff"
+                  ></span
+                  >#eef6ff</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(99, 179, 255, 0.16)"
+                  ></span
+                  >rgba(99, 179, 255, 0.16)</span
+                >
+              </td>
               <td>Selected tab container background fill</td>
             </tr>
           </tbody>
@@ -1065,46 +1644,115 @@
         </div>
       </div>
 
-      <h3 style="margin-top: 32px">Log Level & Status Colors</h3>
+      <h3 style="margin-top: 32px">Log Level &amp; Status Colors</h3>
+      <p style="font-size: 14px">
+        <strong>Split-token rule:</strong> every status ships two values —
+        <code>--ui-*-text</code> is the <em>accessible</em> colour for the
+        paired fill, <code>--ui-*-border</code> is the <em>pure hue</em> for the
+        rule or left bar. Never use the pure hue for body text: the pure amber
+        <code>#b7791f</code> measures only 3.3:1 on <code>#fff3cd</code>
+        and 3.6:1 on white, both failing WCAG AA.
+      </p>
       <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
             <tr>
               <th>Level / Status</th>
-              <th>Text Color</th>
-              <th>Soft Background</th>
-              <th>Border / Accent</th>
-              <th>Usage</th>
+              <th>Text (accessible)</th>
+              <th>Soft Fill</th>
+              <th>Border (pure hue)</th>
+              <th>Contrast on fill</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Log / Default</strong></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-ink-dim)"></span>var(--editor-ink-dim)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: transparent"></span>transparent</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-border-soft)"></span>var(--editor-border-soft)</span></td>
-              <td>Standard diagnostic log messages</td>
+              <td><code>var(--editor-ink-dim)</code></td>
+              <td><code>transparent</code></td>
+              <td><code>var(--editor-border-soft)</code></td>
+              <td>11.4:1 / 11.0:1</td>
             </tr>
             <tr>
               <td><strong>Info</strong></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-accent)"></span>var(--editor-accent) (#017dd3 / #63b3ff)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-accent-soft)"></span>var(--editor-accent-soft)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: var(--editor-accent)"></span>var(--editor-accent)</span></td>
-              <td>Informational logs, info callout banners</td>
+              <td><code>var(--editor-ink)</code></td>
+              <td><code>var(--editor-accent-soft)</code></td>
+              <td><code>var(--editor-accent)</code></td>
+              <td>9.5:1 dark</td>
             </tr>
             <tr>
               <td><strong>Warn / Warning</strong></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #b7791f"></span>#b7791f (Amber)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #fff3cd"></span>#fff3cd (Amber tint)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #b7791f"></span>#b7791f</span></td>
-              <td>Warnings, non-fatal operational cautions</td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #856404"
+                  ></span
+                  ><code>--ui-warn-text</code></span
+                >
+                <br /><small>#856404 / #e3b341</small>
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #fff3cd"
+                  ></span
+                  ><code>--ui-warn-fill</code></span
+                >
+                <br /><small>#fff3cd / rgba(227,179,65,0.16)</small>
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #b7791f"
+                  ></span
+                  ><code>--ui-warn-border</code></span
+                >
+                <br /><small>#b7791f / #e3b341</small>
+              </td>
+              <td>5.5:1 light / 8.2:1 dark</td>
             </tr>
             <tr>
               <td><strong>Error / Danger</strong></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c53030"></span>#c53030 / message #9b2c2c (Red)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(197, 48, 48, 0.10)"></span>rgba(197, 48, 48, 0.10)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c53030"></span>#c53030</span></td>
-              <td>Execution failures, syntax errors, alerts</td>
+              <td>
+                <code>--ui-danger-text</code><br /><small
+                  >#c53030 / #fc8181</small
+                >
+              </td>
+              <td>
+                <code>--ui-danger-fill</code><br /><small
+                  >rgba(197,48,48,0.10) / 0.18</small
+                >
+              </td>
+              <td>
+                <code>--ui-danger-border</code><br /><small
+                  >#c53030 / #fc8181</small
+                >
+              </td>
+              <td>7.5:1 light / 6.4:1 dark</td>
+            </tr>
+            <tr>
+              <td><strong>Danger message body</strong></td>
+              <td>
+                <code>--ui-danger-message</code><br /><small
+                  >#9b2c2c / #fc8181</small
+                >
+              </td>
+              <td>—</td>
+              <td>—</td>
+              <td>7.5:1 light</td>
+            </tr>
+            <tr>
+              <td><strong>History badge</strong></td>
+              <td>
+                <code>--ui-badge-text</code><br /><small
+                  >#a33a32 / #e2837a</small
+                >
+              </td>
+              <td><code>--ui-badge-fill</code></td>
+              <td><code>--ui-badge-border</code></td>
+              <td>—</td>
             </tr>
           </tbody>
         </table>
@@ -1123,62 +1771,386 @@
           <tbody>
             <tr>
               <td><code>--landing-page-bg</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #ffffff"
+                  ></span
+                  >#ffffff</span
+                >
+              </td>
               <td>Background base surface</td>
             </tr>
             <tr>
               <td><code>--landing-page-bg-raised</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #ffffff"
+                  ></span
+                  >#ffffff</span
+                >
+              </td>
               <td>Card & instrument surfaces</td>
             </tr>
             <tr>
               <td><code>--landing-page-bg-sunken</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #ffffff"></span>#ffffff</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #ffffff"
+                  ></span
+                  >#ffffff</span
+                >
+              </td>
               <td>Well surfaces</td>
             </tr>
             <tr>
               <td><code>--landing-page-ink</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #000000"></span>#000000</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #000000"
+                  ></span
+                  >#000000</span
+                >
+              </td>
               <td>Display headings & primary copy</td>
             </tr>
             <tr>
               <td><code>--landing-page-ink-dim</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #3a3a3a"></span>#3a3a3a</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #3a3a3a"
+                  ></span
+                  >#3a3a3a</span
+                >
+              </td>
               <td>Body copy & section descriptions</td>
             </tr>
             <tr>
               <td><code>--landing-page-ink-faint</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #707070"></span>#707070</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #707070"
+                  ></span
+                  >#707070</span
+                >
+              </td>
               <td>Eyebrow labels & captions</td>
             </tr>
             <tr>
               <td><code>--landing-page-construction</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #017dd3"></span>#017dd3</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #017dd3"
+                  ></span
+                  >#017dd3</span
+                >
+              </td>
               <td>Primary accent, CTAs, focus outlines</td>
             </tr>
             <tr>
               <td><code>--landing-page-construction-soft</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: #c7e8ff"></span>#c7e8ff</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: #c7e8ff"
+                  ></span
+                  >#c7e8ff</span
+                >
+              </td>
               <td>Soft pill backgrounds, active state fills</td>
             </tr>
             <tr>
               <td><code>--landing-page-border</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.18)"></span>rgba(58, 58, 58, 0.18)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(58, 58, 58, 0.18)"
+                  ></span
+                  >rgba(58, 58, 58, 0.18)</span
+                >
+              </td>
               <td>Standard card/section borders</td>
             </tr>
             <tr>
               <td><code>--landing-page-border-soft</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.10)"></span>rgba(58, 58, 58, 0.10)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(58, 58, 58, 0.1)"
+                  ></span
+                  >rgba(58, 58, 58, 0.10)</span
+                >
+              </td>
               <td>Subtle dividers and grid card borders</td>
             </tr>
             <tr>
               <td><code>--landing-page-grid-line</code></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(58, 58, 58, 0.06)"></span>rgba(58, 58, 58, 0.06)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(58, 58, 58, 0.06)"
+                  ></span
+                  >rgba(58, 58, 58, 0.06)</span
+                >
+              </td>
               <td>28px background blueprint grid lines</td>
             </tr>
           </tbody>
         </table>
       </div>
+    </section>
+
+    <!-- Section 3b: Shared Semantic Tokens -->
+    <section id="tokens" class="sg-section">
+      <h2>Shared Semantic Tokens (<code>--ui-*</code>)</h2>
+      <p class="lead">
+        Declared in <code>src/global.css</code> on <code>:root</code> and
+        flipped by any <code>.app-dark</code> activator. Each token has a light
+        and a dark value, so component CSS never needs an
+        <code>.app.app-dark</code> twin rule for colour. The landing page is
+        deliberately excluded — it has no dark theme and declares its own
+        <code>--landing-page-*</code> equivalents.
+      </p>
+
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Light</th>
+              <th>Dark</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--ui-hover-tint</code></td>
+              <td>rgba(1,125,211,0.04)</td>
+              <td>rgba(99,179,255,0.12)</td>
+              <td>Button / link / chip hover fill</td>
+            </tr>
+            <tr>
+              <td><code>--ui-hover-tint-soft</code></td>
+              <td>rgba(1,125,211,0.03)</td>
+              <td>rgba(99,179,255,0.12)</td>
+              <td>Swatch / list-row / toggle-label hover</td>
+            </tr>
+            <tr>
+              <td><code>--ui-hover-tint-strong</code></td>
+              <td>rgba(1,125,211,0.08)</td>
+              <td>rgba(99,179,255,0.16)</td>
+              <td>&ldquo;On&rdquo; state of segmented / toggle buttons</td>
+            </tr>
+            <tr>
+              <td><code>--ui-accent-fill</code></td>
+              <td>rgba(1,125,211,0.04)</td>
+              <td>rgba(99,179,255,0.14)</td>
+              <td>Resting fill of soft accent buttons</td>
+            </tr>
+            <tr>
+              <td><code>--ui-accent-fill-hover</code></td>
+              <td>rgba(1,125,211,0.08)</td>
+              <td>rgba(99,179,255,0.22)</td>
+              <td>Hover fill of soft accent buttons</td>
+            </tr>
+            <tr>
+              <td><code>--ui-accent-border</code></td>
+              <td>rgba(1,125,211,0.22)</td>
+              <td>rgba(99,179,255,0.35)</td>
+              <td>Accent-tinted button border</td>
+            </tr>
+            <tr>
+              <td>
+                <code>--ui-card-tint</code> / <code>--ui-card-border</code>
+              </td>
+              <td>0.03 / 0.18</td>
+              <td>0.12 / 0.42</td>
+              <td>Highlighted card fill &amp; border</td>
+            </tr>
+            <tr>
+              <td>
+                <code>--ui-header-tint</code> / <code>--ui-header-border</code>
+              </td>
+              <td>0.06 / 0.12</td>
+              <td>0.14 / 0.28</td>
+              <td>Window drag bar, prior-history row</td>
+            </tr>
+            <tr>
+              <td>
+                <code>--ui-grip-fill</code> / <code>--ui-grip-border</code>
+              </td>
+              <td>0.16 / 0.28</td>
+              <td>0.35 / 0.55</td>
+              <td>Window resize grips</td>
+            </tr>
+            <tr>
+              <td><code>--ui-grid-line</code></td>
+              <td>rgba(1,125,211,0.12)</td>
+              <td>rgba(99,179,255,0.18)</td>
+              <td>20px hero / canvas blueprint grid</td>
+            </tr>
+            <tr>
+              <td><code>--ui-accent-hover</code></td>
+              <td>#1a8fe8</td>
+              <td>#7cc0ff</td>
+              <td>Solid accent hover fill</td>
+            </tr>
+            <tr style="background: rgba(197, 48, 48, 0.08)">
+              <td>
+                <strong><code>--ui-on-accent</code></strong>
+              </td>
+              <td><strong>#ffffff</strong></td>
+              <td><strong>#11141a</strong></td>
+              <td>
+                <strong>Text placed ON a solid accent fill</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><code>--ui-header-glass</code></td>
+              <td>rgba(255,255,255,0.92)</td>
+              <td>rgba(21,24,30,0.96)</td>
+              <td>Sticky nav + FlexLayout tabset header</td>
+            </tr>
+            <tr>
+              <td><code>--ui-surface-glass</code></td>
+              <td>rgba(255,255,255,0.96)</td>
+              <td>rgba(29,34,43,0.96)</td>
+              <td>Floating window shell fill</td>
+            </tr>
+            <tr>
+              <td><code>--ui-backdrop</code></td>
+              <td>rgba(0,0,0,0.18)</td>
+              <td>rgba(0,0,0,0.55)</td>
+              <td>Modal backdrop dimming</td>
+            </tr>
+            <tr>
+              <td>
+                <code>--ui-scrollbar-track</code> / <code>-thumb</code> /
+                <code>-thumb-hover</code>
+              </td>
+              <td>0.05 / #cbd5e0 / #a0aec0</td>
+              <td>0.04 / #3a4454 / #505c70</td>
+              <td>Global scrollbar chrome (webkit + Firefox)</td>
+            </tr>
+            <tr>
+              <td><code>--ui-selection-bg</code> / <code>-fg</code></td>
+              <td>#017dd3 / #ffffff</td>
+              <td>#63b3ff / #11141a</td>
+              <td>Text selection</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sg-card sg-card-highlight" style="margin-top: 24px">
+        <h3 style="margin-bottom: 8px">
+          Why <code>--ui-on-accent</code> exists
+        </h3>
+        <p style="font-size: 14px; margin: 0 0 12px">
+          The accent <strong>inverts luminance</strong> between themes:
+          <code>#017dd3</code> (dark) in light mode, <code>#63b3ff</code>
+          (light) in dark mode. Any element that fills with the accent must
+          therefore flip its ink too. Toggle the theme to see the active tool
+          button and preset chip above flip from white to near-black ink.
+        </p>
+        <div class="sg-table-wrap" style="margin: 0">
+          <table class="sg-table">
+            <thead>
+              <tr>
+                <th>Theme</th>
+                <th>Fill</th>
+                <th>Ink</th>
+                <th>Ratio</th>
+                <th>WCAG AA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Light</td>
+                <td>#017dd3</td>
+                <td><code>#ffffff</code></td>
+                <td>4.30:1</td>
+                <td>⚠ marginal (needs 4.5:1)</td>
+              </tr>
+              <tr style="background: rgba(197, 48, 48, 0.1)">
+                <td>Dark</td>
+                <td>#63b3ff</td>
+                <td><code>#ffffff</code></td>
+                <td><strong>2.23:1</strong></td>
+                <td><strong>❌ fails</strong></td>
+              </tr>
+              <tr style="background: rgba(197, 48, 48, 0.08)">
+                <td>Dark</td>
+                <td>#63b3ff</td>
+                <td><code>#11141a</code> (<code>--ui-on-accent</code>)</td>
+                <td><strong>9.2:1</strong></td>
+                <td><strong>✅ passes</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p
+          style="
+            font-size: 13px;
+            margin: 12px 0 0;
+            color: var(--editor-ink-faint);
+          "
+        >
+          The light-mode 4.30:1 is a known, documented deviation: the accent is
+          a saturated brand hue used for 12px uppercase labels, and darkening it
+          would break the palette.
+        </p>
+      </div>
+
+      <h3 style="margin-top: 32px">Dark Mode Activators</h3>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Activator</th>
+              <th>Used By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.app.app-dark</code></td>
+              <td>Editor page (<code>.app</code> wrapper)</td>
+            </tr>
+            <tr>
+              <td><code>body.app-dark</code></td>
+              <td>Document-level toggle (manual page)</td>
+            </tr>
+            <tr>
+              <td><code>.manual-container.app-dark</code></td>
+              <td>Container-level toggle (manual page)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 14px; margin-top: 16px">
+        Any one of them flips <code>color-scheme</code> to <code>dark</code>, so
+        native checkboxes, <code>&lt;select&gt;</code> popups, number-input
+        spinners and default scrollbars follow the theme. Without
+        <code>color-scheme</code>, dark mode renders light native controls on a
+        dark surface.
+      </p>
     </section>
 
     <!-- Section 4: Geometry Colors -->
@@ -1204,57 +2176,185 @@
             <tr>
               <td><strong>Point</strong></td>
               <td>Graphite (Construction)</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(150, 150, 150, 1)"></span>rgba(150, 150, 150, 1) (#969696)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(150, 150, 150, 1)"
+                  ></span
+                  >rgba(150, 150, 150, 1) (#969696)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(95, 95, 95, 1)"
+                  ></span
+                  >rgba(95, 95, 95, 1) (#5f5f5f)</span
+                >
+              </td>
               <td>Auxiliary construction point</td>
             </tr>
             <tr>
               <td><strong>Point</strong></td>
               <td>Ink (Final)</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(0, 0, 0, 1)"></span>rgba(0, 0, 0, 1) (#000000)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(255, 255, 255, 1)"></span>rgba(255, 255, 255, 1) (#ffffff)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(0, 0, 0, 1)"
+                  ></span
+                  >rgba(0, 0, 0, 1) (#000000)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(255, 255, 255, 1)"
+                  ></span
+                  >rgba(255, 255, 255, 1) (#ffffff)</span
+                >
+              </td>
               <td>Primary inked geometric point</td>
             </tr>
             <tr>
               <td><strong>Circle</strong></td>
               <td>Graphite (Construction)</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(211, 211, 211, 1)"></span>rgba(211, 211, 211, 1) (#d3d3d3)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(211, 211, 211, 1)"
+                  ></span
+                  >rgba(211, 211, 211, 1) (#d3d3d3)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(95, 95, 95, 1)"
+                  ></span
+                  >rgba(95, 95, 95, 1) (#5f5f5f)</span
+                >
+              </td>
               <td>Auxiliary construction circle</td>
             </tr>
             <tr>
               <td><strong>Circle</strong></td>
               <td>Ink (Final)</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(0, 0, 0, 1)"></span>rgba(0, 0, 0, 1) (#000000)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(255, 255, 255, 1)"></span>rgba(255, 255, 255, 1) (#ffffff)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(0, 0, 0, 1)"
+                  ></span
+                  >rgba(0, 0, 0, 1) (#000000)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(255, 255, 255, 1)"
+                  ></span
+                  >rgba(255, 255, 255, 1) (#ffffff)</span
+                >
+              </td>
               <td>Primary inked circle stroke</td>
             </tr>
             <tr>
               <td><strong>Line</strong></td>
               <td>Graphite (Construction)</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(211, 211, 211, 1)"></span>rgba(211, 211, 211, 1) (#d3d3d3)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(211, 211, 211, 1)"
+                  ></span
+                  >rgba(211, 211, 211, 1) (#d3d3d3)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(95, 95, 95, 1)"
+                  ></span
+                  >rgba(95, 95, 95, 1) (#5f5f5f)</span
+                >
+              </td>
               <td>Auxiliary construction segment</td>
             </tr>
             <tr>
               <td><strong>Line</strong></td>
               <td>Ink (Final)</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(0, 0, 0, 1)"></span>rgba(0, 0, 0, 1) (#000000)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(255, 255, 255, 1)"></span>rgba(255, 255, 255, 1) (#ffffff)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(0, 0, 0, 1)"
+                  ></span
+                  >rgba(0, 0, 0, 1) (#000000)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(255, 255, 255, 1)"
+                  ></span
+                  >rgba(255, 255, 255, 1) (#ffffff)</span
+                >
+              </td>
               <td>Primary inked line segment</td>
             </tr>
             <tr>
               <td><strong>Axes</strong></td>
               <td>Canvas Background</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(204, 204, 204, 1)"></span>rgba(204, 204, 204, 1) (#cccccc)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(75, 75, 75, 1)"></span>rgba(75, 75, 75, 1) (#4b4b4b)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(204, 204, 204, 1)"
+                  ></span
+                  >rgba(204, 204, 204, 1) (#cccccc)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(75, 75, 75, 1)"
+                  ></span
+                  >rgba(75, 75, 75, 1) (#4b4b4b)</span
+                >
+              </td>
               <td>Cartesian plane coordinate reference axes</td>
             </tr>
             <tr>
               <td><strong>Infinite Lines</strong></td>
               <td>Auxiliary Ray/Line</td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(211, 211, 211, 1)"></span>rgba(211, 211, 211, 1) (#d3d3d3)</span></td>
-              <td><span class="sg-color-chip"><span class="sg-color-indicator" style="--color: rgba(95, 95, 95, 1)"></span>rgba(95, 95, 95, 1) (#5f5f5f)</span></td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(211, 211, 211, 1)"
+                  ></span
+                  >rgba(211, 211, 211, 1) (#d3d3d3)</span
+                >
+              </td>
+              <td>
+                <span class="sg-color-chip"
+                  ><span
+                    class="sg-color-indicator"
+                    style="--color: rgba(95, 95, 95, 1)"
+                  ></span
+                  >rgba(95, 95, 95, 1) (#5f5f5f)</span
+                >
+              </td>
               <td>Unbounded auxiliary alignment lines</td>
             </tr>
           </tbody>
@@ -1273,6 +2373,13 @@
       <div class="sg-grid-2">
         <div class="sg-card">
           <h3>Border Radius Scale</h3>
+          <p style="font-size: 14px">
+            Code <strong>blocks</strong> (<code>pre</code>,
+            <code>.manual-code</code>) use <strong>radius-m</strong>; inline
+            <code>code</code> uses <strong>radius-s</strong>. Do not mix them —
+            an earlier revision had <code>pre</code> at 3px and
+            <code>.manual-code</code> at 5px.
+          </p>
           <div class="sg-table-wrap">
             <table class="sg-table">
               <thead>
@@ -1286,12 +2393,18 @@
                 <tr>
                   <td><code>--editor-radius-s</code></td>
                   <td>3px</td>
-                  <td>Buttons, inputs, swatches, chips, code tags</td>
+                  <td>
+                    Buttons, inputs, swatches, chips, inline code tags, list
+                    rows
+                  </td>
                 </tr>
                 <tr>
                   <td><code>--editor-radius-m</code></td>
                   <td>5px</td>
-                  <td>Panels, cards, modals, tabs, floating windows</td>
+                  <td>
+                    Panels, cards, modals, tabs, floating windows, alert
+                    banners, <strong>code blocks</strong>
+                  </td>
                 </tr>
                 <tr>
                   <td><code>Pill (Full Round)</code></td>
@@ -1304,41 +2417,59 @@
         </div>
 
         <div class="sg-card">
-          <h3>Elevation & Shadows</h3>
+          <h3>Elevation &amp; Shadows</h3>
+          <p style="font-size: 14px">
+            Declared once as <code>--ui-shadow-*</code> in
+            <code>global.css</code>; components consume the tokens so light and
+            dark stay in sync and no component carries an
+            <code>.app-dark</code> shadow override.
+          </p>
           <div class="sg-table-wrap">
             <table class="sg-table">
               <thead>
                 <tr>
-                  <th>Level / Surface</th>
-                  <th>Light Mode Shadow</th>
-                  <th>Dark Mode Shadow</th>
+                  <th>Token</th>
+                  <th>Light Mode</th>
+                  <th>Dark Mode</th>
+                  <th>Purpose</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>Panel / Card Surface</strong></td>
+                  <td><code>--ui-shadow-panel</code></td>
                   <td>0 1px 3px rgba(0,0,0,0.06)</td>
                   <td>0 1px 4px rgba(0,0,0,0.24)</td>
+                  <td>Panel / card surface</td>
                 </tr>
                 <tr>
-                  <td><strong>Floating Window</strong></td>
-                  <td>0 2px 10px rgba(0,0,0,0.10)</td>
-                  <td>0 4px 16px rgba(0,0,0,0.40)</td>
-                </tr>
-                <tr>
-                  <td><strong>Canvas Tool Button</strong></td>
+                  <td><code>--ui-shadow-float</code></td>
                   <td>0 2px 6px rgba(0,0,0,0.16)</td>
                   <td>0 2px 8px rgba(0,0,0,0.32)</td>
+                  <td>Canvas floating tool (Reset Camera)</td>
                 </tr>
                 <tr>
-                  <td><strong>Active Tool Glow</strong></td>
-                  <td>0 1px 3px rgba(1,125,211,0.18)</td>
-                  <td>0 1px 4px rgba(99,179,255,0.30)</td>
+                  <td><code>--ui-shadow-window</code></td>
+                  <td>0 2px 10px rgba(0,0,0,0.10)</td>
+                  <td>0 4px 16px rgba(0,0,0,0.40)</td>
+                  <td>Floating window shell</td>
                 </tr>
                 <tr>
-                  <td><strong>Modal / Dialog</strong></td>
+                  <td><code>--ui-shadow-pill</code></td>
+                  <td>0 1px 4px rgba(0,0,0,0.12)</td>
+                  <td>0 1px 4px rgba(0,0,0,0.12)</td>
+                  <td>Floating pill / footer button</td>
+                </tr>
+                <tr>
+                  <td><code>--ui-shadow-modal</code></td>
                   <td>0 12px 32px rgba(0,0,0,0.16)</td>
                   <td>0 16px 40px rgba(0,0,0,0.60)</td>
+                  <td>Modal / dialog elevation</td>
+                </tr>
+                <tr>
+                  <td><code>--ui-shadow-glow</code></td>
+                  <td>0 1px 3px rgba(1,125,211,0.18)</td>
+                  <td>0 1px 4px rgba(99,179,255,0.30)</td>
+                  <td>Active tool button state</td>
                 </tr>
               </tbody>
             </table>
@@ -1347,6 +2478,14 @@
       </div>
 
       <h3 style="margin-top: 32px">Spacing Scale Rhythm</h3>
+      <p style="font-size: 14px">
+        <strong>Off-scale values are defects.</strong> Historical offenders now
+        corrected: <code>76px</code> → <code>72px</code> (hero),
+        <code>100px</code> → <code>96px</code> (final CTA), <code>52px</code> →
+        <code>48px</code> (section head), <code>11px</code> →
+        <code>10px</code> (history-log row padding), <code>80px</code> →
+        <code>48px + 32px</code> (style-guide sections).
+      </p>
       <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
@@ -1380,8 +2519,8 @@
             <tr>
               <td><strong>10px</strong></td>
               <td>
-                Panel section inner padding (10px), layout gap between cards,
-                swatch gap
+                Panel section inner padding, layout gap between cards, swatch
+                gap, history-log row padding
               </td>
             </tr>
             <tr>
@@ -1400,34 +2539,56 @@
             </tr>
             <tr>
               <td><strong>16px</strong></td>
-              <td>Code block padding (16px), alert banner padding, grid gap</td>
+              <td>Code block padding, alert banner padding, grid gap</td>
             </tr>
             <tr>
               <td><strong>20px</strong></td>
               <td>
                 Card padding, gallery gap, manual container paragraph bottom
-                margin
+                margin, landing gallery gap
               </td>
             </tr>
             <tr>
               <td><strong>24px</strong></td>
-              <td>Modal container backdrop padding, manual sidebar padding</td>
+              <td>
+                Modal container backdrop padding, manual sidebar padding (→ 20px
+                under 860px)
+              </td>
             </tr>
             <tr>
               <td><strong>32px</strong></td>
-              <td>Section horizontal padding, page container wrap margin</td>
+              <td>
+                Section horizontal padding, page container wrap margin (→ 20px
+                under 640px)
+              </td>
             </tr>
             <tr>
               <td><strong>40px / 60px</strong></td>
-              <td>Manual content container padding (40px 60px)</td>
+              <td>
+                Manual content container padding (→ <code>24px 20px</code> under
+                860px)
+              </td>
+            </tr>
+            <tr>
+              <td><strong>48px</strong></td>
+              <td>
+                Landing section-head bottom margin, style-guide section padding
+              </td>
             </tr>
             <tr>
               <td><strong>56px</strong></td>
               <td>Landing page hero and history two-column grid gaps</td>
             </tr>
             <tr>
+              <td><strong>72px</strong></td>
+              <td>Landing hero top padding</td>
+            </tr>
+            <tr>
               <td><strong>96px</strong></td>
-              <td>Major landing page vertical section padding</td>
+              <td>
+                Major landing page section padding, landing final-CTA vertical
+                padding
+              </td>
             </tr>
           </tbody>
         </table>
@@ -1649,12 +2810,8 @@
           <div
             style="
               background-image:
-                linear-gradient(rgba(1, 125, 211, 0.12) 1px, transparent 1px),
-                linear-gradient(
-                  90deg,
-                  rgba(1, 125, 211, 0.12) 1px,
-                  transparent 1px
-                );
+                linear-gradient(var(--ui-grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--ui-grid-line) 1px, transparent 1px);
               background-size: 20px 20px;
               height: 140px;
               border-radius: var(--editor-radius-m);
@@ -1686,6 +2843,12 @@
       </div>
 
       <h3 style="margin-top: 32px">Responsive Breakpoints</h3>
+      <p style="font-size: 14px">
+        <strong>Verified against source.</strong> An earlier revision of this
+        table mis-assigned the <code>780px</code> breakpoint (it hides the
+        landing nav tabs, not the gallery) and omitted <code>900px</code>
+        entirely.
+      </p>
       <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
@@ -1699,27 +2862,35 @@
             <tr>
               <td><strong>max-width: 940px</strong></td>
               <td>Small Desktop / Tablet Landscape</td>
-              <td>Hero columns adjust grid ratio</td>
+              <td>Landing hero grid collapses to one column</td>
+            </tr>
+            <tr>
+              <td><strong>max-width: 900px</strong></td>
+              <td>Small Desktop</td>
+              <td>Landing history two-column layout collapses to one column</td>
             </tr>
             <tr>
               <td><strong>max-width: 860px</strong></td>
               <td>Tablet Portrait</td>
-              <td>3-column instrument cards stack to single column</td>
+              <td>
+                Instrument cards <em>and gallery</em> collapse; manual page
+                stacks sidebar above content (<code>24px 20px</code> padding)
+              </td>
             </tr>
             <tr>
               <td><strong>max-width: 780px</strong></td>
               <td>Narrow Tablet</td>
-              <td>Gallery grid shifts from 3 columns to 2 columns</td>
+              <td>Landing nav tabs hidden (<code>display: none</code>)</td>
             </tr>
             <tr>
               <td><strong>max-width: 640px</strong></td>
               <td>Mobile Large</td>
-              <td>Wrap padding reduces from 32px to 20px</td>
+              <td>Wrap <em>and nav</em> padding reduce from 32px to 20px</td>
             </tr>
             <tr>
               <td><strong>max-width: 540px</strong></td>
               <td>Mobile Portrait</td>
-              <td>Gallery shifts to 1 column, button groups wrap vertically</td>
+              <td>Gallery → 1 column; hero CTA group stacks vertically</td>
             </tr>
           </tbody>
         </table>
@@ -1735,6 +2906,11 @@
       </p>
 
       <h3>Motion Scale</h3>
+      <p style="font-size: 14px">
+        Always enumerate the <code>transition</code> properties.
+        <strong>Never <code>transition: all</code></strong> — see
+        <a href="#guardrails">Guardrails §6</a>.
+      </p>
       <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
@@ -1772,11 +2948,22 @@
               <td>ease</td>
               <td>Preset buttons active switch</td>
             </tr>
+            <tr>
+              <td><strong>Gallery guide reveal</strong></td>
+              <td>0.25s</td>
+              <td>ease</td>
+              <td>Landing gallery hover / focus-within guide fade</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <h3 style="margin-top: 32px">Reduced Motion Support</h3>
+      <p style="font-size: 14px">
+        Declared once, globally, in <code>src/global.css</code>. The landing
+        page separately neutralises its scroll-smoothing and kills the draw/fade
+        keyframes outright rather than shrinking them to 0.01ms.
+      </p>
       <pre class="code-box"><code>@media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1789,6 +2976,38 @@
     transition-duration: 0.01ms !important;
   }
 }</code></pre>
+
+      <h3 style="margin-top: 32px">Layout Pitfalls</h3>
+      <div class="sg-grid-3">
+        <div class="sg-card">
+          <strong style="display: block; margin-bottom: 6px"
+            ><code>100vw</code> is banned</strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            It includes the classic scrollbar width and produces a horizontal
+            overflow of exactly that many pixels. Use <code>100%</code>.
+          </p>
+        </div>
+        <div class="sg-card">
+          <strong style="display: block; margin-bottom: 6px"
+            >Flex children need min-* : 0</strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            A child with <code>height: 100%</code> inside a flex column that
+            also renders a sibling overflows its parent. Use
+            <code>flex: 1; min-height: 0</code>.
+          </p>
+        </div>
+        <div class="sg-card">
+          <strong style="display: block; margin-bottom: 6px"
+            ><code>overflow: hidden</code> clips overhang</strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            The floating window's four resize handles sit at
+            <code>-7px</code> on each edge; the shell must not clip them.
+          </p>
+        </div>
+      </div>
 
       <h3 style="margin-top: 32px">Dark Mode Implementation Principles</h3>
       <div class="sg-grid-2">
@@ -1806,12 +3025,13 @@
         <div class="sg-card">
           <strong
             style="color: var(--editor-ink); display: block; margin-bottom: 6px"
-            >2. Accessible Contrast Ratios</strong
+            >2. Measured Contrast Ratios</strong
           >
           <p style="font-size: 14px; margin: 0">
-            High-contrast text achieves > 14:1 contrast against
-            <code>#15181e</code>. Faint text achieves > 4.5:1 WCAG AA
-            compliance.
+            Against <code>#15181e</code>: ink <strong>15.9:1</strong>, ink-dim
+            <strong>11.0:1</strong>, ink-faint <strong>7.98:1</strong>, accent
+            <strong>7.98:1</strong>. Ink-faint against <code>#1d222b</code> is
+            <strong>6.11:1</strong> — still AA.
           </p>
         </div>
         <div class="sg-card">
@@ -1834,7 +3054,245 @@
             12–16%) to preserve visibility against dark backdrops.
           </p>
         </div>
+        <div class="sg-card">
+          <strong
+            style="color: var(--editor-ink); display: block; margin-bottom: 6px"
+            >5. Set <code>color-scheme</code></strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            So native checkboxes, <code>&lt;select&gt;</code> popups,
+            number-input spinners and default scrollbars follow the theme.
+            Without it, dark mode renders light native controls on a dark
+            surface.
+          </p>
+        </div>
+        <div class="sg-card">
+          <strong
+            style="color: var(--editor-ink); display: block; margin-bottom: 6px"
+            >6. Flip <code>--ui-on-accent</code></strong
+          >
+          <p style="font-size: 14px; margin: 0">
+            Never hard-code white text on an accent fill. See
+            <a href="#tokens">Shared Tokens</a>.
+          </p>
+        </div>
       </div>
+    </section>
+
+    <!-- Section 9: CSS Pitfalls & Guardrails -->
+    <section id="guardrails" class="sg-section">
+      <h2>⚠ CSS Pitfalls &amp; Guardrails</h2>
+      <p class="lead">
+        The checklist to run before merging any CSS change. Each item below is a
+        defect that actually existed in this codebase and has been fixed.
+      </p>
+
+      <div class="sg-grid-2">
+        <div class="sg-card">
+          <h3>1. Never <code>@import</code> a webfont</h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>@import</code> is fetched <em>after</em> the importing
+            stylesheet parses, serialising a second request that blocks first
+            paint. Aurea had the identical Google Fonts URL in four files. Fonts
+            now load once from <code>index.html</code> via
+            <code>&lt;link&gt;</code> + <code>preconnect</code>.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>2. Never hard-code theme colours</h3>
+          <p style="font-size: 14px; margin: 0">
+            ~40 literal <code>rgba(1,125,211,…)</code> /
+            <code>rgba(99,179,255,…)</code> values each paired with an
+            <code>.app.app-dark</code> twin. An <code>.app.app-dark</code>
+            <em>colour</em> override is now a code smell — it means the value
+            should have been a token.
+          </p>
+        </div>
+
+        <div class="sg-card" style="border-color: var(--ui-danger-border)">
+          <h3>3. Never put <code>#ffffff</code> on an accent fill</h3>
+          <p style="font-size: 14px; margin: 0">
+            2.23:1 in dark mode. Use <code>var(--ui-on-accent)</code>. See
+            <a href="#tokens">Shared Tokens</a>.
+          </p>
+        </div>
+
+        <div class="sg-card" style="border-color: var(--ui-danger-border)">
+          <h3>4. Never use the pure status hue for body text</h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>#b7791f</code> amber on <code>#fff3cd</code> = 3.3:1; on white
+            = 3.6:1. Info text on <code>--accent-soft</code> = 3.4:1. All fail
+            AA. Alert text must use <code>--ui-*-text</code>.
+          </p>
+        </div>
+
+        <div class="sg-card" style="border-color: var(--ui-danger-border)">
+          <h3>5. Never remove a focus indicator</h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>.snap-radius-number { outline: none }</code> left only a
+            background tint, which vanished on the sunken input fill (WCAG
+            2.4.7). Use <code>:focus-visible</code>; never <code>:focus</code>,
+            which also fires on mouse press.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>6. Never <code>transition: all</code></h3>
+          <p style="font-size: 14px; margin: 0">
+            It animates layout-affecting properties you never intended to touch.
+            <code>.snap-preset-btn</code> thrashed layout on hover. Enumerate
+            the properties instead.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>7. Never request weight 700 from a Plex family</h3>
+          <p style="font-size: 14px; margin: 0">
+            IBM Plex Sans/Mono are only loaded at 400/500/600.
+            <code>font-weight: bold</code> makes the browser synthetically
+            faux-bold the 600 face. Use <code>600</code>.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>8. Never use <code>100vw</code> for layout</h3>
+          <p style="font-size: 14px; margin: 0">
+            It includes the classic scrollbar width and produces a horizontal
+            overflow of exactly that many pixels. Use <code>100%</code>.
+          </p>
+        </div>
+
+        <div class="sg-card" style="border-color: var(--ui-danger-border)">
+          <h3>9. Watch <code>overflow: hidden</code> + overhanging children</h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>.window-shell { overflow: hidden }</code> clipped all four
+            resize handles positioned at <code>-7px</code>, silently disabling
+            window resizing. The shell now lets its children overhang.
+          </p>
+        </div>
+
+        <div class="sg-card" style="border-color: var(--ui-danger-border)">
+          <h3>
+            10. Never <code>height: 100%</code> on a flex child with siblings
+          </h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>.console-content</code> at <code>height: 100%</code> inside a
+            flex column that also renders <code>.console-controls</code> pushed
+            the controls out of the panel. Use
+            <code>flex: 1; min-height: 0</code>.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>11. Never declare generic tokens on <code>:root</code></h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>ManualPage.css</code> wrote <code>--bg</code>,
+            <code>--ink</code>, <code>--accent</code>, <code>--border</code>,
+            <code>--radius-s</code> on <code>:root</code> while only
+            <code>.manual-container</code> consumed them — a namespace collision
+            waiting to happen. Page tokens belong on the page container.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>12. Never duplicate shared chrome</h3>
+          <p style="font-size: 14px; margin: 0">
+            The confirm / colour / file dialogs were three verbatim copies of
+            the same ~90 lines. They now share
+            <code>src/ui/Dialog.css</code>. Before adding a fourth variant,
+            extend the shared file.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>13. Never re-declare global scrollbars</h3>
+          <p style="font-size: 14px; margin: 0">
+            They were duplicated in <code>global.css</code>,
+            <code>ConsolePanel.css</code> and <code>ManualPage.css</code> — and
+            the manual copy omitted the Firefox <code>scrollbar-color</code>
+            fallback, so Firefox rendered a light scrollbar on the dark manual
+            page.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>14. Never assert scoping you have not verified</h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>LandingPage.css</code> opened with &ldquo;All rules are scoped
+            under <code>.landing-page-landing</code>&rdquo; while ~60 selectors
+            were top-level. Every rule is now genuinely nested, and the file
+            declares a <strong>scope contract</strong>: it is self-contained and
+            must not consume <code>--editor-*</code> / <code>--ui-*</code>.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>15. Never invent off-scale values</h3>
+          <p style="font-size: 14px; margin: 0">
+            Font sizes
+            <code>0.64 / 0.65 / 0.68 / 0.78 / 0.8 / 0.82rem</code> and
+            <code>10px</code>; spacing <code>11 / 52 / 76 / 80 / 100px</code>.
+            All normalized to the scales in
+            <a href="#spacing">Spacing &amp; Radii</a>.
+          </p>
+        </div>
+
+        <div class="sg-card">
+          <h3>16. Never <code>word-break: break-all</code> on data text</h3>
+          <p style="font-size: 14px; margin: 0">
+            It chops identifiers, ids and coordinates mid-token. Use
+            <code>overflow-wrap: anywhere</code>.
+          </p>
+        </div>
+
+        <div class="sg-card" style="border-color: var(--ui-warn-border)">
+          <h3>17. Never ship an unreachable dark-mode rule</h3>
+          <p style="font-size: 14px; margin: 0">
+            <code>ManualPage.css</code> carried a full dark palette behind
+            <code
+              >body.app-dark .manual-container, .manual-container.app-dark</code
+            >
+            — but the manual page has no theme switch, so
+            <strong>neither selector ever matched</strong>. The palette was dead
+            code.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="sg-card sg-card-highlight"
+        style="margin-top: 20px; border-color: var(--ui-warn-border)"
+      >
+        <h3 style="margin-bottom: 8px">
+          Outstanding: manual page dark-mode wiring
+        </h3>
+        <p style="font-size: 14px; margin: 0 0 10px">
+          The manual page's dark palette is now correct, but still has nothing
+          to switch it on. To activate it, add a control that runs
+        </p>
+        <pre
+          class="code-box"
+          style="margin: 0"
+        ><code>document.body.classList.toggle('app-dark');</code></pre>
+        <p style="font-size: 14px; margin: 10px 0 0">
+          or render <code>.manual-container</code> with an
+          <code>app-dark</code> class. Until then the manual page is light-only
+          <em>by construction</em>, not by accident.
+        </p>
+      </div>
+
+      <h3 style="margin-top: 32px">Verification Commands</h3>
+      <pre class="code-box"><code>npm run lint                  # eslint
+npx tsc -b                    # types
+npx vite build                # bundle
+npx prettier --check "src/**/*.{css,tsx}"</code></pre>
+      <p style="font-size: 14px; margin-top: 12px">
+        Prettier owns CSS formatting. <code>.prettierignore</code> excludes only
+        <code>node_modules</code>, <code>dist</code>, <code>build</code>,
+        <code>coverage</code> — so <code>doc/</code>
+        <strong>is</strong> formatted. Keep this page Prettier-clean.
+      </p>
     </section>
 
     <script>

@@ -1,9 +1,195 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+/* ==========================================================================
+   Aurea — Global Base Layer
+   --------------------------------------------------------------------------
+   Single source of truth for:
+     1. Shared (theme-agnostic) design tokens  -> :root + dark overrides
+     2. Document reset & base typography
+     3. Browser chrome (selection, focus ring, scrollbars)
+     4. Reduced-motion overrides
+
+   RULES OF THIS FILE
+   - Fonts are loaded once from index.html via <link>. NEVER @import a webfont
+     from a CSS module: each @import creates a second, serialised request and
+     blocks the first paint of whichever chunk loaded it.
+   - Tokens live here, not in component files. Component CSS consumes tokens.
+   - Theme switching is class-driven. Any of `.app.app-dark`, `body.app-dark`
+     or `.manual-container.app-dark` activates the dark token set, so every
+     surface shares one contract.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. COLOUR SCHEME
+     Drives native form controls, the number-input spinner, default scrollbar
+     chrome and the canvas backdrop. Without this, dark mode keeps light
+     checkboxes / selects / spinners.
+     --------------------------------------------------------------------- */
+  color-scheme: light;
+
+  /* ---------------------------------------------------------------------
+     2. SCROLLBAR CHROME
+     --------------------------------------------------------------------- */
+  --ui-scrollbar-track: rgba(0, 0, 0, 0.05);
+  --ui-scrollbar-thumb: #cbd5e0;
+  --ui-scrollbar-thumb-hover: #a0aec0;
+
+  /* ---------------------------------------------------------------------
+     3. INTERACTION & SURFACE TINTS
+     Light values are 3-4% accent; dark values are 12-16% so the same states
+     stay legible against a dark backdrop.
+     --------------------------------------------------------------------- */
+  --ui-hover-tint: rgba(1, 125, 211, 0.04);
+  --ui-hover-tint-soft: rgba(1, 125, 211, 0.03);
+  --ui-hover-tint-strong: rgba(1, 125, 211, 0.08);
+  --ui-accent-fill: rgba(1, 125, 211, 0.04);
+  --ui-accent-fill-hover: rgba(1, 125, 211, 0.08);
+  --ui-accent-border: rgba(1, 125, 211, 0.22);
+  --ui-card-tint: rgba(1, 125, 211, 0.03);
+  --ui-card-border: rgba(1, 125, 211, 0.18);
+  --ui-header-tint: rgba(1, 125, 211, 0.06);
+  --ui-header-border: rgba(1, 125, 211, 0.12);
+  --ui-grip-fill: rgba(1, 125, 211, 0.16);
+  --ui-grip-border: rgba(1, 125, 211, 0.28);
+  --ui-grid-line: rgba(1, 125, 211, 0.12);
+
+  /* Primary accent, darkened for hover on solid fills. */
+  --ui-accent-hover: #1a8fe8;
+
+  /* Text colour used ON a solid accent fill.
+     Light mode: accent #017dd3 is dark, so white text is correct.
+     Dark mode: accent #63b3ff is light, so white text would drop to 2.2:1 —
+     this token flips to near-black for a ~9:1 result. Never hard-code
+     #ffffff on an accent background. */
+  --ui-on-accent: #ffffff;
+
+  /* ---------------------------------------------------------------------
+     4. OVERLAY / GLASS CHROME
+     --------------------------------------------------------------------- */
+  --ui-header-glass: rgba(255, 255, 255, 0.92);
+  --ui-surface-glass: rgba(255, 255, 255, 0.96);
+  --ui-backdrop: rgba(0, 0, 0, 0.18);
+
+  /* Inverse chip that sits directly on the canvas (history indicator). */
+  --ui-overlay-fill: rgba(0, 0, 0, 0.55);
+  --ui-overlay-ink: #ffffff;
+
+  /* ---------------------------------------------------------------------
+     5. STATUS / LOG COLOURS
+     `--ui-*-text` values are the ACCESSIBLE text colour for the paired
+     fill; `--ui-*-border` stays the pure hue for the rule / left bar.
+     --------------------------------------------------------------------- */
+  --ui-warn-text: #856404;
+  --ui-warn-fill: #fff3cd;
+  --ui-warn-border: #b7791f;
+
+  --ui-danger-text: #c53030;
+  --ui-danger-message: #9b2c2c;
+  --ui-danger-fill: rgba(197, 48, 48, 0.1);
+  --ui-danger-border: #c53030;
+
+  --ui-badge-text: #a33a32;
+  --ui-badge-border: rgba(163, 58, 50, 0.35);
+  --ui-badge-fill: rgba(163, 58, 50, 0.08);
+
+  /* ---------------------------------------------------------------------
+     6. ELEVATION
+     --------------------------------------------------------------------- */
+  --ui-shadow-panel: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --ui-shadow-float: 0 2px 6px rgba(0, 0, 0, 0.16);
+  --ui-shadow-window: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --ui-shadow-pill: 0 1px 4px rgba(0, 0, 0, 0.12);
+  --ui-shadow-modal: 0 12px 32px rgba(0, 0, 0, 0.16);
+  --ui-shadow-glow: 0 1px 3px rgba(1, 125, 211, 0.18);
+
+  /* ---------------------------------------------------------------------
+     7. CODE SURFACES
+     Code keeps a dark surface in BOTH themes (syntax-highlight convention);
+     inline code uses the soft accent tint instead. Do not mix the two.
+     --------------------------------------------------------------------- */
+  --ui-code-bg: #1e1e1e;
+  --ui-code-fg: #d4d4d4;
+
+  /* ---------------------------------------------------------------------
+     8. TEXT SELECTION
+     --------------------------------------------------------------------- */
+  --ui-selection-bg: #017dd3;
+  --ui-selection-fg: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   DARK TOKEN OVERRIDES
+   Any one of these selectors activates the dark set. Keep the list identical
+   across every file that needs to detect dark mode.
+   -------------------------------------------------------------------------- */
+.app.app-dark,
+body.app-dark,
+.manual-container.app-dark {
+  color-scheme: dark;
+
+  --ui-scrollbar-track: rgba(255, 255, 255, 0.04);
+  --ui-scrollbar-thumb: #3a4454;
+  --ui-scrollbar-thumb-hover: #505c70;
+
+  --ui-hover-tint: rgba(99, 179, 255, 0.12);
+  --ui-hover-tint-soft: rgba(99, 179, 255, 0.12);
+  --ui-hover-tint-strong: rgba(99, 179, 255, 0.16);
+  --ui-accent-fill: rgba(99, 179, 255, 0.14);
+  --ui-accent-fill-hover: rgba(99, 179, 255, 0.22);
+  --ui-accent-border: rgba(99, 179, 255, 0.35);
+  --ui-card-tint: rgba(99, 179, 255, 0.12);
+  --ui-card-border: rgba(99, 179, 255, 0.42);
+  --ui-header-tint: rgba(99, 179, 255, 0.14);
+  --ui-header-border: rgba(99, 179, 255, 0.28);
+  --ui-grip-fill: rgba(99, 179, 255, 0.35);
+  --ui-grip-border: rgba(99, 179, 255, 0.55);
+  --ui-grid-line: rgba(99, 179, 255, 0.18);
+
+  --ui-accent-hover: #7cc0ff;
+
+  --ui-on-accent: #11141a;
+
+  --ui-header-glass: rgba(21, 24, 30, 0.96);
+  --ui-surface-glass: rgba(29, 34, 43, 0.96);
+  --ui-backdrop: rgba(0, 0, 0, 0.55);
+
+  --ui-warn-text: #e3b341;
+  --ui-warn-fill: rgba(227, 179, 65, 0.16);
+  --ui-warn-border: #e3b341;
+
+  --ui-danger-text: #fc8181;
+  --ui-danger-message: #fc8181;
+  --ui-danger-fill: rgba(197, 48, 48, 0.18);
+  --ui-danger-border: #fc8181;
+
+  --ui-badge-text: #e2837a;
+  --ui-badge-border: rgba(226, 131, 122, 0.4);
+  --ui-badge-fill: rgba(226, 131, 122, 0.1);
+
+  --ui-shadow-panel: 0 1px 4px rgba(0, 0, 0, 0.24);
+  --ui-shadow-float: 0 2px 8px rgba(0, 0, 0, 0.32);
+  --ui-shadow-window: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --ui-shadow-pill: 0 1px 4px rgba(0, 0, 0, 0.12);
+  --ui-shadow-modal: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --ui-shadow-glow: 0 1px 4px rgba(99, 179, 255, 0.3);
+
+  --ui-selection-bg: #63b3ff;
+  --ui-selection-fg: #11141a;
+}
+
+/* ==========================================================================
+   DOCUMENT RESET
+   ========================================================================== */
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  /* Reserve the scrollbar gutter so navigating between the full-height
+     editor and the scrolling manual page does not shift layout. */
+  scrollbar-gutter: stable;
 }
 
 html,
@@ -14,28 +200,73 @@ body,
 
   width: 100%;
   height: 100%;
+}
 
+body {
   overflow-x: hidden;
   overflow-y: auto;
 
   font-family: 'IBM Plex Sans', sans-serif;
+  /* Only 400 / 500 / 600 are loaded for the Plex families.
+     `font-weight: bold` (700) is NOT available and gets synthetically
+     faux-bolded by the browser — use 600. */
+  font-weight: 400;
+
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Text Selection */
+/* ==========================================================================
+   BROWSER CHROME
+   ========================================================================== */
+
+/* Text Selection — token driven so every surface themes in one place. */
 ::selection {
-  background: #017dd3;
-  color: #ffffff;
+  background: var(--ui-selection-bg);
+  color: var(--ui-selection-fg);
 }
 
-.app.app-dark ::selection,
-body.app-dark ::selection {
-  background: #63b3ff;
-  color: #11141a;
+/* Accessible keyboard focus indicator. Declared globally so no surface can
+   ship without one; components may re-declare but never remove it. */
+:focus-visible {
+  outline: 2px solid var(--editor-accent, #017dd3);
+  outline-offset: 3px;
 }
 
-/* Reduced Motion */
+/* Custom scrollbars - keep scrollbars visible on overflowing content */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ui-scrollbar-track);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ui-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-scrollbar-thumb-hover);
+}
+
+/* Fallback for browsers without ::-webkit-scrollbar support (e.g. Firefox).
+   Must mirror the webkit rules above or Firefox renders a stock light
+   scrollbar on the dark manual page. */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ui-scrollbar-thumb) var(--ui-scrollbar-track);
+  }
+}
+
+/* ==========================================================================
+   MOTION
+   ========================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -46,52 +277,5 @@ body.app-dark ::selection {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* Custom scrollbars - keep scrollbars visible on overflowing content */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
-}
-
-.app.app-dark ::-webkit-scrollbar-track,
-body.app-dark ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.app.app-dark ::-webkit-scrollbar-thumb,
-body.app-dark ::-webkit-scrollbar-thumb {
-  background: #3a4454;
-}
-
-.app.app-dark ::-webkit-scrollbar-thumb:hover,
-body.app-dark ::-webkit-scrollbar-thumb:hover {
-  background: #505c70;
-}
-
-/* Fallback for browsers without ::-webkit-scrollbar support (e.g. Firefox) */
-@supports not selector(::-webkit-scrollbar) {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #cbd5e0 rgba(0, 0, 0, 0.05);
-  }
-  .app.app-dark *,
-  body.app-dark * {
-    scrollbar-color: #3a4454 rgba(255, 255, 255, 0.04);
   }
 }

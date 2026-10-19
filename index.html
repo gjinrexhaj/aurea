@@ -4,7 +4,24 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Aurea — a precise geometric construction workbench for precise CAD-like drafting in the browser."
+    />
     <title>Aurea</title>
+
+    <!--
+      Webfonts are loaded here, once, with preconnect hints.
+      Do NOT @import them from a CSS module: every @import adds a second
+      serialised stylesheet request that blocks first paint, and duplicating
+      the URL across global/Editor/Landing/Manual CSS shipped four copies.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
   </head>
   <body>
     <div id="root"></div>
