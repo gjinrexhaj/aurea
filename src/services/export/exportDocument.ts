@@ -108,6 +108,12 @@ function prepareSvg(
   const svg = source.cloneNode(true) as SVGSVGElement;
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
+  // Transient editor overlays (snap/construction indicators) must never end up
+  // in an export.
+  svg.querySelectorAll('[data-export-ignore]').forEach((element) => {
+    element.remove();
+  });
+
   svg.querySelectorAll<SVGElement>('[data-export-kind]').forEach((element) => {
     const kind = element.dataset.exportKind;
     const layer = element.dataset.exportLayer;

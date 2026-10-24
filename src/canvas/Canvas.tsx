@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { Point } from '../geometry/Point.ts';
 import './Canvas.css';
 import GeometrySvg from './GeometrySvg.tsx';
@@ -62,6 +69,7 @@ export default function Canvas({
 }: CanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const hasStoredCamera = useRef(false);
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const [zoomIndicatorState, setZoomIndicatorState] = useState<
     'hidden' | 'shown' | 'fading'
   >('hidden');
@@ -184,6 +192,28 @@ export default function Canvas({
     },
     [],
   );
+
+  useLayoutEffect(() => {
+    const element = canvasRef.current;
+    if (!element) {
+      return;
+    }
+
+    const updateSize = () => {
+      const rect = element.getBoundingClientRect();
+      setCanvasSize((prev) =>
+        prev.width === rect.width && prev.height === rect.height
+          ? prev
+          : { width: rect.width, height: rect.height },
+      );
+    };
+
+    updateSize();
+
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const updateCamera = () => {
@@ -684,6 +714,8 @@ export default function Canvas({
         selection={selection}
         snapResult={snapResult}
         camera={camera}
+        width={canvasSize.width}
+        height={canvasSize.height}
         viewSettings={viewSettings}
         colors={colors}
         historyHighlight={historyHighlight}

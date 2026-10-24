@@ -27,6 +27,8 @@ type GeometrySvgProps = {
     y: number;
     zoom: number;
   };
+  width: number;
+  height: number;
   viewSettings: ViewSettings;
   colors: GeometryColors;
   historyHighlight: HistoryHighlight | null;
@@ -41,6 +43,8 @@ export default function GeometrySvg({
   selection,
   snapResult,
   camera,
+  width,
+  height,
   viewSettings,
   colors,
   historyHighlight,
@@ -64,10 +68,34 @@ export default function GeometrySvg({
     ? getPointById(lineState.firstPointId, document.points)
     : undefined;
 
+  // The camera is expressed through the viewBox instead of a scale transform on
+  // the scene group. A transform makes browsers rasterize the SVG content at one
+  // resolution and upscale that bitmap while the zoom changes, which reads as
+  // "soft until it settles". A viewBox re-renders the vectors at the new scale
+  // immediately, so the drawing stays sharp at every zoom step.
+  const hasViewport = width > 0 && height > 0;
+  const viewBox = hasViewport
+    ? [
+        -camera.x / camera.zoom,
+        -camera.y / camera.zoom,
+        width / camera.zoom,
+        height / camera.zoom,
+      ].join(' ')
+    : undefined;
+
   return (
-    <svg width="100%" height="100%">
+    <svg
+      width="100%"
+      height="100%"
+      viewBox={viewBox}
+      preserveAspectRatio="none"
+    >
       <g
-        transform={`translate(${camera.x}, ${camera.y}) scale(${camera.zoom})`}
+        transform={
+          hasViewport
+            ? undefined
+            : `translate(${camera.x}, ${camera.y}) scale(${camera.zoom})`
+        }
       >
         {/* render axes */}
         {viewSettings.showAxes && (
@@ -260,7 +288,7 @@ export default function GeometrySvg({
 
         {/* display snap indicator */}
         {snapResult?.type === 'intersection' && (
-          <g className="snap-indicator intersection">
+          <g className="snap-indicator intersection" data-export-ignore="">
             <line
               x1={snapResult.x - 6}
               y1={snapResult.y}
@@ -287,6 +315,7 @@ export default function GeometrySvg({
             stroke="red"
             strokeWidth={1.5}
             className="snap-indicator point"
+            data-export-ignore=""
           />
         )}
 
