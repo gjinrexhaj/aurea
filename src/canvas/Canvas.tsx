@@ -62,8 +62,9 @@ export default function Canvas({
 }: CanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const hasStoredCamera = useRef(false);
-  const [zoomIndicatorVisible, setZoomIndicatorVisible] = useState(false);
-  const [zoomIndicatorFading, setZoomIndicatorFading] = useState(false);
+  const [zoomIndicatorState, setZoomIndicatorState] = useState<
+    'hidden' | 'shown' | 'fading'
+  >('hidden');
   const zoomIndicatorTimeoutsRef = useRef<{
     hide?: ReturnType<typeof setTimeout>;
     fade?: ReturnType<typeof setTimeout>;
@@ -161,30 +162,28 @@ export default function Canvas({
       clearTimeout(zoomIndicatorTimeoutsRef.current.fade);
     }
 
-    setZoomIndicatorVisible(false);
-    setZoomIndicatorFading(false);
-    // Force immediate re-show at full opacity
-    requestAnimationFrame(() => {
-      setZoomIndicatorVisible(true);
-    });
+    // Show at full opacity instantly, even mid-fade
+    setZoomIndicatorState('shown');
 
-    zoomIndicatorTimeoutsRef.current.hide = setTimeout(() => {
-      setZoomIndicatorFading(true);
-    }, 1000);
     zoomIndicatorTimeoutsRef.current.fade = setTimeout(() => {
-      setZoomIndicatorVisible(false);
-      setZoomIndicatorFading(false);
+      setZoomIndicatorState('fading');
+    }, 1000);
+    zoomIndicatorTimeoutsRef.current.hide = setTimeout(() => {
+      setZoomIndicatorState('hidden');
     }, 2000);
+  }, [camera.zoom]);
 
-    return () => {
+  useEffect(
+    () => () => {
       if (zoomIndicatorTimeoutsRef.current.hide) {
         clearTimeout(zoomIndicatorTimeoutsRef.current.hide);
       }
       if (zoomIndicatorTimeoutsRef.current.fade) {
         clearTimeout(zoomIndicatorTimeoutsRef.current.fade);
       }
-    };
-  }, [camera.zoom]);
+    },
+    [],
+  );
 
   useEffect(() => {
     const updateCamera = () => {
@@ -692,17 +691,18 @@ export default function Canvas({
       {selectedHistoryIndex >= 0 && (
         <div className="canvas-history-indicator">You are viewing construction history</div>
       )}
-      {zoomIndicatorVisible && (
-        <div
-          className={
-            zoomIndicatorFading
-              ? 'canvas-zoom-indicator canvas-zoom-indicator-fading'
-              : 'canvas-zoom-indicator'
-          }
-        >
-          Camera zoom: {camera.zoom.toFixed(2)}
-        </div>
-      )}
+      <div
+        aria-hidden={zoomIndicatorState === 'hidden'}
+        className={`canvas-zoom-indicator${
+          zoomIndicatorState === 'shown'
+            ? ' canvas-zoom-indicator-shown'
+            : zoomIndicatorState === 'fading'
+              ? ' canvas-zoom-indicator-fading'
+              : ''
+        }`}
+      >
+        Camera zoom: {camera.zoom.toFixed(2)}
+      </div>
       <button
         type="button"
         className="canvas-reset-camera"
