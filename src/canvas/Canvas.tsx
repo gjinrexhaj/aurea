@@ -161,8 +161,12 @@ export default function Canvas({
       clearTimeout(zoomIndicatorTimeoutsRef.current.fade);
     }
 
+    setZoomIndicatorVisible(false);
     setZoomIndicatorFading(false);
-    setZoomIndicatorVisible(true);
+    // Force immediate re-show at full opacity
+    requestAnimationFrame(() => {
+      setZoomIndicatorVisible(true);
+    });
 
     zoomIndicatorTimeoutsRef.current.hide = setTimeout(() => {
       setZoomIndicatorFading(true);
