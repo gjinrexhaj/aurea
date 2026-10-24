@@ -730,7 +730,7 @@ export default function Canvas({
             ? ' canvas-zoom-indicator-shown'
             : zoomIndicatorState === 'fading'
               ? ' canvas-zoom-indicator-fading'
-              : ''
+              : ' canvas-zoom-indicator-hidden'
         }`}
       >
         Camera zoom: {camera.zoom.toFixed(2)}

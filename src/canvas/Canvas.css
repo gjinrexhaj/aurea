@@ -37,11 +37,17 @@
   pointer-events: none;
   user-select: none;
   opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.canvas-zoom-indicator-hidden {
+  opacity: 0;
   transition: none;
 }
 
 .canvas-zoom-indicator-shown {
   opacity: 1;
+  transition: none;
 }
 
 .canvas-zoom-indicator-fading {
