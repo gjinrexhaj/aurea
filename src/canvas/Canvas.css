@@ -22,6 +22,28 @@
   user-select: none;
 }
 
+.canvas-zoom-indicator {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 4px 8px;
+  background: var(--ui-overlay-fill);
+  color: var(--ui-overlay-ink);
+  font-family: var(--editor-font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.canvas-zoom-indicator-fading {
+  opacity: 0;
+}
+
 .canvas-reset-camera {
   position: absolute;
   left: 12px;
