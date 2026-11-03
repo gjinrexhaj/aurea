@@ -287,6 +287,46 @@
   accent-color: var(--editor-accent);
 }
 
+.file-svg-color-switch {
+  justify-content: space-between;
+}
+
+.file-svg-color-switch input {
+  appearance: none;
+  flex-shrink: 0;
+  width: 30px;
+  height: 18px;
+  padding: 2px;
+  border: 1px solid var(--editor-border);
+  border-radius: 9px;
+  background: var(--editor-bg);
+}
+
+.file-svg-color-switch input::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--editor-ink-dim);
+  transition: transform 0.15s ease;
+}
+
+.file-svg-color-switch input:checked {
+  background: var(--editor-accent-soft);
+  border-color: var(--editor-accent);
+}
+
+.file-svg-color-switch input:checked::before {
+  background: var(--editor-accent);
+  transform: translateX(12px);
+}
+
+.file-svg-color-switch input:focus-visible {
+  outline: 2px solid var(--editor-accent);
+  outline-offset: 3px;
+}
+
 .file-export-button {
   width: 100%;
   color: var(--editor-accent);

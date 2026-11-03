@@ -30,6 +30,7 @@ export function FilePanel({
     const { document: geomDocument, setDocument } = useDocument();
     const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
     const [exportTarget, setExportTarget] = useState<ExportTarget>('canvas');
+    const [legacySvgColors, setLegacySvgColors] = useState(false);
     const [exportElements, setExportElements] = useState<ExportElements>({
         points: true,
         circles: true,
@@ -119,6 +120,7 @@ export function FilePanel({
                 format: exportFormat,
                 target: exportTarget,
                 elements: exportElements,
+                legacySvgColors,
             });
         } catch (error) {
             console.error('Unable to export document', error);
@@ -263,6 +265,20 @@ export function FilePanel({
                             ))}
                         </div>
                     </div>
+                    {exportFormat === 'svg' && (
+                        <div className="file-export-target">
+                            <label className="file-checkbox-label file-svg-color-switch">
+                                <span>Legacy SVG color syntax</span>
+                                <input
+                                    type="checkbox"
+                                    role="switch"
+                                    checked={legacySvgColors}
+                                    aria-describedby="file-svg-color-help"
+                                    onChange={(event) => setLegacySvgColors(event.target.checked)}
+                                />
+                            </label>
+                        </div>
+                    )}
                     <div className="file-export-elements">
                         {(['points', 'circles', 'lines', 'axes', 'infiniteLines', 'graphite', 'ink', 'background'] as const).map((element) => (
                             <label className="file-checkbox-label" key={element}>

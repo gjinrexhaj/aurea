@@ -20,6 +20,7 @@ export type ExportOptions = {
   format: ExportFormat;
   target: ExportTarget;
   elements: ExportElements;
+  legacySvgColors?: boolean;
 };
 
 type Bounds = {
@@ -150,6 +151,23 @@ function prepareSvg(
     background.setAttribute('height', '100%');
     background.setAttribute('fill', backgroundColor || '#ffffff');
     svg.insertBefore(background, svg.firstChild);
+  }
+
+  if (options.format === 'svg' && options.legacySvgColors) {
+    svg.querySelectorAll('[stroke], [fill]').forEach((element) => {
+      for (const attribute of ['stroke', 'fill']) {
+        const color = element.getAttribute(attribute);
+        const rgba = color?.match(
+          /^rgba\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)$/i,
+        );
+        if (!rgba) continue;
+
+        element.setAttribute(attribute, `rgb(${rgba[1]}, ${rgba[2]}, ${rgba[3]})`);
+        const opacityAttribute = `${attribute}-opacity`;
+        const opacity = Number(element.getAttribute(opacityAttribute) ?? 1);
+        element.setAttribute(opacityAttribute, `${opacity * Number(rgba[4])}`);
+      }
+    });
   }
 
   return svg;
